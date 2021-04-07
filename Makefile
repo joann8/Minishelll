@@ -1,4 +1,5 @@
-SRCS =  *.c
+SRCS =  main_adrien.c \
+		utils_adrien.c
 
 OBJ = $(SRCS:.c=.o)
 
@@ -10,13 +11,13 @@ CFLAGS = -Wall -Werror -Wextra
 
 INCLUDE = -I . 
 
-ALL_LIBS = -L ./libft/ -lft #-L -lncurses
+ALL_LIBS = -L ./libft/ -lft #-L -lncurses)
 
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 all: $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(ALL_LIBS)
-
-$(OBJ):$(SRCS)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ)

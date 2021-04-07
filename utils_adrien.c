@@ -23,7 +23,7 @@ void	ft_print_str_list(t_list *head)
 	t_list *tmp;
 
 	tmp = head;
-	while (tmp->next)
+	while (tmp)
 	{
 		printf("%s -->\n", tmp->content);
 		tmp = tmp->next;
