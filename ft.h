@@ -31,10 +31,11 @@
 //#include <termios.h>
 #include <unistd.h>
 
-
 #include "libft/get_next_line_bonus.h"
 #include "libft/libft.h"
 #include "adconsta.h"
+#include "jo.h"
+
 #include "struct.h"
 
 #endif
