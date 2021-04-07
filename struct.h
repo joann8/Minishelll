@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 16:34:16 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/07 20:22:59 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,16 @@ typedef	enum	e_type
 {
 	WORD,
 	FILENAME,
+	SEPARATOR,
 	PIPE,
-	REDIR,
-	SEPARATOR
-}				t_e_type;
-
-typedef enum	e_redir
-{
 	IN,
 	OUT,
 	APPEND
-}				t_e_redir;	
-	
+}				t_e_type;
+
 typedef struct	s_token
 {
-	int		i_type;
+	int		e_type;
 	char	*tok_str;
 }				t_token;
 
@@ -47,7 +42,7 @@ typedef struct		s_seq
 
 typedef struct		s_redir
 {
-	int				i_redir;
+	int				e_type;
 	char			*file_name;
 }					t_redir;
 
