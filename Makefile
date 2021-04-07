@@ -1,4 +1,4 @@
-SRCS = main_adrien.c
+SRCS =  *.c
 
 OBJ = $(SRCS:.c=.o)
 
