@@ -6,13 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 16:10:18 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/07 20:09:28 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		is_specific(char c1, char c2)
+int		is_spec(char c1, char c2)
 {
 	if (c1 == c2)
 		return(1);
