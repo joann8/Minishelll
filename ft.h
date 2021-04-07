@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 15:27:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/07 17:00:48 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@
 #include "libft/libft.h"
 #include "adconsta.h"
 #include "struct.h"
-
 
 #endif
