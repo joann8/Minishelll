@@ -6,14 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 14:23:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/07 16:34:16 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 
 # define STRUCT_H
-
 
 typedef	enum	e_type
 {

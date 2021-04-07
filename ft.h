@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/06 17:03:22 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/07 16:34:25 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "struct.h"
 #include "libft/libft.h"
+#include "struct.h"
+#include "jo.h"
 
 #endif
