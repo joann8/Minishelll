@@ -5,10 +5,8 @@
 //			ctrl + D  = EOF signal. No more input in stdin
 //			ctrl + C  = Interrupt and return to upper process
 //			ctrl +'\' = QUIT signal
-//	Mesure le lvl de Shell (pour savoir quand exiter ?)
-
-
-
+//	Mesure le lvl de Shell (pour savoir quand exiter ?) >> shell level pour ecouter les bons signaux (quand et qui exiter)
+// 	shell env : on transmet son env aux shell d'en dessous, pas au dessus
 
 
 int		main(int argc, char **argv, char **envp)
