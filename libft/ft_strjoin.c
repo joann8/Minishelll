@@ -3,39 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/11 10:59:17 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/19 17:54:22 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/21 15:15:55 by louise            #+#    #+#             */
+/*   Updated: 2020/10/09 22:03:13 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	unsigned int	size;
-	unsigned int	i;
-	unsigned int	j;
-	char			*tab;
+	char	*new;
+	size_t	s1_len;
+	size_t	s2_len;
 
-	if (!s1 || !s2)
+	s1_len = 0;
+	if (s1)
+		s1_len = ft_strlen(s1);
+	s2_len = 0;
+	if (s2)
+		s2_len = ft_strlen(s2);
+	new = (char*)ft_calloc((s1_len + s2_len + 1), sizeof(char));
+	if (!new)
 		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	if (!(tab = malloc(sizeof(char) * size)))
-		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s1))
-	{
-		tab[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (j < ft_strlen(s2))
-	{
-		tab[j + i] = s2[j];
-		j++;
-	}
-	tab[i + j] = '\0';
-	return (tab);
+	ft_strlcpy(new, s1, s1_len + 1);
+	ft_strlcat(new, s2, s1_len + s2_len + 1);
+	return (new);
 }

@@ -3,23 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/09 19:17:13 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/21 16:36:19 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/20 22:40:54 by louise            #+#    #+#             */
+/*   Updated: 2020/09/28 16:45:14 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
+static int	is_whitespace(int c)
+{
+	return (c == '\t' || c == '\n' || c == '\v'
+		|| c == '\f' || c == '\r' || c == ' ');
+}
+
 int	ft_atoi(const char *str)
 {
-	long unsigned int		i;
-	int						sign;
-	long unsigned int		res;
+	int	i;
+	int	sign;
+	int	r_val;
 
 	i = 0;
-	res = 0;
 	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+	r_val = 0;
+	while (is_whitespace(str[i]))
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
@@ -29,8 +37,8 @@ int	ft_atoi(const char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = res * 10 + str[i] - 48;
+		r_val = r_val * 10 + str[i] - '0';
 		i++;
 	}
-	return (sign * res);
+	return (r_val * sign);
 }

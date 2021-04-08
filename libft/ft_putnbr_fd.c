@@ -3,35 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/19 14:30:08 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/19 14:30:14 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/22 18:30:00 by louise            #+#    #+#             */
+/*   Updated: 2020/10/09 22:18:50 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	void	ft_putnbr_rec(unsigned int nb, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	c;
+	long	nb;
+	char	digit;
 
-	if (nb > 9)
-		ft_putnbr_rec(nb / 10, fd);
-	c = (nb % 10) + '0';
-	write(fd, &c, 1);
-}
-
-void			ft_putnbr_fd(int n, int fd)
-{
-	unsigned int	nb;
-
+	nb = n;
 	if (n < 0)
 	{
 		write(fd, "-", 1);
-		nb = -n;
+		nb = - (long) n;
 	}
-	else
-		nb = n;
-	ft_putnbr_rec(nb, fd);
+	if (nb >= 10)
+		ft_putnbr_fd(nb / 10, fd);
+	digit = (nb % 10) + '0';
+	write(fd, &digit, 1);
 }

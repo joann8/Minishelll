@@ -3,59 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/11 12:09:53 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/19 14:34:20 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/21 18:32:26 by louise            #+#    #+#             */
+/*   Updated: 2020/12/23 21:47:08 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	void	man_neg(int n, unsigned int *nbr, unsigned int *size, int mod)
+int	itoa_count_char(int n)
 {
-	if (n <= 0)
+	int		nb_char;
+	long	nb;
+
+	nb_char = 1;
+	if (n < 0)
+		nb_char = 2;
+	nb = n;
+	if (n < 0)
+		nb = - (long) n;
+	while (nb / 10 != 0)
 	{
-		if (mod == 0)
-			*size = *size + 1;
-		*nbr = -n;
+		nb_char++;
+		nb /= 10;
 	}
-	else
-		*nbr = n;
-	if (mod == 0)
-	{
-		while (*nbr > 0)
-		{
-			*size = *size + 1;
-			*nbr = *nbr / 10;
-		}
-	}
+	return (nb_char);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-	unsigned int	nbr;
-	unsigned int	size;
-	char			*tab;
+	char	*str;
+	int		nb_char;
+	long	abs_n;
 
-	size = 0;
-	man_neg(n, &nbr, &size, 0);
-	if (!(tab = malloc(sizeof(char) * (size + 1))))
+	nb_char = itoa_count_char(n);
+	abs_n = n;
+	if (n < 0)
+		abs_n = - (long) n;
+	str = (char*)malloc(sizeof(char) * (nb_char + 1));
+	if (!str)
 		return (NULL);
-	tab[size] = '\0';
-	man_neg(n, &nbr, &size, 1);
-	if (nbr == 0)
-		tab[0] = '0';
-	else
+	str[nb_char] = '\0';
+	while (--nb_char >= 0)
 	{
-		while (nbr > 0)
-		{
-			tab[size - 1] = nbr % 10 + '0';
-			nbr = nbr / 10;
-			size--;
-		}
-		if (size > 0)
-			tab[0] = '-';
+		str[nb_char] = abs_n % 10 + '0';
+		abs_n /= 10;
 	}
-	return (tab);
+	if (n < 0)
+		str[0] = '-';
+	return (str);
 }

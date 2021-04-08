@@ -3,119 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/11 11:27:39 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/23 19:13:40 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/21 17:34:34 by louise            #+#    #+#             */
+/*   Updated: 2020/12/31 05:42:57 by lsoulier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	unsigned int	ft_count_words(char const *s, char c)
+static int	count_wd(const char *s, char c)
 {
-	unsigned int	i;
-	unsigned int	count;
+	int		nb_wd;
+	char	p_char;
+	int		i;
 
+	nb_wd = 0;
+	p_char = -1;
 	i = 0;
-	count = 0;
-	while (s[i])
+	while (s && s[i])
 	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			count++;
+		if ((p_char == -1 || p_char == c) && s[i] != c)
+			nb_wd++;
+		p_char = s[i];
 		i++;
 	}
-	return (count);
+	return (nb_wd);
 }
 
-static	void			ft_free_split(char **tab, unsigned int k)
+static char	*set_wd(const char *s, char c, int start_index)
 {
-	unsigned int	i;
+	char	*wd;
+	int		wd_len;
+	int		i;
+
+	i = -1;
+	wd_len = 0;
+	while (s[start_index + wd_len] && s[start_index + wd_len] != c)
+		wd_len++;
+	wd = (char*)malloc(sizeof(char) * (wd_len + 1));
+	if (!wd)
+		return (NULL);
+	while (++i < wd_len)
+		wd[i] = s[start_index + i];
+	wd[i] = '\0';
+	return (wd);
+}
+
+char	**ft_split(const char *s, char c)
+{
+	char	**wd_tab;
+	char	p_char;
+	int		i;
+	int		wd_index;
 
 	i = 0;
-	while (i < k)
+	wd_index = 0;
+	p_char = -1;
+	wd_tab = (char**)malloc(sizeof(char*) * (count_wd(s, c) + 1));
+	if (!wd_tab)
+		return (NULL);
+	while (s && s[i])
 	{
-		free(tab[i]);
+		if ((p_char == -1 || p_char == c) && s[i] != c)
+		{
+			wd_tab[wd_index] = set_wd(s, c, i);
+			if (!wd_tab[wd_index])
+				return (free_double_tab(wd_tab));
+			wd_index++;
+		}
+		p_char = s[i];
 		i++;
 	}
-	free(tab);
-	return ;
-}
-
-static	int				ft_word_size(char **tab, char const *s,
-										char c, unsigned int *k)
-{
-	int w_size;
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			i++;
-		else
-		{
-			w_size = i;
-			while (s[i] != c && s[i])
-				i++;
-			if (!(tab[j] = malloc(sizeof(char) * (i - w_size + 1))))
-			{
-				*k = j;
-				return (0);
-			}
-			j++;
-		}
-	}
-	return (-1);
-}
-
-static	void			ft_strcpy(char **tab, char const *str, char c)
-{
-	int i;
-	int j;
-	int k;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		k = 0;
-		if (str[i] == c)
-			i++;
-		else
-		{
-			while (str[i] != c && str[i])
-			{
-				tab[j][k] = str[i];
-				i++;
-				k++;
-			}
-			tab[j][k] = '\0';
-			j++;
-		}
-	}
-}
-
-char					**ft_split(char const *s, char c)
-{
-	char			**tab;
-	unsigned int	word_count;
-	unsigned int	k;
-
-	if (!s)
-		return (NULL);
-	word_count = ft_count_words(s, c);
-	if (!(tab = malloc(sizeof(char*) * (word_count + 1))))
-		return (NULL);
-	k = 0;
-	if (ft_word_size(tab, s, c, &k) == 0)
-	{
-		ft_free_split(tab, k);
-		return (NULL);
-	}
-	ft_strcpy(tab, s, c);
-	tab[word_count] = NULL;
-	return (tab);
+	wd_tab[wd_index] = NULL;
+	return (wd_tab);
 }

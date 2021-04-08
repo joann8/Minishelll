@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/11 10:51:20 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/23 10:22:37 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/21 15:08:02 by louise            #+#    #+#             */
+/*   Updated: 2020/10/09 22:00:01 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*tab;
-	size_t			i;
+	char	*new;
+	int		s_len;
+	int		def_len;
+	int		i;
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	if ((size_t)start > ft_strlen(s))
+	i = -1;
+	new = NULL;
+	if (s)
 	{
-		if (!(tab = malloc(sizeof(char))))
+		s_len = (int)ft_strlen(s);
+		def_len = len;
+		if ((int)start > s_len)
+			def_len = 0;
+		else if ((int)start + def_len > s_len)
+			def_len = s_len - (int)start;
+		new = (char *) malloc(sizeof(char) * (def_len + 1));
+		if (!new)
 			return (NULL);
-		tab[0] = '\0';
-		return (tab);
+		while (++i < def_len)
+			new[i] = s[start + i];
+		new[i] = '\0';
 	}
-	if (!(tab = malloc(sizeof(char) * (len + 1))))
-		return (NULL);
-	while (i < len && s[i + (size_t)start])
-	{
-		tab[i] = s[i + (size_t)start];
-		i++;
-	}
-	tab[i] = '\0';
-	return (tab);
+	return (new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/19 15:14:05 by jacher            #+#    #+#             */
-/*   Updated: 2020/11/19 19:02:12 by jacher           ###   ########.fr       */
+/*   Created: 2020/09/22 19:32:42 by louise            #+#    #+#             */
+/*   Updated: 2020/09/22 19:37:18 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	ft_lstadd_front(t_list **alst, t_list *new)
 {
-	if (!new || !alst)
-		return ;
-	new->next = *alst;
+	t_list	*tmp;
+
+	tmp = *alst;
 	*alst = new;
+	new->next = tmp;
 }
