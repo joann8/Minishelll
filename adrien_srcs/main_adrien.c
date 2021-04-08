@@ -1,4 +1,4 @@
-#include "ft.h"
+#include "../ft.h"
 
 
 int		main(int argc, char **argv, char **envp)

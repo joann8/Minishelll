@@ -6,16 +6,17 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 10:51:43 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/08 12:04:14 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	enable_raw_mode(struct termios *raw)
+void	enable_raw_mode(struct termios *origin)
 {
-	//struct termios raw;
+	struct termios *raw;
 
+	raw = origin;
 	tcgetattr(STDIN_FILENO, raw);
 	raw->c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, raw);
@@ -28,13 +29,12 @@ void	disable_raw_mode(struct termios *origin)
 
 char *gnl_minishell(int *res)
 {
-	char	buf;
+	char	buf[5];
 	char	*line;
 	int		count;
-	struct termios raw;
+	int		bytes;
 //	struct termios origin;
 
-	enable_raw_mode(&raw);
 	line = malloc(sizeof(char) * 1); // alloue l'espace pour le end of str
 	if (line == NULL) 
 	{
@@ -43,12 +43,13 @@ char *gnl_minishell(int *res)
 	}
 	count = 0;
 	line[0] = '\0';
-	while (read(STDIN_FILENO, &buf, 1) == 1)
+	while ((bytes = read(0, buf, 4)) > 0)
 	{
+		buf[bytes] = '\0';
 		printf("\ncount = %d | buf = %d \n", count, buf);
-		if (buf == '\n')
+		if (buf[0] == '\n')
 			break;
-		else if (ft_isprint(buf) == 1)
+		else if (ft_isprint(*buf) == 1)
 		{
 			write(1, &buf, 1);
 			line = realloc(line, sizeof(char) * (count + 2));
@@ -61,25 +62,21 @@ char *gnl_minishell(int *res)
 			line[count + 1] = '\0';
 			count ++;
 		}
-		
-		/*else if (buf == 27)
-		{
-			read(STDIN_FILENO, &buf, 1);
-			read(STDIN_FILENO, &buf, 1);
-		}*/
 	}
 	*res = 0;
-	//disable_raw_mode(&origin);
 	return (line);
 }
 
 int main()
 {
-	int res;
-	char *line;
+	int		res;
+	char	*line;
+	struct termios raw;
 
 	res = 42;
+	enable_raw_mode(&raw);
 	line = gnl_minishell(&res);
+	disable_raw_mode(&origin);
 	printf("\n***main***\nstr:\n|%s|\nres: %d\n", line, res);
 	return (0);
 }
