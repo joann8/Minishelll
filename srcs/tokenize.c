@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 10:12:19 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/08 14:36:07 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,24 @@ int		assign_type_2(t_list *head)
 	tmp = head;
 	while (tmp)
 	{
-		t2 = (t_token *)tmp->content;
+		t2 = (t_token *)(tmp->content);
 		t3 = NULL;
 		if (tmp->next)
-			t3 = (t_token *)tmp->next->content;
+			t3 = (t_token *)(tmp->next->content);
 		if (t2->e_type == SEPARATOR)
 		{
-			if (tmp == head || t3->e_type == PIPE || t3->e_type == SEPARATOR)
+			if (tmp == head || (t3 != NULL && (t3->e_type == PIPE || t3->e_type == SEPARATOR)))
 				return (-1); //print_error(int errno, char **error);
 		}
 		else if (t2->e_type == OUT || t2->e_type == IN || t2->e_type == APPEND)
 		{
-			if (tmp->next == NULL || t3->e_type != WORD)
+			if (tmp->next == NULL || t3 == NULL || t3->e_type != WORD)
 				return (-1);//print_error(int errno, char **error);
 			tmp = tmp->next;
 			((t_token *)(tmp->content))->e_type = FILENAME;
 		}
 		else if (t2->e_type == PIPE)
-			if (tmp == head || tmp->next == NULL || t3->e_type == PIPE
-				|| t3->e_type == SEPARATOR)
+			if (tmp == head || tmp->next == NULL || t3 == NULL || t3->e_type == PIPE || t3->e_type == SEPARATOR)
 				return (-1);//print_error(int errno, char **error);
 		tmp = tmp->next;
 	}
@@ -97,26 +96,28 @@ t_list	*ft_get_token_list(t_list *token_list, char *inp)
 		while (inp[i] && is_whitespace(inp[i]))// > 0)
 			i++;
 		start = i;
-		if (is_spec(inp[i], '|') || is_spec(inp[i], ';')
-			|| is_spec(inp[i], '>'))
+		//avec la suite pour le moment <> ne fonctionne pas
+		if (comp(inp[i], '|') || comp(inp[i], ';') || comp(inp[i], '<') || comp(inp[i], '>'))
 		{
 			i++;
-			if (is_spec(inp[i], '>'))
+			if (comp(inp[i - 1], '>') && comp(inp[i], '>'))
 				i++;
 		}
 		else
 		{
 			while (inp[i] && !is_whitespace(inp[i])) // == 0)
 			{
-				if (is_spec(inp[i], '|') == 1 || is_spec(inp[i], ';') == 1
-					|| is_spec(inp[i], '<') == 1 || is_spec(inp[i], '>') == 1)
+				if (comp(inp[i], '|') == 1 || comp(inp[i], ';') == 1
+					|| comp(inp[i], '<') == 1 || comp(inp[i], '>') == 1)
 					break ;
-				if (is_spec(inp[i], 34) == 1)
+				if (comp(inp[i], 34) == 1)
 					if (look_second_quote(34, inp, &i) == -1)
 						return (NULL); // erreur quote pas fermée;//print_error(int errno, char **error);
-				if (is_spec(inp[i], 39) == 1)
+				if (comp(inp[i], 39) == 1)
 					if (look_second_quote(39, inp, &i) == -1)
 						return (NULL); // erreur quote pas fermée;//print_error(int errno, char **error);
+				if (inp[i] == '\\')
+					escape_quote(inp, &i);
 				i++;
 			}
 		}

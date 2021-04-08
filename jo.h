@@ -17,16 +17,24 @@ void	skip_whitespace(t_source *src);
 void	print_str(char *str);
 int		print_error(int errno, char *error);
 
+//print_help
+void	print_list(t_list *list);
+void	print_token(t_list *token);
+void	print_seq(t_seq *tab_seq, int seq_nb);
+
 //tokenize_utils
 int		is_whitespace(char c);
-int		is_word(char *str);
-int		is_spec(char c1, char c2);
+int		comp(char c1, char c2);
+void	escape_quote(char *str, int *pos);
 int		look_second_quote(char c, char *str, int *pos);
 
 //tokenize 
 t_list	*ft_get_token_list(t_list *token_list, char *input);
 void	assign_type_1(t_list *token_list);
 int		assign_type_2(t_list *token_list);
+
+//sequence utils
+int		is_word(char *str);
 
 //sequence
 int create_sequence(t_seq *tab_seq, t_list *token_list);
