@@ -1,0 +1,25 @@
+tgetent
+
+
+tgetnum
+
+
+tgetflag
+
+tgetstr(char *id, char **area)
+Permet de recuperer les termcaps sous forme d'echappement
+	id = nom du termcap recherche
+	area = adresse du buffer utilise lors de "tgetent" (soit NULL);
+
+tputs(const char *str, int affcnt, int (*putc)(int))
+	fonction qui execture le termcap recuperer par "tgetstr".
+str = termcap recu par tgetstr;
+affcnt = nomber de lignes affectees;
+putc = pointeur sur fonction
+
+tparm(char *str, ...)
+	str = termcap
+	... = va_list;
+
+
+
