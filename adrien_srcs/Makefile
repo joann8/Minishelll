@@ -4,7 +4,7 @@ OBJ = $(SRCS:.c=.o)
 
 NAME = a.out
 
-CC = clang
+CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
@@ -12,13 +12,15 @@ INCLUDE = -I .
 
 LFT = -L ../libft/ -lft
 
-LCURSES = -L -lncurses
+LCURSES = -lncurses
 
-.c.o:
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
-all: $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LFT)
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LFT) $(LCURSES)
+
+all: $(NAME)
 
 clean:
 	rm -rf $(OBJ)

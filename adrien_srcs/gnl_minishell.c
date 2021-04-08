@@ -6,11 +6,12 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 12:39:37 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/08 14:03:13 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+#include <term.h>
 
 /*
 void	enable_raw_mode(struct termios *origin)
@@ -68,21 +69,47 @@ char *gnl_minishell(int *res)
 	return (line);
 }
 */
-int main()
-{
-	int		res;
-	//char	*line;
-	char	*term_name;
-	//struct termios raw;
 
-	res = 42;
+int		ft_init_termcap_type(void)
+{
+	char	*term_name;
+	int		ret;
+
 	term_name = getenv("TERM");
-	printf("%s\n", term_name);
+	if (term_name == NULL)
+	{
+		printf("env '$TERM' not found\n");
+		return (1);
+	}
+	ret = tgetent(NULL, term_name);
+	if (ret == 0)
+	{
+		printf("tgetent == 0\n");
+		return (1);
+	}
+	else if (ret == -1)
+	{
+		printf("terminfo '%s' database not found\n", term_name);
+		return (-1);
+	}
+	printf("Init success. Terminal name = %s\n", term_name);
+	return (0);
+}
+
+int main(int ac, char **av)
+{
+	(void)ac;
+	(void)av;
+	//struct termios raw;
+	//char	*line;
+
 	/*
 	enable_raw_mode(&raw);
 	line = gnl_minishell(&res);
 	disable_raw_mode(&origin);
 	printf("\n***main***\nstr:\n|%s|\nres: %d\n", line, res);
 	*/
+	if (ft_init_termcap_type())
+		return (printf("termcap init failed\n"));
 	return (0);
 }
