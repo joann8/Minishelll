@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 15:40:38 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/08 22:14:26 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ typedef	struct	s_term
 
 
 void	ft_print_prompt(t_term *term);
-
+void	disable_raw_mode(struct termios *origin);
+void	enable_raw_mode(struct termios *origin);
+int		ft_get_raw_input(char **line, int fd);
 void	ft_init_term_struct(t_term *term);
 
 int		ft_termcap_on(int c)
@@ -80,18 +82,27 @@ int main(int ac, char **av)
 	(void)av;
 	t_term	term;
 	char	*line;
+	struct termios origin;
 	//Initialise la librairie termcap avec la var $TERM
+	enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (printf("termcap init failed\n"));
 	ft_print_term(&term);
-	while (get_next_line(0, &line))
+	/*while (get_next_line(0, &line))
 	{
 		ft_print_prompt(&term);
 		ft_putstr(line);
 		ft_putchar('\n');
+		//tputs(tgoto(term.cm, 5, 5), 1, ft_termcap_on);
 		free(line);
 	}
 	free(line);
+	*/
+	while (ft_get_raw_input(&line, 0))
+		;
+	printf("line = %s\n", line);
+	tputs(term.me, 1, ft_termcap_on);
+	disable_raw_mode(&origin);
 	return (0);
 }
 
@@ -123,18 +134,21 @@ void	ft_init_term_struct(t_term *term)
 	term->me = tgetstr("me", NULL);
 }
 
+int		ft_get_raw_input(char **line, int fd)
+{
+	char buf[5];
+	int bytes;
 
-//struct termios raw;
-	//char	*line;
+	while ((bytes = read(fd, buf, 4)))
+	{
+		buf[bytes] = '\0';
+		printf("buf = %s\n", buf);
+		printf("bytes = %d\n", bytes);
+		*line = ft_strdup(buf);
+	}
+	return (bytes);
+}
 
-	/*
-	enable_raw_mode(&raw);
-	line = gnl_minishell(&res);
-	disable_raw_mode(&origin);
-	printf("\n***main***\nstr:\n|%s|\nres: %d\n", line, res);
-	*/
-
-/*
 void	enable_raw_mode(struct termios *origin)
 {
 	struct termios *raw;
@@ -150,13 +164,13 @@ void	disable_raw_mode(struct termios *origin)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, origin);
 }
 
+/*
 char *gnl_minishell(int *res)
 {
 	char	buf[5];
 	char	*line;
 	int		count;
 	int		bytes;
-//	struct termios origin;
 
 	line = malloc(sizeof(char) * 1); // alloue l'espace pour le end of str
 	if (line == NULL) 
