@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_main.c                                    :+:      :+:    :+:   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 20:18:50 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/08 10:12:19 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,19 @@ t_list	*ft_get_token_list(t_list *token_list, char *inp)
 	i = 0;
 	while (inp[i])
 	{
-		while (inp[i] && is_whitespace(inp[i]) > 0)
+		while (inp[i] && is_whitespace(inp[i]))// > 0)
 			i++;
 		start = i;
-		if (is_spec(inp[i], '|') == 1 || is_spec(inp[i], ';') == 1
-			|| is_spec(inp[i], '>') == 1)
+		if (is_spec(inp[i], '|') || is_spec(inp[i], ';')
+			|| is_spec(inp[i], '>'))
 		{
 			i++;
-			if (is_spec(inp[i], '>') == 1)
+			if (is_spec(inp[i], '>'))
 				i++;
 		}
 		else
 		{
-			while (inp[i] && is_whitespace(inp[i]) == 0)
+			while (inp[i] && !is_whitespace(inp[i])) // == 0)
 			{
 				if (is_spec(inp[i], '|') == 1 || is_spec(inp[i], ';') == 1
 					|| is_spec(inp[i], '<') == 1 || is_spec(inp[i], '>') == 1)
