@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 12:14:35 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/09 12:15:08 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_init_term_struct(t_term *term);
 int		ft_init_termcap(t_term *term);
 int		ft_termcap_on(int c);
 void	ft_print_prompt(t_term *term);
-int	ft_get_userinput(char **line);
+int		ft_get_userinput(char **line);
 
 int		main(void)
 {
