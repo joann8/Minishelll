@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:37 by calao             #+#    #+#             */
-/*   Updated: 2021/04/09 19:50:34 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/09 20:41:36 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	ft_print_envlst(t_list *env_head);
 void	ft_print_str_av(char **av);
 int		ft_make_envlst(t_list **head, char **envp);
 char	*ft_getenv_name(char *env_str);
-
+char	*ft_strndup(char *src, int len);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 20:21:41 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/09 20:43:01 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	ft_get_userinput(char **line, t_list *log)
 	ft_disable_raw_mode(&origin);
 	return (1);
 }
-
-
 
 char	*ft_read_input(int fd, t_term *term, t_list *log, unsigned int log_size)
 {
@@ -77,7 +75,15 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, unsigned int log_size)
 			}
 			//backspace
 			else if (buf[0] == 127)
-				screen[ft_strlen(screen) - 1] = '\0';
+			{
+				to_free = screen;
+				screen = ft_strndup(screen, ft_strlen(screen - 1));
+				if (screen == NULL)
+					return (NULL);
+				if (user_input == to_free)
+					user_input = screen;
+				free(to_free);
+			}
 			else if (buf[0] == 27 && buf[1] == '[' 
 					&& (buf[2] == 'B' || buf[2] == 'A'))	
 			{
@@ -202,3 +208,20 @@ void	ft_init_term_struct(t_term *term)
 	term->ch = tgetstr("ch", NULL);
 }
 
+char	*ft_strndup(char *src, int len)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	dest = malloc(sizeof(*dest) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (i < len)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
