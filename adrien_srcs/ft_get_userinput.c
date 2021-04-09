@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl_minishell.c                                    :+:      :+:    :+:   */
+/*   ft_get_userinput.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 11:35:35 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/09 12:14:35 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,125 +32,51 @@ typedef	struct	s_term
 }				t_term;
 
 
-void	ft_print_prompt(t_term *term);
-void	disable_raw_mode(struct termios *origin);
-void	enable_raw_mode(struct termios *origin);
-char	*ft_get_raw_input(int fd, t_term *term);
+char	*ft_read_input(int fd, t_term *term);
+void	ft_disable_raw_mode(struct termios *origin);
+void	ft_enable_raw_mode(struct termios *origin);
 void	ft_init_term_struct(t_term *term);
+int		ft_init_termcap(t_term *term);
+int		ft_termcap_on(int c);
+void	ft_print_prompt(t_term *term);
+int	ft_get_userinput(char **line);
 
-int		ft_termcap_on(int c)
+int		main(void)
 {
-	return (write(1, &c, 1));
-}
-
-int		ft_init_termcap(t_term *term)
-{
-	int		ret;
-
-	term->name = getenv("TERM");
-	if (term->name == NULL)
-	{
-		printf("env '$TERM' not found\n");
+	char *line;
+	if (!ft_get_userinput(&line))
 		return (1);
-	}
-	ret = tgetent(NULL, term->name);
-	if (ret == 0)
-	{
-		printf("tgetent == 0\n");
-		return (1);
-	}
-	else if (ret == -1)
-	{
-		printf("terminfo '%s' database not found\n", term->name);
-		return (-1);
-	}
-	ft_init_term_struct(term);
-	printf("Init success. Terminal name = %s\n", term->name);
+	printf("Full command = \n'%s'\n", line);
 	return (0);
-}
-
-void	ft_print_term(t_term *term)
-{
-	printf("term->col = %d\n", term->col);
-	printf("term->line = %d\n", term->line);
-	printf("term->af = %s\n", term->AF);
-	printf("term->ab = %s\n", term->AB);
-
-}
-
-int main(int ac, char **av)
-{
-	(void)ac;
-	(void)av;
-	t_term	term;
-	char	*line;
-	struct termios origin;
-	//Initialise la librairie termcap avec la var $TERM
-	enable_raw_mode(&origin);
-	if (ft_init_termcap(&term))
-		return (printf("termcap init failed\n"));
-//	ft_print_term(&term);
-	/*while (get_next_line(0, &line))
-	{
-		ft_print_prompt(&term);
-		ft_putstr(line);
-		ft_putchar('\n');
-		//tputs(tgoto(term.cm, 5, 5), 1, ft_termcap_on);
-		free(line);
-	}
-	free(line);
-	*/
-	line = ft_get_raw_input(STDIN_FILENO, &term);
-	if (line == NULL)
-	{
-		printf("error in get_raw_input\n");
-		return (1);
-	}
-	printf("\nlauching the '%s' command ...\n", line);
-	tputs(term.me, 1, ft_termcap_on);
-	disable_raw_mode(&origin);
-	return (0);
-}
-
-
-void	ft_print_prompt(t_term *term)
-{
-	char *prompt;
-
-	prompt = "adrien_cpt:minishell_says$";
-	//Mets le prompt en gras
-	tputs(term->md, 1, ft_termcap_on);
-	//Souligne le prompt
-	tputs(term->us, 1, ft_termcap_on);
-	//Choisir la couleur du prompt
-	tputs(tparm(term->AF, COLOR_RED), 1, ft_termcap_on);
-	ft_putstr(prompt);
-	//Reset les settings d'ecriture
-	tputs(term->me, 1, ft_termcap_on);
-	ft_putchar(' ');
 }
 	
-void	ft_init_term_struct(t_term *term)
+
+int	ft_get_userinput(char **line)
 {
-	term->col = tgetnum("co");
-	term->line = tgetnum("li");
-	term->cl = tgetstr("cl", NULL);
-	term->cm = tgetstr("cm", NULL);
-	term->md = tgetstr("md", NULL);
-	term->mb = tgetstr("mb", NULL);
-	term->AF = tgetstr("AF", NULL);
-	term->AB = tgetstr("AB", NULL);
-	term->us = tgetstr("us", NULL);
-	term->me = tgetstr("me", NULL);
-	term->cb = tgetstr("cb", NULL);
-	term->ch = tgetstr("ch", NULL);
+	t_term			term;
+	struct termios	origin;
+
+	//Initialise la librairie termcap avec la var $TERM
+	ft_enable_raw_mode(&origin);
+	if (ft_init_termcap(&term))
+		return (-(printf("termcap init failed\n")));
+	*line = ft_read_input(STDIN_FILENO, &term);
+	if (*line == NULL)
+	{
+		printf("error in get_raw_input\n");
+		return (-1);
+	}
+	tputs(term.me, 1, ft_termcap_on);
+	ft_disable_raw_mode(&origin);
+	return (1);
 }
 
-char	*ft_get_raw_input(int fd, t_term *term)
+
+
+char	*ft_read_input(int fd, t_term *term)
 {
 	char	buf[5];
 	int		bytes;
-//	int		i;
 	char	*line;
 	char	*tmp;
 
@@ -205,7 +131,7 @@ char	*ft_get_raw_input(int fd, t_term *term)
 	return (NULL);
 }
 
-void	enable_raw_mode(struct termios *origin)
+void	ft_enable_raw_mode(struct termios *origin)
 {
 	struct termios raw;
 
@@ -215,7 +141,71 @@ void	enable_raw_mode(struct termios *origin)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
-void	disable_raw_mode(struct termios *origin)
+void	ft_disable_raw_mode(struct termios *origin)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, origin);
 }
+
+int		ft_termcap_on(int c)
+{
+	return (write(1, &c, 1));
+}
+
+int		ft_init_termcap(t_term *term)
+{
+	int		ret;
+
+	term->name = getenv("TERM");
+	if (term->name == NULL)
+	{
+		printf("env '$TERM' not found\n");
+		return (1);
+	}
+	ret = tgetent(NULL, term->name);
+	if (ret == 0)
+	{
+		printf("tgetent == 0\n");
+		return (1);
+	}
+	else if (ret == -1)
+	{
+		printf("terminfo '%s' database not found\n", term->name);
+		return (-1);
+	}
+	ft_init_term_struct(term);
+	return (0);
+}
+
+void	ft_print_prompt(t_term *term)
+{
+	char *prompt;
+
+	prompt = "Minishell_says$";
+	//Mets le prompt en gras
+	tputs(term->md, 1, ft_termcap_on);
+	//Souligne le prompt
+	tputs(term->us, 1, ft_termcap_on);
+	//Choisir la couleur du prompt
+	tputs(tparm(term->AF, COLOR_BLUE), 1, ft_termcap_on);
+	ft_putstr(prompt);
+	//Reset les settings d'ecriture
+	tputs(term->me, 1, ft_termcap_on);
+	ft_putchar(' ');
+}
+
+void	ft_init_term_struct(t_term *term)
+{
+	term->col = tgetnum("co");
+	term->line = tgetnum("li");
+	term->cl = tgetstr("cl", NULL);
+	term->cm = tgetstr("cm", NULL);
+	term->md = tgetstr("md", NULL);
+	term->mb = tgetstr("mb", NULL);
+	term->AF = tgetstr("AF", NULL);
+	term->AB = tgetstr("AB", NULL);
+	term->us = tgetstr("us", NULL);
+	term->me = tgetstr("me", NULL);
+	term->cb = tgetstr("cb", NULL);
+	term->ch = tgetstr("ch", NULL);
+}
+
