@@ -6,50 +6,11 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 12:15:08 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/09 13:35:07 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
-#include <term.h>
-
-typedef	struct	s_term
-{
-
-	int		col;
-	int		line;
-	char	*name; // trouve le nom du terminal
-	char	*AF; //definie la couleur du texte
-	char	*AB; //definie la couleur du background
-	char	*cl; // delete text
-	char	*cm; // bouge curseur
-	char	*md; // texte gras
-	char	*mb; //texte clignotant
-	char	*us; //txt souligne
-	char	*me; //reset les params
-	char	*cb; //clear du curseur -> begining of line
-	char	*ch; //replace le curseur a la position P
-}				t_term;
-
-
-char	*ft_read_input(int fd, t_term *term);
-void	ft_disable_raw_mode(struct termios *origin);
-void	ft_enable_raw_mode(struct termios *origin);
-void	ft_init_term_struct(t_term *term);
-int		ft_init_termcap(t_term *term);
-int		ft_termcap_on(int c);
-void	ft_print_prompt(t_term *term);
-int		ft_get_userinput(char **line);
-
-int		main(void)
-{
-	char *line;
-	if (!ft_get_userinput(&line))
-		return (1);
-	printf("Full command = \n'%s'\n", line);
-	return (0);
-}
-	
 
 int	ft_get_userinput(char **line)
 {
@@ -104,6 +65,7 @@ char	*ft_read_input(int fd, t_term *term)
 			{
 				line[ft_strlen(line)] = '\0';
 				write(1, &line[ft_strlen(line)], 1);
+				write(1, "\n", 1);
 				return (line);
 			}
 			//backspace
