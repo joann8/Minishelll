@@ -27,14 +27,21 @@ int		is_whitespace(char c);
 int		comp(char c1, char c2);
 void	escape_quote(char *str, int *pos);
 int		look_second_quote(char c, char *str, int *pos);
+//tokenize_assign
+void	assign_type_1(t_list *token_list);
+int		assign_type_2(t_list *head);
+int 	assign_type_2_help(t_list **head, t_list **tmp, t_token *t2, t_token *t3);
 
 //tokenize 
 t_list	*ft_get_token_list(t_list *token_list, char *input);
-void	assign_type_1(t_list *token_list);
-int		assign_type_2(t_list *token_list);
 
-//sequence utils
+//expansion utils
 int		is_word(char *str);
 
+// sequence utils
+int		get_seq_number(t_list *token_list);
+void	set_up_pipe_number(t_seq *tab_seq, int cmd_nb, int pipe_pos);
+void	init_setup(t_seq *tab_seq, t_seq **tmp, int *pipe_pos, int cmd_nb);
+
 //sequence
-int create_sequence(t_seq *tab_seq, t_list *token_list);
+t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
