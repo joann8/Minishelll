@@ -57,3 +57,27 @@ int		ft_make_envlst(t_list **head, char **envp)
 	}
 	return (0);
 }
+
+void	ft_print_str_av(char **av)
+{
+	while (*av)
+	{
+		ft_putstr(*av);
+		ft_putchar('\n');
+		av++;
+	}
+}
+
+void	ft_print_envlst(t_list *env_head)
+{
+	t_var	*var;
+	t_list	*tmp;
+
+	tmp = env_head;
+	while (tmp)
+	{
+		var = (t_var*)(tmp->content);
+		printf("%s=%s\n", var->name, var->value);
+		tmp = tmp->next;
+	}
+}
