@@ -35,9 +35,6 @@ int 	assign_type_2_help(t_list **head, t_list **tmp, t_token *t2, t_token *t3);
 //tokenize 
 t_list	*ft_get_token_list(t_list *token_list, char *input);
 
-//expansion utils
-int		is_word(char *str);
-
 // sequence utils
 int		get_seq_number(t_list *token_list);
 void	set_up_pipe_number(t_seq *tab_seq, int cmd_nb, int pipe_pos);
@@ -45,3 +42,19 @@ void	init_setup(t_seq *tab_seq, t_seq **tmp, int *pipe_pos, int cmd_nb);
 
 //sequence
 t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
+
+//expansion utils
+int		is_word(char *str);
+int		is_var_name(char c);
+
+//expansion length
+void	manage_quotes(char c, int *i, int *j, int *quotes);
+int		count_final_str(char *str, t_list *var, int quote);
+
+//expansion str
+
+char 	*assign_final_str(char *tmp, char *str, t_list *var, int quote);
+
+//expansion
+void escape_within_doubles(char *str, int *pos);
+t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);

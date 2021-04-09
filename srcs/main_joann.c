@@ -6,25 +6,28 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 15:31:55 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/09 19:26:38 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int main(int ac, char **av)
+int main(int ac, char **av, char **envp)
 {
-	t_list	*token_list;
-	t_seq	*tab_seq;
-	t_cmd	*tab_cmd;
-	char	*line;
-	t_list	*var_list;
+	t_list			*token_list;
+	t_seq			*tab_seq;
+	t_simple_cmd	*tab_cmd;
+	char			*line;
+	t_list			*var_list;
 	
 	(void)ac;
 	(void)av;
 	tab_seq = NULL;
 	tab_cmd = NULL;
 	token_list = NULL;
+	var_list = NULL;
+	ft_make_envlst(&var_list, envp);
+	ft_print_envlst(var_list);
 	while (get_next_line(0, &line) > 0)
 	{
 		token_list = ft_get_token_list(token_list, line);
@@ -50,6 +53,10 @@ int main(int ac, char **av)
 	seq_nb = get_seq_number(token_list);
 	tab_seq = create_sequence(tab_seq, token_list, seq_nb);
 	print_seq(tab_seq, seq_nb);
+	printf("\n******\n");
+	tab_seq = make_expansion(tab_seq, seq_nb, var_list);
+	print_seq(tab_seq, seq_nb);
+
 	return (0);
 }
 

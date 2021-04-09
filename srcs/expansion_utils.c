@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 13:30:15 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/09 17:43:19 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		is_word(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) == 1 && is_metachar(c) == 0)//a verifier ce qui constitue un mot)
+		if (ft_isprint(str[i]) == 1 && is_metachar(str[i]) == 0)//a verifier ce qui constitue un mot)
 			i++;
 		else
 			return (0);
@@ -48,7 +48,7 @@ int		is_name(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (i == 0 && (ft_isalpha(str[i]) || str[i] == '_')
+		if (i == 0 && (ft_isalpha(str[i]) || str[i] == '_'))
 			i++;
 		else if (ft_isalnum(str[i]) == 1 || str[i] == '_')
 			i++;
@@ -56,4 +56,11 @@ int		is_name(char *str)
 			return (0);
 	}
 	return (1);
+}
+
+int		is_var_name(char c)
+{
+	if (ft_isalnum(c) == 1 || c == '_')
+		return (1);
+	return (0);
 }
