@@ -41,7 +41,7 @@ termcap a investiguer:
 	carriage_return		cr 
 	clr_bol				cb (clear to beginning of line)
 	clr_eol				ce (clear to EOL)
-	column_address		ch (horizontal position)
+	column_address		ch (horizontal position to  (P))
 	row_address			cv (vertical postion aboslute (P))
 	cursor_left			le (move left one space)
 	cursor_right		nd (non destructive space move right one space)

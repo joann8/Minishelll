@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 22:14:26 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/09 11:35:35 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,24 @@ typedef	struct	s_term
 
 	int		col;
 	int		line;
-	char	*name;
-	char	*AF;
-	char	*AB;
+	char	*name; // trouve le nom du terminal
+	char	*AF; //definie la couleur du texte
+	char	*AB; //definie la couleur du background
 	char	*cl; // delete text
 	char	*cm; // bouge curseur
 	char	*md; // texte gras
 	char	*mb; //texte clignotant
-	char	*us;
-	char	*me;
+	char	*us; //txt souligne
+	char	*me; //reset les params
+	char	*cb; //clear du curseur -> begining of line
+	char	*ch; //replace le curseur a la position P
 }				t_term;
 
 
 void	ft_print_prompt(t_term *term);
 void	disable_raw_mode(struct termios *origin);
 void	enable_raw_mode(struct termios *origin);
-int		ft_get_raw_input(char **line, int fd);
+char	*ft_get_raw_input(int fd, t_term *term);
 void	ft_init_term_struct(t_term *term);
 
 int		ft_termcap_on(int c)
@@ -87,7 +89,7 @@ int main(int ac, char **av)
 	enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (printf("termcap init failed\n"));
-	ft_print_term(&term);
+//	ft_print_term(&term);
 	/*while (get_next_line(0, &line))
 	{
 		ft_print_prompt(&term);
@@ -98,9 +100,13 @@ int main(int ac, char **av)
 	}
 	free(line);
 	*/
-	while (ft_get_raw_input(&line, 0))
-		;
-	printf("line = %s\n", line);
+	line = ft_get_raw_input(STDIN_FILENO, &term);
+	if (line == NULL)
+	{
+		printf("error in get_raw_input\n");
+		return (1);
+	}
+	printf("\nlauching the '%s' command ...\n", line);
 	tputs(term.me, 1, ft_termcap_on);
 	disable_raw_mode(&origin);
 	return (0);
@@ -112,10 +118,14 @@ void	ft_print_prompt(t_term *term)
 	char *prompt;
 
 	prompt = "adrien_cpt:minishell_says$";
+	//Mets le prompt en gras
 	tputs(term->md, 1, ft_termcap_on);
+	//Souligne le prompt
 	tputs(term->us, 1, ft_termcap_on);
+	//Choisir la couleur du prompt
 	tputs(tparm(term->AF, COLOR_RED), 1, ft_termcap_on);
 	ft_putstr(prompt);
+	//Reset les settings d'ecriture
 	tputs(term->me, 1, ft_termcap_on);
 	ft_putchar(' ');
 }
@@ -132,78 +142,80 @@ void	ft_init_term_struct(t_term *term)
 	term->AB = tgetstr("AB", NULL);
 	term->us = tgetstr("us", NULL);
 	term->me = tgetstr("me", NULL);
+	term->cb = tgetstr("cb", NULL);
+	term->ch = tgetstr("ch", NULL);
 }
 
-int		ft_get_raw_input(char **line, int fd)
+char	*ft_get_raw_input(int fd, t_term *term)
 {
-	char buf[5];
-	int bytes;
+	char	buf[5];
+	int		bytes;
+//	int		i;
+	char	*line;
+	char	*tmp;
 
+	line = ft_strdup("");
+	if (line == NULL)
+		return (NULL);
+	ft_print_prompt(term);
 	while ((bytes = read(fd, buf, 4)))
 	{
 		buf[bytes] = '\0';
-		printf("buf = %s\n", buf);
-		printf("bytes = %d\n", bytes);
-		*line = ft_strdup(buf);
+		//Analyse la chaine buf
+		if (ft_isprint(buf[0]))
+		{
+			tmp = line;
+			line = ft_strjoin(line, buf);
+			free(tmp);
+			if (line == NULL)
+				return (NULL);
+			write(1, &line[ft_strlen(line)], 1);
+		}
+		else
+		{
+			//fin du user_input
+			if (buf[0] == '\n')
+			{
+				line[ft_strlen(line)] = '\0';
+				write(1, &line[ft_strlen(line)], 1);
+				return (line);
+			}
+			//backspace
+			else if (buf[0] == 127)
+				line[ft_strlen(line) - 1] = '\0';
+			//UP-arrow
+			else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'A')
+				printf("\nUP_ARROW hooked\n");
+			//down-arrow
+			else if ( buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
+				printf("\nDOWN_ARROW hooked\n");
+			//autre char non interressant
+			else
+				printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
+		}
+		//efface l'input du 
+		tputs(term->cb, 1, ft_termcap_on);
+		//remet le curseur en debut de ligne
+		tputs(tparm(term->ch, 0), 1, ft_termcap_on);
+		//imprime le prompt sur le stdout
+		ft_print_prompt(term);
+		//Imprime la ligne sur le stdout
+		write(1, line, ft_strlen(line));
 	}
-	return (bytes);
+	return (NULL);
 }
 
 void	enable_raw_mode(struct termios *origin)
 {
-	struct termios *raw;
+	struct termios raw;
 
-	raw = origin;
-	tcgetattr(STDIN_FILENO, raw);
-	raw->c_lflag &= ~(ECHO | ICANON);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, raw);
+	tcgetattr(STDIN_FILENO, origin);
+	raw = *origin;
+	raw.c_lflag &= ~(ECHO | ICANON);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
 void	disable_raw_mode(struct termios *origin)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, origin);
 }
-
-/*
-char *gnl_minishell(int *res)
-{
-	char	buf[5];
-	char	*line;
-	int		count;
-	int		bytes;
-
-	line = malloc(sizeof(char) * 1); // alloue l'espace pour le end of str
-	if (line == NULL) 
-	{
-		*res = -1; //erreur malloc
-		return (NULL);
-	}
-	count = 0;
-	line[0] = '\0';
-	while ((bytes = read(0, buf, 4)) > 0)
-	{
-		buf[bytes] = '\0';
-		printf("\ncount = %d | buf = %d \n", count, buf);
-		if (buf[0] == '\n')
-			break;
-		else if (ft_isprint(*buf) == 1)
-		{
-			write(1, &buf, 1);
-			line = realloc(line, sizeof(char) * (count + 2));
-			if (line == NULL)
-			{
-				*res = -1;
-				return (NULL);
-			}
-			line[count] = buf;
-			line[count + 1] = '\0';
-			count ++;
-		}
-	}
-	*res = 0;
-	return (line);
-}
-*/
-
-
-
