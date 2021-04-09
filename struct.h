@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 13:06:50 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/09 13:17:20 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,23 @@ typedef struct		s_var
 	char			*name;
 	char			*value;
 }					t_var;
+
+typedef	struct	s_term
+{
+
+	int		col;
+	int		line;
+	char	*name; // trouve le nom du terminal
+	char	*AF; //definie la couleur du texte
+	char	*AB; //definie la couleur du background
+	char	*cl; // delete text
+	char	*cm; // bouge curseur
+	char	*md; // texte gras
+	char	*mb; //texte clignotant
+	char	*us; //txt souligne
+	char	*me; //reset les params
+	char	*cb; //clear du curseur -> begining of line
+	char	*ch; //replace le curseur a la position P
+}				t_term;
 	
 #endif
