@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 10:02:52 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/08 12:37:35 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define FT_H
 
-//#include <curses.h>
+#include <curses.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -27,8 +27,9 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
-//#include <term.h>
-//#include <termios.h>
+// cree des expansions de MACRO avec tab et ->
+//#include <term.h> 
+#include <termios.h>
 #include <unistd.h>
 
 #include "libft/libft.h"

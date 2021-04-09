@@ -1,23 +1,26 @@
-SRCS =  main_adrien.c \
-		utils_adrien.c
+SRCS = $(wildcard *.c)
 
 OBJ = $(SRCS:.c=.o)
 
 NAME = a.out
 
-CC = clang
+CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
 
 INCLUDE = -I . 
 
-ALL_LIBS = -L ./libft/ -lft #-L -lncurses)
+LFT = -L ../libft/ -lft
 
+LCURSES = -lncurses
 
-.c.o:
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
-all: $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(ALL_LIBS)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LFT) $(LCURSES)
+
+all: $(NAME)
 
 clean:
 	rm -rf $(OBJ)
