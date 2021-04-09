@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/07 20:22:59 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/09 13:06:50 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,10 @@ typedef struct		s_simple_cmd
 	int				fd_out;
 }					t_simple_cmd;
 
+typedef struct		s_var
+{
+	char			*name;
+	char			*value;
+}					t_var;
+	
 #endif
