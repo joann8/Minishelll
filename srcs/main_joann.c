@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 14:54:38 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/09 10:20:25 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ int main(int ac, char **av)
 		free(line);
 	}
 	free(line);
-	create_sequence(tab_seq, token_list);
+
+	int seq_nb;
+	seq_nb = get_seq_number(token_list);
+	tab_seq = create_sequence(tab_seq, token_list, seq_nb);
+	print_seq(tab_seq, seq_nb);
 	return (0);
 }
 
