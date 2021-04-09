@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 10:20:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:31:55 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ int main(int ac, char **av)
 {
 	t_list	*token_list;
 	t_seq	*tab_seq;
+	t_cmd	*tab_cmd;
 	char	*line;
-	tab_seq = NULL;
-
+	t_list	*var_list;
+	
 	(void)ac;
 	(void)av;
+	tab_seq = NULL;
+	tab_cmd = NULL;
 	token_list = NULL;
 	while (get_next_line(0, &line) > 0)
 	{
