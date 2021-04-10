@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:28:51 by calao             #+#    #+#             */
-/*   Updated: 2021/04/10 10:09:30 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/10 10:59:54 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		ft_make_loglst(t_list **head, int fd)
 			return (-1);
 		ft_lstadd_back(head, new_node);
 	}
+	free(line);
 	//Recoder une fois pour la derniere ligne ?
 	return (0);
 }
