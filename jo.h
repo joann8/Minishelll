@@ -47,14 +47,18 @@ t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
 int		is_word(char *str);
 int		is_var_name(char c);
 
-//expansion length
-void	manage_quotes(char c, int *i, int *j, int *quotes);
-int		count_final_str(char *str, t_list *var, int quote);
+//expansion manage
+void	manage_quotes(t_expansion *exp, char c);
+void	manage_escape(t_expansion *exp);
+int		manage_variable(t_expansion *expi, t_list *var);
+void	escape_within_doubles(t_expansion *exp);
 
-//expansion str
-
-char 	*assign_final_str(char *tmp, char *str, t_list *var, int quote);
+//expansion find
+int		count_final_str(t_expansion *exp, t_list *var);
+int		find_variable_length(char *str, int start, int end, t_list *var);
+char 	*find_variable_str(char *str, int start, int end, t_list *var);
+char 	*assign_final_str(t_expansion *exp, t_list *var);
 
 //expansion
-void escape_within_doubles(char *str, int *pos);
+void escape_within_doubles(t_expansion *exp);
 t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);

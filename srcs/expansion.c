@@ -6,29 +6,22 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 20:32:39 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/10 11:30:43 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	escape_within_doubles(char *str, int *pos)
-{
-	int i;
-
-	i = *pos + 1;
-	if (str[i] == '$' || str[i] == 34 || str[i] == 39 || str[i] == '\\')
-		*pos += 1;//special character also : !
-}
-
 char	*modify_str(char *str, t_list *var)
 {
-	char	*tmp;
-	int		size;
-	int		quote;
+	char		*tmp;
+	int			size;
+	t_expansion	exp;
 
-	quote = 0;
-	size = count_final_str(str, var, quote);
+	exp.str = str;
+	exp.tmp = NULL;
+	exp.var_str = NULL;
+	size = count_final_str(&exp, var);
 	printf("size = %d\n", size);
 	if (size == -1)//erreur malloc
 		return (NULL);
@@ -37,7 +30,8 @@ char	*modify_str(char *str, t_list *var)
 	tmp = malloc(sizeof(char) * (size + 1));
 	if (tmp == NULL)
 		return (NULL);
-	tmp = assign_final_str(tmp, str, var, quote);
+	exp.tmp = tmp;
+	tmp = assign_final_str(&exp, var);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 13:17:20 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/10 10:33:10 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,16 @@ typedef	struct	s_term
 	char	*cb; //clear du curseur -> begining of line
 	char	*ch; //replace le curseur a la position P
 }				t_term;
-	
+
+typedef struct	s_expansion
+{
+	char		*str;
+	char		*var_str;
+	char 		*tmp;
+	int			i;
+	int			j;
+	int 		quote;
+	int			mod;
+}				t_expansion;
+
 #endif
