@@ -6,14 +6,13 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:28:51 by calao             #+#    #+#             */
-/*   Updated: 2021/04/09 19:37:37 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/10 10:09:30 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
 int		ft_make_loglst(t_list **log, int fd);
-void	ft_print_str_lst(t_list *head);
 
 int		ft_make_loglst(t_list **head, int fd)
 {
@@ -36,18 +35,3 @@ int		ft_make_loglst(t_list **head, int fd)
 	//Recoder une fois pour la derniere ligne ?
 	return (0);
 }
-
-void	ft_print_str_lst(t_list *head)
-{
-	t_list *tmp;
-
-	tmp = head;
-	while (tmp)
-	{
-		printf("node : %s\n", (char*)tmp->content);
-		tmp = tmp->next;
-	}
-}
-
-		
-			

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/09 14:22:24 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/10 10:08:36 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,18 @@ void	ft_print_str_av(char **av)
 		ft_putchar('\n');
 		av++;
 	}
+}
+void	ft_print_str_lst(t_list *head)
+{
+	t_list *tmp;
+
+	tmp = head;
+	while (tmp)
+	{
+		printf("[%s] --> ", (char *)tmp->content);
+		tmp = tmp->next;
+	}
+	printf("\n");
 }
 
 void	ft_print_envlst(t_list *env_head)

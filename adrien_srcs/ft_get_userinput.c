@@ -6,15 +6,16 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 23:12:32 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/10 10:29:33 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
 char	*ft_strndup(char *src, int len);
+int		ft_isempty(char *str);
 
-int	ft_get_userinput(char **line, t_list *log)
+int	ft_get_userinput(int fd_log, char **line, t_list *log)
 {
 	t_term			term;
 	struct termios	origin;
@@ -26,7 +27,7 @@ int	ft_get_userinput(char **line, t_list *log)
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
-	*line = ft_read_input(STDIN_FILENO, &term, log, log_size);
+	*line = ft_read_input(STDIN_FILENO, fd_log, &term, log, log_size);
 	if (*line == NULL)
 	{
 		printf("error in get_raw_input\n");
@@ -37,13 +38,13 @@ int	ft_get_userinput(char **line, t_list *log)
 	return (1);
 }
 
-char	*ft_read_input(int fd, t_term *term, t_list *log, unsigned int log_size)
+char	*ft_read_input(int fd, int	fd_log, t_term *term, t_list *log, unsigned int log_size)
 {
 	char				buf[5];
 	int					bytes;
-	char				**screen;
+	char				*screen;
 	char				*user_input;
-	char				*list;
+	char				*last_log;
 	char				*to_free;
 	unsigned	int		i;
 
@@ -51,7 +52,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, unsigned int log_size)
 	user_input = ft_strdup("");
 	if (user_input == NULL)
 		return (NULL);
-	screen = &user_input;
+	screen = user_input;
 	ft_print_prompt(term);
 	while ((bytes = read(fd, buf, 4)))
 	{
@@ -59,40 +60,37 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, unsigned int log_size)
 		//Analyse la chaine buf
 		if (ft_isprint(buf[0]) || buf[0] == 127)
 		{
-			if (ft_isprint(buf[0]))
+			// DELETE if BACKSPACE
+			if (buf[0] == 127)
 			{
-				//ft_join_line();	
-				to_free = *screen;
-				*screen = ft_strjoin(*screen, buf);
-				free(to_free);
-				if (screen == NULL)
-					return (NULL);
-				write(1, screen[ft_strlen(*screen)], 1);
+				if (screen[0])
+					screen[ft_strlen(screen) - 1] = '\0';
 			}
-			else
+			// JOIN if NEW_CHAR is print
+			else if (ft_isprint(buf[0]))
 			{
-				//ft_edit_line();
-				to_free = *screen;
-				*screen = ft_strndup(*screen, ft_strlen(*screen - 1));
+				to_free = screen;
+				screen = ft_strjoin(screen, buf);
+				free(to_free);
 				if (screen == NULL)
 					return (NULL);
-				free(to_free);
-
 			}
 		}
-		else if (buf[0] == 27)
+		//Changement de screen display
+		else if (buf[0] == 27 && buf[1] == '[' 
+				&& (buf[2] == 'A' || buf[2] == 'B'))
 		{
-			//ft_change_line_ptr();
-			if (buf[1] == '[' && (buf[2] == 'B' || buf[2] == 'A'))	
-			{
 				// A == UP
 				if (buf[2] == 'A')
 				{
 					printf("\nUP_ARROW hooked\n");
+					if (i == log_size)
+						user_input = screen;
+					if (i < log_size)
+						free(screen);
 					if (i > 0)
 						i--;
-					list = ((char *)((ft_lstat(log, i))->content));
-					screen = &list;
+					screen = ft_strdup(((char *)((ft_lstat(log, i))->content)));
 				}
 				// B == DOWN
 				else if (buf[2] == 'B')
@@ -101,42 +99,60 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, unsigned int log_size)
 					if (i < log_size - 1)
 					{
 						i++;
-						list = (char *)((ft_lstat(log, i))->content);
-						screen = &list;
+						free(screen);
+						screen = ft_strdup((char *)((ft_lstat(log, i))->content));
 					}
 					else
 					{
 						printf("user_input = %s\n", user_input);
-						*screen = user_input;
+						screen = user_input;
 						if (i < log_size)
 							i++;
 					}
 				}
-			}
 		}
+		//Input termine
 		else if (buf[0] == '\n')
 		{
-			//ft_finish_input();
-			*screen[ft_strlen(*screen)] = '\0';
-			write(1, screen[ft_strlen(*screen)], 1);
+			//Liberer copie d'historique si cmd_finale = user_input
+			if (i < log_size)
+				free(user_input);
+			last_log = (char *)((ft_lstat(log, log_size - 1))->content);
+			if (ft_strcmp(screen, last_log) && !ft_isempty(screen))
+			{
+				write(fd_log, screen, ft_strlen(screen));
+				write(fd_log, "\n", 1);
+				//if lstnew == NULL ? 
+				ft_lstadd_back(&log, ft_lstnew(screen));
+				log_size = ft_lstsize(log);
+			}
+			//Mauvaise idee si echo - n ??
 			write(1, "\n", 1);
-			return (*screen);
+			return (screen);
 		}
 		else
-		{
 			printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
-		}
-		printf("i = %d\n", i);
-		//efface l'input du 
+		//efface l'input 
 		tputs(term->cb, 1, ft_termcap_on);
 		//remet le curseur en debut de ligne
 		tputs(tparm(term->ch, 0), 1, ft_termcap_on);
 		//imprime le prompt sur le stdout
 		ft_print_prompt(term);
 		//Imprime la ligne sur le stdout
-		write(1, *screen, ft_strlen(*screen));
+		write(1, screen, ft_strlen(screen));
 	}
 	return (NULL);
+}
+
+int		ft_isempty(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 void	ft_enable_raw_mode(struct termios *origin)
