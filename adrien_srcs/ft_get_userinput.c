@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/11 12:35:56 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/11 12:56:39 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,35 @@ int		ft_screen_is_up_log(char **screen, char **user_input,
 		return (-1);
 	return (1);
 }
+char	*ft_enter_is_pressed(char **screen, t_list *log, int fd_log)
+{
+	char			*last_log;
+	unsigned int	log_size;
+	unsigned int	s_len;
+	t_list			*new;
 
+	s_len = ft_strlen(*screen);
+	log_size = ft_lstsize(log);
+	last_log = (char *)((ft_lstat(log, log_size - 1))->content);
+	if (ft_strcmp(*screen, last_log) && !ft_isempty(*screen))
+	{
+		write(fd_log, *screen, s_len);
+		write(fd_log, "\n", 1);
+		new = ft_lstnew(*screen);
+		if (new == NULL)
+			return (NULL);
+		ft_lstadd_back(&log, new);
+	}
+	//Mauvaise idee si echo - n ??
+	write(1, "\n", 1);
+	return (*screen);
+}
 char	*ft_read_input(int fd, int	fd_log, t_term *term, t_list *log, unsigned int log_size)
 {
 	char				buf[5];
 	int					bytes;
 	char				*screen;
 	char				*user_input;
-	char				*last_log;
-//	char				*to_free;
 	unsigned	int		i;
 	unsigned	int		s_len;
 
@@ -114,38 +134,22 @@ char	*ft_read_input(int fd, int	fd_log, t_term *term, t_list *log, unsigned int 
 				return (NULL); // Malloc error;
 		}
 		//Changement de screen display
-		else if (buf[0] == 27 && buf[1] == '['
-					&& (buf[2] == 'A' || buf[2] == 'B'))
+		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
 		{
-			if (buf[2] == 'B')
-			{
 				if (ft_screen_is_up_log(&screen, &user_input, log, &i) == -1)
 					return (NULL); // MALLOC ERROR
-			}
-			else if (buf[2] == 'A')
-			{
-				if (ft_screen_is_down_log(&screen, &user_input, log, &i) == -1)
+		}
+		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'A')
+		{
+			if (ft_screen_is_down_log(&screen, &user_input, log, &i) == -1)
 					return (NULL); // Err malloc
-			}
 		}
 		//Input termine
 		else if (buf[0] == '\n')
 		{
-			//Liberer copie d'historique si cmd_finale = user_input
 			if (i < log_size)
 				free(user_input);
-			last_log = (char *)((ft_lstat(log, log_size - 1))->content);
-			if (ft_strcmp(screen, last_log) && !ft_isempty(screen))
-			{
-				write(fd_log, screen, s_len);
-				write(fd_log, "\n", 1);
-				//if lstnew == NULL ? 
-				ft_lstadd_back(&log, ft_lstnew(screen));
-				log_size = ft_lstsize(log);
-			}
-			//Mauvaise idee si echo - n ??
-			write(1, "\n", 1);
-			return (screen);
+			return (ft_enter_is_pressed(&screen, log, fd_log));
 		}
 		else
 			printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
