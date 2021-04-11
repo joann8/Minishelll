@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/11 12:56:39 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/11 16:01:09 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,145 +15,105 @@
 char	*ft_strndup(char *src, int len);
 int		ft_isempty(char *str);
 int		ft_edit_line(char **screen, char *buf, unsigned int s_len);
+int		ft_update_log(char **screen, t_list *log, int fd_log);
+
+int		ft_screen_is_down_log(char **screen, char **user_input, 
+								t_list *log, unsigned int *i);
+
+int		ft_screen_is_up_log(char **screen, char **user_input, 
+								t_list *log, unsigned int *i);
+	
+	
+	
+	
+	
+typedef	struct s_input
+{
+	unsigned int	i;
+	unsigned int	log_size;
+	char			buf[5];
+	char			*screen;
+	char			*input;
+}		t_input;
 
 int	ft_get_userinput(int fd_log, char **line, t_list *log)
 {
 	t_term			term;
 	struct termios	origin;
-	unsigned int				log_size;
 
-	log_size = ft_lstsize(log);
-	printf("log_size = %d\n", log_size);
 	//Initialise la librairie termcap avec la var $TERM
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
-	*line = ft_read_input(STDIN_FILENO, fd_log, &term, log, log_size);
+	*line = ft_read_input(STDIN_FILENO, &term, log);
 	if (*line == NULL)
-	{
-		printf("error in get_raw_input\n");
-		return (-1);
-	}
+		return (printf("error in get_raw_input\n"));
+	if (ft_update_log(line, log, fd_log) == -1)
+		return (-1); // Err malloc
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	return (1);
 }
 
-int		ft_screen_is_down_log(char **screen, char **user_input, 
-								t_list *log, unsigned int *i)
+int		ft_screen_wrapper(t_input *user, t_list *log)
 {
-	unsigned int log_size;
-
-	log_size = ft_lstsize(log);
-	printf("\nUP_ARROW hooked\n");
-	//Save user_input avant de mettre screen sur history
-	if (*i == log_size)
-		*user_input = *screen;
-	//Screen est une copie de history et va changer, donc on free
-	//Opti possible
-	if (*i < log_size)
-		free(*screen);
-	//Remonte l'historique seulement si il reste de l'historique
-	if (*i > 0)
-		*i -= 1;
-	*screen = ft_strdup(((char *)((ft_lstat(log, *i))->content)));
-	if (*screen == NULL)
-		return (-1);
-	return (1);
-}
-
-int		ft_screen_is_up_log(char **screen, char **user_input, 
-								t_list *log, unsigned int *i)
-{
-	unsigned int log_size;
-
-	log_size = ft_lstsize(log);
-	if (*i < log_size - 1)
-	{
-		(*i)++;
-		free(*screen);
-		*screen = ft_strdup((char *)((ft_lstat(log, *i))->content));
-	}
-	else
-	{
-		//printf("user_input = %s\n", *user_input);
-		*screen = *user_input;
-		if (*i < log_size)
-			(*i)++;
-	}
-	if (*screen == NULL)
-		return (-1);
-	return (1);
-}
-char	*ft_enter_is_pressed(char **screen, t_list *log, int fd_log)
-{
-	char			*last_log;
-	unsigned int	log_size;
 	unsigned int	s_len;
-	t_list			*new;
+	char			*buf;
 
-	s_len = ft_strlen(*screen);
-	log_size = ft_lstsize(log);
-	last_log = (char *)((ft_lstat(log, log_size - 1))->content);
-	if (ft_strcmp(*screen, last_log) && !ft_isempty(*screen))
-	{
-		write(fd_log, *screen, s_len);
-		write(fd_log, "\n", 1);
-		new = ft_lstnew(*screen);
-		if (new == NULL)
-			return (NULL);
-		ft_lstadd_back(&log, new);
-	}
-	//Mauvaise idee si echo - n ??
-	write(1, "\n", 1);
-	return (*screen);
-}
-char	*ft_read_input(int fd, int	fd_log, t_term *term, t_list *log, unsigned int log_size)
-{
-	char				buf[5];
-	int					bytes;
-	char				*screen;
-	char				*user_input;
-	unsigned	int		i;
-	unsigned	int		s_len;
+	buf = user->buf;
+	s_len = ft_strlen(user->screen);
 
-	i = log_size;
-	user_input = ft_strdup("");
-	if (user_input == NULL)
-		return (NULL);
-	screen = user_input;
-	ft_print_prompt(term);
-	while ((bytes = read(fd, buf, 4)))
-	{
-		buf[bytes] = '\0';
-		s_len = ft_strlen(screen);
-		//Analyse la chaine buf
-		if (bytes == 1 && (ft_isprint(buf[0]) || buf[0] == 127))
+	if (/*bytes == 1 && */(ft_isprint(buf[0]) || buf[0] == 127))
 		{
-			if (ft_edit_line(&screen, buf, s_len) == -1)
-				return (NULL); // Malloc error;
+			if (ft_edit_line(&(user->screen), buf, s_len) == -1)
+				return (-1); // Malloc error;
 		}
 		//Changement de screen display
 		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
 		{
-				if (ft_screen_is_up_log(&screen, &user_input, log, &i) == -1)
-					return (NULL); // MALLOC ERROR
+				if (ft_screen_is_up_log(&(user->screen), &(user->input),
+							log, &(user->i)) == -1)
+					return (-1); // MALLOC ERROR
 		}
 		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'A')
 		{
-			if (ft_screen_is_down_log(&screen, &user_input, log, &i) == -1)
-					return (NULL); // Err malloc
-		}
-		//Input termine
-		else if (buf[0] == '\n')
-		{
-			if (i < log_size)
-				free(user_input);
-			return (ft_enter_is_pressed(&screen, log, fd_log));
+			if (ft_screen_is_down_log(&(user->screen), &(user->input),
+						log, &(user->i)) == -1)
+					return (-1); // Err malloc
 		}
 		else
 			printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
-		s_len = ft_strlen(screen);
+	return (0);
+}
+
+char	*ft_read_input(int fd, t_term *term, t_list *log)
+{
+	t_input				user;
+	int					bytes;
+	unsigned	int		s_len;
+
+	user.log_size = ft_lstsize(log);
+	user.i = user.log_size;
+	user.input = ft_strdup("");
+	if (user.input == NULL)
+		return (NULL);
+	user.screen = user.input;
+	ft_print_prompt(term);
+	while ((bytes = read(fd, user.buf, 4)))
+	{
+		user.buf[bytes] = '\0';
+		s_len = ft_strlen(user.screen);
+		if (user.buf[0] == '\n')
+		{
+			if (user.i < user.log_size)
+				free(user.input);
+			return (user.screen);
+		}
+		else
+			ft_screen_wrapper(&user, log);
+
+		//ft_display_input();
+		s_len = ft_strlen(user.screen);
 		//efface l'input 
 		tputs(term->cb, 1, ft_termcap_on);
 		//remet le curseur en debut de ligne
@@ -161,7 +121,7 @@ char	*ft_read_input(int fd, int	fd_log, t_term *term, t_list *log, unsigned int 
 		//imprime le prompt sur le stdout
 		ft_print_prompt(term);
 		//Imprime la ligne sur le stdout
-		write(1, screen, s_len);
+		write(1, user.screen, s_len);
 	}
 	return (NULL);
 }
@@ -291,3 +251,75 @@ char	*ft_strndup(char *src, int len)
 	dest[i] = '\0';
 	return (dest);
 }
+
+int		ft_screen_is_up_log(char **screen, char **user_input, 
+								t_list *log, unsigned int *i)
+{
+	unsigned int log_size;
+
+	log_size = ft_lstsize(log);
+	if (*i < log_size - 1)
+	{
+		(*i)++;
+		free(*screen);
+		*screen = ft_strdup((char *)((ft_lstat(log, *i))->content));
+	}
+	else
+	{
+		//printf("user_input = %s\n", *user_input);
+		*screen = *user_input;
+		if (*i < log_size)
+			(*i)++;
+	}
+	if (*screen == NULL)
+		return (-1);
+	return (1);
+}
+
+int		ft_screen_is_down_log(char **screen, char **user_input, 
+								t_list *log, unsigned int *i)
+{
+	unsigned int log_size;
+
+	log_size = ft_lstsize(log);
+	printf("\nUP_ARROW hooked\n");
+	//Save user_input avant de mettre screen sur history
+	if (*i == log_size)
+		*user_input = *screen;
+	//Screen est une copie de history et va changer, donc on free
+	//Opti possible
+	if (*i < log_size)
+		free(*screen);
+	//Remonte l'historique seulement si il reste de l'historique
+	if (*i > 0)
+		*i -= 1;
+	*screen = ft_strdup(((char *)((ft_lstat(log, *i))->content)));
+	if (*screen == NULL)
+		return (-1);
+	return (1);
+}
+
+int		ft_update_log(char **screen, t_list *log, int fd_log)
+{
+	char			*last_log;
+	unsigned int	log_size;
+	unsigned int	s_len;
+	t_list			*new;
+
+	s_len = ft_strlen(*screen);
+	log_size = ft_lstsize(log);
+	last_log = (char *)((ft_lstat(log, log_size - 1))->content);
+	if (ft_strcmp(*screen, last_log) && !ft_isempty(*screen))
+	{
+		write(fd_log, *screen, s_len);
+		write(fd_log, "\n", 1);
+		new = ft_lstnew(*screen);
+		if (new == NULL)
+			return (-1);
+		ft_lstadd_back(&log, new);
+	}
+	//Mauvaise idee si echo - n ??
+	write(1, "\n", 1);
+	return (2);
+}
+
