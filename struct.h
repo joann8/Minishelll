@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 13:17:20 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/11 18:01:21 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef	struct	s_term
 	char	*me; //reset les params
 	char	*cb; //clear du curseur -> begining of line
 	char	*ch; //replace le curseur a la position P
+	char	*ce; // clear to EOL
 }				t_term;
 	
 #endif

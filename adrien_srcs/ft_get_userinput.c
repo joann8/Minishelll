@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/11 16:01:09 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/11 19:09:38 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int		ft_isempty(char *str);
 int		ft_edit_line(char **screen, char *buf, unsigned int s_len);
 int		ft_update_log(char **screen, t_list *log, int fd_log);
 
-int		ft_screen_is_down_log(char **screen, char **user_input, 
+int		ft_down_arrow(char **screen, char **user_input, 
 								t_list *log, unsigned int *i);
 
-int		ft_screen_is_up_log(char **screen, char **user_input, 
+int		ft_up_arrow(char **screen, char **user_input, 
 								t_list *log, unsigned int *i);
 	
 	
@@ -46,12 +46,12 @@ int	ft_get_userinput(int fd_log, char **line, t_list *log)
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
 	*line = ft_read_input(STDIN_FILENO, &term, log);
+	tputs(term.me, 1, ft_termcap_on);
+	ft_disable_raw_mode(&origin);
 	if (*line == NULL)
 		return (printf("error in get_raw_input\n"));
 	if (ft_update_log(line, log, fd_log) == -1)
 		return (-1); // Err malloc
-	tputs(term.me, 1, ft_termcap_on);
-	ft_disable_raw_mode(&origin);
 	return (1);
 }
 
@@ -62,7 +62,6 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 
 	buf = user->buf;
 	s_len = ft_strlen(user->screen);
-
 	if (/*bytes == 1 && */(ft_isprint(buf[0]) || buf[0] == 127))
 		{
 			if (ft_edit_line(&(user->screen), buf, s_len) == -1)
@@ -71,18 +70,18 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 		//Changement de screen display
 		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
 		{
-				if (ft_screen_is_up_log(&(user->screen), &(user->input),
+			if (ft_down_arrow(&(user->screen), &(user->input),
 							log, &(user->i)) == -1)
 					return (-1); // MALLOC ERROR
 		}
 		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'A')
 		{
-			if (ft_screen_is_down_log(&(user->screen), &(user->input),
+			if (ft_up_arrow(&(user->screen), &(user->input),
 						log, &(user->i)) == -1)
 					return (-1); // Err malloc
 		}
-		else
-			printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
+		//else
+		//	printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
 	return (0);
 }
 
@@ -90,7 +89,6 @@ char	*ft_read_input(int fd, t_term *term, t_list *log)
 {
 	t_input				user;
 	int					bytes;
-	unsigned	int		s_len;
 
 	user.log_size = ft_lstsize(log);
 	user.i = user.log_size;
@@ -102,7 +100,6 @@ char	*ft_read_input(int fd, t_term *term, t_list *log)
 	while ((bytes = read(fd, user.buf, 4)))
 	{
 		user.buf[bytes] = '\0';
-		s_len = ft_strlen(user.screen);
 		if (user.buf[0] == '\n')
 		{
 			if (user.i < user.log_size)
@@ -111,17 +108,9 @@ char	*ft_read_input(int fd, t_term *term, t_list *log)
 		}
 		else
 			ft_screen_wrapper(&user, log);
-
-		//ft_display_input();
-		s_len = ft_strlen(user.screen);
-		//efface l'input 
-		tputs(term->cb, 1, ft_termcap_on);
-		//remet le curseur en debut de ligne
-		tputs(tparm(term->ch, 0), 1, ft_termcap_on);
-		//imprime le prompt sur le stdout
-		ft_print_prompt(term);
-		//Imprime la ligne sur le stdout
-		write(1, user.screen, s_len);
+		tputs(tparm(term->ch, ft_strlen("Minishell_says$ ")), 1, ft_termcap_on);
+		tputs(term->ce, 1, ft_termcap_on);
+		write(1, user.screen, ft_strlen(user.screen));
 	}
 	return (NULL);
 }
@@ -149,7 +138,8 @@ int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
 	{
 		to_free = *screen;
 		*screen = ft_strjoin(*screen, buf);
-		free(to_free);
+		if (to_free)
+			free(to_free);
 		if (*screen == NULL)
 			return (-1);
 	}
@@ -205,17 +195,16 @@ void	ft_print_prompt(t_term *term)
 {
 	char *prompt;
 
-	prompt = "Minishell_says$";
+	prompt = "Minishell_says$ ";
 	//Mets le prompt en gras
 	tputs(term->md, 1, ft_termcap_on);
 	//Souligne le prompt
-	tputs(term->us, 1, ft_termcap_on);
+	//tputs(term->us, 1, ft_termcap_on);
 	//Choisir la couleur du prompt
 	tputs(tparm(term->AF, COLOR_BLUE), 1, ft_termcap_on);
 	ft_putstr(prompt);
 	//Reset les settings d'ecriture
 	tputs(term->me, 1, ft_termcap_on);
-	ft_putchar(' ');
 }
 
 void	ft_init_term_struct(t_term *term)
@@ -232,6 +221,7 @@ void	ft_init_term_struct(t_term *term)
 	term->me = tgetstr("me", NULL);
 	term->cb = tgetstr("cb", NULL);
 	term->ch = tgetstr("ch", NULL);
+	term->ce = tgetstr("ce", NULL);
 }
 
 char	*ft_strndup(char *src, int len)
@@ -252,37 +242,36 @@ char	*ft_strndup(char *src, int len)
 	return (dest);
 }
 
-int		ft_screen_is_up_log(char **screen, char **user_input, 
+int		ft_down_arrow(char **screen, char **user_input, 
 								t_list *log, unsigned int *i)
 {
 	unsigned int log_size;
-
+	
 	log_size = ft_lstsize(log);
 	if (*i < log_size - 1)
 	{
-		(*i)++;
 		free(*screen);
+		(*i)++;
 		*screen = ft_strdup((char *)((ft_lstat(log, *i))->content));
 	}
-	else
+	else if (*i == log_size -1)
 	{
-		//printf("user_input = %s\n", *user_input);
+		free(*screen);
 		*screen = *user_input;
-		if (*i < log_size)
-			(*i)++;
+		(*i)++;
 	}
 	if (*screen == NULL)
 		return (-1);
 	return (1);
 }
 
-int		ft_screen_is_down_log(char **screen, char **user_input, 
+int		ft_up_arrow(char **screen, char **user_input, 
 								t_list *log, unsigned int *i)
 {
 	unsigned int log_size;
 
 	log_size = ft_lstsize(log);
-	printf("\nUP_ARROW hooked\n");
+//	printf("\nUP_ARROW hooked\n");
 	//Save user_input avant de mettre screen sur history
 	if (*i == log_size)
 		*user_input = *screen;
@@ -290,9 +279,10 @@ int		ft_screen_is_down_log(char **screen, char **user_input,
 	//Opti possible
 	if (*i < log_size)
 		free(*screen);
-	//Remonte l'historique seulement si il reste de l'historique
 	if (*i > 0)
 		*i -= 1;
+
+	//Remonte l'historique seulement si il reste de l'historique
 	*screen = ft_strdup(((char *)((ft_lstat(log, *i))->content)));
 	if (*screen == NULL)
 		return (-1);
@@ -313,7 +303,7 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 	{
 		write(fd_log, *screen, s_len);
 		write(fd_log, "\n", 1);
-		new = ft_lstnew(*screen);
+		new = ft_lstnew(ft_strdup(*screen));
 		if (new == NULL)
 			return (-1);
 		ft_lstadd_back(&log, new);
@@ -322,4 +312,3 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 	write(1, "\n", 1);
 	return (2);
 }
-
