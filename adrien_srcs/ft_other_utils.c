@@ -1,29 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_other_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 09:54:48 by calao            ###   ########.fr       */
+/*   Created: 2021/04/12 10:01:01 by calao             #+#    #+#             */
+/*   Updated: 2021/04/12 10:01:33 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		main(int ac, char **av, char **envp)
+int		ft_is_only_space(char *str)
 {
-	(void)ac;
-	(void)av;
-	char	*line;
-	t_list	*env_lst;
-
-	env_lst = NULL;
-	ft_make_envlst(&env_lst, envp);
-	ft_print_envlst(env_lst);
-	ft_get_userinput(&line);
-	ft_lstclear_envlst(&env_lst);
-	free(line);
-	return (0);
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str++;
+	}
+	return (1);
 }
+
+char	*ft_strndup(char *src, int len)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	dest = malloc(sizeof(*dest) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (i < len)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+

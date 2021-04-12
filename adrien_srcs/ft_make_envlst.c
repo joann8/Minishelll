@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/09 14:22:24 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/12 10:03:49 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,25 @@ int		ft_make_envlst(t_list **head, char **envp)
 	return (0);
 }
 
-void	ft_print_str_av(char **av)
+void	ft_lstclear_envlst(t_list **head)
 {
-	while (*av)
-	{
-		ft_putstr(*av);
-		ft_putchar('\n');
-		av++;
-	}
-}
-
-void	ft_print_envlst(t_list *env_head)
-{
+	t_list *tmp;
+	t_list *next;
 	t_var	*var;
-	t_list	*tmp;
 
-	tmp = env_head;
+	if (!head || !*head)
+		return;
+	tmp = *head;
 	while (tmp)
 	{
+		next = tmp->next;
 		var = (t_var*)(tmp->content);
-		printf("%s=%s\n", var->name, var->value);
-		tmp = tmp->next;
+		//printf("name=%s\n", var->name);
+		free(var->name);
+		free(var->value);
+		free(tmp->content);
+		free(tmp);
+		tmp = next;
 	}
+
 }

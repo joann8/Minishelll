@@ -78,8 +78,19 @@ typedef	struct	s_term
 	char	*me; //reset les params
 	char	*cb; //clear du curseur -> begining of line
 	char	*ch; //replace le curseur a la position P
+	char	*ce; // clear to EOL
 }				t_term;
 
+
+typedef	struct s_input
+{
+	unsigned int	i;
+	unsigned int	log_size;
+	char			buf[5];
+	char			*screen;
+	char			*input;
+}		t_input;
+	
 typedef struct	s_expansion
 {
 	char		*str;
