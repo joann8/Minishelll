@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 19:35:07 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/12 19:37:07 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,13 @@ int		init_pipe(int *pipe_link, t_seq *seq, t_simple_cmd *cmd)
 {
 	cmd->fd_in = STDIN_FILENO;
 	cmd->fd_out = STDOUT_FILENO;
+
 	(void)pipe_link;
 	if (seq->pipe_total > 0)
 	{
 		//Pas besoin de faire un pipe si derniere commande
 		if (pipe(cmd->fd_tab) == -1)
 			return (-1); // pipe error
-		/*
-		if (seq->pipe_pos !=  seq->pipe_total)
-			cmd->fd_out = cmd->fd_tab[1];
-		if (seq->pipe_pos != 0)
-			cmd->fd_in = *pipe_link;
-		*pipe_link = cmd->fd_tab[0];
-		*/
 	}
 	return (0);
 }
