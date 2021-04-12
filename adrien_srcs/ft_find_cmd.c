@@ -6,12 +6,12 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 22:52:50 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/12 22:56:16 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
 
-int		ft_find_cmd_path(char *exec)
+char	*ft_find_cmd_path(char *exec)
 {
 	char	**tab_path;
 	char	*env_path_val;
@@ -24,7 +24,7 @@ int		ft_find_cmd_path(char *exec)
 	printf("PATH = %s\n\n", env_path_val);
 	tab_path = ft_split_charset(env_path_val, ":");
 	if (tab_path == NULL)
-		return (-1); //command could not be found;
+		return (NULL); //command could not be found;
 	
 	while (*tab_path)
 	{
@@ -35,15 +35,14 @@ int		ft_find_cmd_path(char *exec)
 		free(tmp);
 		printf("job_path checking ... = [%s]\n", job_path);
 		if (job_path == NULL)
-			return (-1);
+			return (NULL);
 		if (stat(job_path, &buff))
 		{
 			printf("stat : %s", job_path);
 			if (S_ISREG(buff.st_mode)) //&& (buff.st_mode & S_IXUSR))
 			{
 				//free_double_tab(tab_path);
-				//return (job_path);
-				printf(" -- > Regular file ok");
+				return (job_path);
 			}
 			printf("\n");
 		}
@@ -51,5 +50,5 @@ int		ft_find_cmd_path(char *exec)
 		free(job_path);
 		tab_path++;
 	}
-	return (-1); //no file corresponding to criteria was found
+	return (NULL); //no file corresponding to criteria was found
 }
