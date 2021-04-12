@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/08 19:15:35 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:40:36 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_token(t_list *token)
 	while (tmp)
 	 {
 		tmp2 = (t_token *)tmp->content;
-		printf("%d.token->e_type = %d\n  token->tok_str=%s\n", tour, tmp2->e_type, tmp2->tok_str);
+		printf("%d.token->e_type = %d\n  token->tok_str=%s\n", tour, (t_e_type)(tmp2->e_type), tmp2->tok_str);
 		tmp = tmp->next;
 		tour++;
 	}

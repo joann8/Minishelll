@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/10 10:33:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:37:35 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef	enum	e_type
 
 typedef struct	s_token
 {
-	int		e_type;
-	char	*tok_str;
+	t_e_type	e_type;
+	char		*tok_str;
 }				t_token;
 
 typedef struct		s_seq
@@ -42,7 +42,7 @@ typedef struct		s_seq
 
 typedef struct		s_redir
 {
-	int				e_type;
+	t_e_type		e_type;
 	char			*file_name;
 }					t_redir;
 
