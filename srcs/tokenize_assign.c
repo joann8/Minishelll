@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 12:06:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:35:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	assign_type_1(t_list *token_list)
 			tmp2->e_type = APPEND;
 		else
 			tmp2->e_type = WORD;
+		printf("e : %d\n", tmp2->e_type);
 		tmp = tmp->next;
 	}
 }

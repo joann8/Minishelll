@@ -1,3 +1,7 @@
+#ifndef JO_H
+
+#define JO_H
+
 //NOT USED FOR THE MOMENT
 
 typedef struct	s_source
@@ -62,3 +66,5 @@ char 	*assign_final_str(t_expansion *exp, t_list *var);
 //expansion
 void escape_within_doubles(t_expansion *exp);
 t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
+
+#endif
