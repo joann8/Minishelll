@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 11:40:36 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 16:30:08 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,33 @@ void	print_redir(t_list *redir)
 	}
 }
 
+void	print_cmd(t_list *cmd_list)
+{
+	t_list			*tmp_l;
+	t_simple_cmd	*tmp_c;
+	int				i;
+	int				j;
 
+	i = 0;
+	tmp_l = cmd_list;
+	while (tmp_l)
+	{
+		tmp_c = (t_simple_cmd *)tmp_l->content;
+		printf("**** CMD %d*****\n", i);
+		printf("job = %s\n", tmp_c->job);
+		j = 0;
+		while (j < tmp_c->ac)
+		{
+			printf("av[%d] = %s\n", j, tmp_c->av[j]);
+			j++;
+		}
+		printf("fd_in = %d\n", tmp_c->fd_in);
+		printf("fd_out = %d\n", tmp_c->fd_out);
+		printf("fd_tab[0] = %d | fd_tab[1] = %d\n", tmp_c->fd_tab[0], tmp_c->fd_tab[1]);
+		tmp_l = tmp_l->next;
+		i++;
+	}
+}
 
 void	print_seq(t_seq *tab_seq, int seq_nb)
 {

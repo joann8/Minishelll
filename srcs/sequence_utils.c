@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 10:52:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:45:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void	init_setup(t_seq *tab_seq, t_seq **tmp, int *pipe_pos, int cmd_nb)
 	(*tmp)->pipe_pos = *pipe_pos;
 	(*tmp)->word = NULL;
 	(*tmp)->redir = NULL;
+	(*tmp)->next_pipe = NULL;
 }

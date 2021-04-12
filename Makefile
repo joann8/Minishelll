@@ -1,4 +1,5 @@
-SRCS =	srcs/expansion.c 		\
+SRCS =	srcs/command.c			\
+		srcs/expansion.c 		\
 		srcs/expansion_find.c 		\
 		srcs/expansion_manage.c 		\
 		srcs/expansion_utils.c 		\

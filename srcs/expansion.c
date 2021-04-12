@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/10 11:30:43 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 19:06:10 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*modify_str(char *str, t_list *var)
 	exp.tmp = NULL;
 	exp.var_str = NULL;
 	size = count_final_str(&exp, var);
-	printf("size = %d\n", size);
+//	printf("size = %d\n", size);
 	if (size == -1)//erreur malloc
 		return (NULL);
 	if (size == 0)
@@ -51,7 +51,7 @@ t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var)
 			tmp_w = tmp_s->word;
 			while (tmp_w)
 			{
-				delete = (char *)tmp_w->content;
+				delete = (char *)(tmp_w->content);
 				tmp_w->content = modify_str(delete, var);
 				free(delete);
 				if (tmp_w->content == NULL)

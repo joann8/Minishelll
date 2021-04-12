@@ -24,6 +24,7 @@ int		print_error(int errno, char *error);
 //print_help
 void	print_list(t_list *list);
 void	print_token(t_list *token);
+void	print_cmd(t_list *cmd);
 void	print_seq(t_seq *tab_seq, int seq_nb);
 
 //tokenize_utils
@@ -66,5 +67,8 @@ char 	*assign_final_str(t_expansion *exp, t_list *var);
 //expansion
 void escape_within_doubles(t_expansion *exp);
 t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
+
+//command
+t_list *create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 
 #endif

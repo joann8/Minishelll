@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/10 09:53:30 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 19:09:07 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,15 @@ int		assign_pipe(t_seq **tmp, int *pipe_pos)
 int		assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos)
 {
 	t_token		*tok;
+	char		*tmp_c;
 
 	tok = (t_token*)(*lst_tok)->content;
+	tmp_c = ft_strdup(tok->tok_str);
+	if (tmp == NULL)
+		return (-1);
 	if (tok->e_type == WORD)
-		ft_lstadd_back(&(*tmp)->word, ft_lstnew((void *)(tok->tok_str)));
+		ft_lstadd_back(&(*tmp)->word, ft_lstnew(tmp_c));
+		//	ft_lstadd_back(&(*tmp)->word, ft_lstnew((void *)(tok->tok_str)));
 	else if (tok->e_type == IN || tok->e_type == OUT || tok->e_type == APPEND)
 	{
 		if (assign_redir(*tmp, *lst_tok, tok) == -1)
