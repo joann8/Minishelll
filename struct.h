@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 10:08:21 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/10 10:33:10 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef	struct	s_term
 	char	*ce; // clear to EOL
 }				t_term;
 
+
 typedef	struct s_input
 {
 	unsigned int	i;
@@ -90,4 +91,15 @@ typedef	struct s_input
 	char			*input;
 }		t_input;
 	
+typedef struct	s_expansion
+{
+	char		*str;
+	char		*var_str;
+	char 		*tmp;
+	int			i;
+	int			j;
+	int 		quote;
+	int			mod;
+}				t_expansion;
+
 #endif
