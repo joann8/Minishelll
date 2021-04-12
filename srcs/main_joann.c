@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/10 09:54:54 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/12 09:46:53 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int main(int ac, char **av, char **envp)
 {
 	t_list			*token_list;
 	t_seq			*tab_seq;
-	t_simple_cmd	*tab_cmd;
+	t_list			*cmd_list;
 	char			*line;
 	t_list			*var_list;
 	
 	(void)ac;
 	(void)av;
 	tab_seq = NULL;
-	tab_cmd = NULL;
+	cmd_list = NULL;
 	token_list = NULL;
 	var_list = NULL;
 	ft_make_envlst(&var_list, envp);
@@ -56,6 +56,7 @@ int main(int ac, char **av, char **envp)
 	printf("\n******\n");
 	tab_seq = make_expansion(tab_seq, seq_nb, var_list);
 	print_seq(tab_seq, seq_nb);
+	cmd_list = create_command(cmd_list, tab_seq, seq_nb);
 
 	return (0);
 }
