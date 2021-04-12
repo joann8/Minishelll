@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/11 18:01:21 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/12 10:08:21 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,14 @@ typedef	struct	s_term
 	char	*ch; //replace le curseur a la position P
 	char	*ce; // clear to EOL
 }				t_term;
+
+typedef	struct s_input
+{
+	unsigned int	i;
+	unsigned int	log_size;
+	char			buf[5];
+	char			*screen;
+	char			*input;
+}		t_input;
 	
 #endif
