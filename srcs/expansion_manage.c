@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/10 11:26:01 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 11:13:35 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ int		manage_variable(t_expansion *exp, t_list *var)
 	int res;
 
 	k = exp->i + 1;
+//	if (exp->str[k] == '?' && is_var_name(exp->str[k + 1]) == 0)
+		//manage exit status for mod 1 && mod 2
+		// DEFINITION : $? expands to the exit status of the most recebtly executed foreground pipeline
+//  else
+//	{
 	while (is_var_name(exp->str[k]) == 1)
 		k++;
 	if (exp->mod == 1)
@@ -112,5 +117,6 @@ int		manage_variable(t_expansion *exp, t_list *var)
 			k++;
 		}
 	}
+//	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 19:37:07 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/13 13:14:27 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,34 +91,25 @@ int		assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 	t_list	*tmp;
 	int		size_arg;
 	
-	size_arg = ft_lstsize(seq->word) - 1;
+	size_arg = ft_lstsize(seq->word);
 	cmd->ac = size_arg;;
-	if (size_arg > 0)
-	{
-		cmd->av = malloc(sizeof(char*) * (size_arg));
-		if (cmd->av == NULL)
-			return (-1); //erreur malloc
-	}
-	else
-		cmd->av = NULL;
+	cmd->av = malloc(sizeof(char*) * (size_arg));
+	if (cmd->av == NULL)
+		return (-1); //erreur malloc
 	tmp = seq->word;
-	i = -1;
+	i = 0;
 	while (tmp)
 	{
-		if (i == -1)
+		if (i == 0)
 				//error opening with wrong rights
 		{
 			cmd->job = ft_strdup(tmp->content);	
 			if (cmd->job == NULL)
 				return (-1); //erreur malloc
 		}
-		else
-		{
-			cmd->av[i] = ft_strdup(tmp->content);
-			if (cmd->job == NULL) //erreur malloc
-				return (-1);
-
-		}
+		cmd->av[i] = ft_strdup(tmp->content);
+		if (cmd->job == NULL) //erreur malloc
+			return (-1);
 		tmp = tmp->next;
 		i++;
 	}
