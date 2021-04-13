@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 11:01:48 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 13:40:19 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		look_second_quote(char c, char *str, int *pos)
 		i++;
 	}
 	if (str[i] != c)
-		return (-1); //erreur quote non fermée
+		return (-1); //erreur quote non fermée >> manage dans analyze_inputs
 	*pos = i;
 	return (0);
 }

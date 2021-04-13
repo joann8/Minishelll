@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 10:51:41 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 14:27:56 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,16 @@ int main(int ac, char **av, char **envp)
 	ft_make_envlst(&var_list, envp);
 //	ft_print_envlst(var_list);
 	ft_get_userinput(&line);
+
 	write(1, "\ninput = [", 10);
 	write(1, line, ft_strlen(line));
 	write(1, "]\n", 2);
-	token_list = ft_get_token_list(token_list, line);
-	if (token_list == NULL)
+	//token_list = ft_get_token_list(token_list, line);
+	if (ft_get_token_list(&token_list, line) == -1)
 	{
+		ft_free_token(token_list);
+		free(line);
+		ft_lstclear_envlst(&var_list);
 		printf("pbm tokenize\n");
 		return (0);
 	}
