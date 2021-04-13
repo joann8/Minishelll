@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 13:14:27 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 14:55:00 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 	
 	size_arg = ft_lstsize(seq->word);
 	cmd->ac = size_arg;;
-	cmd->av = malloc(sizeof(char*) * (size_arg));
+	cmd->av = malloc(sizeof(char*) * (size_arg + 1));
 	if (cmd->av == NULL)
 		return (-1); //erreur malloc
 	tmp = seq->word;
@@ -113,6 +113,7 @@ int		assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 		tmp = tmp->next;
 		i++;
 	}
+	cmd->av[i] = NULL;
 	return (0);
 }
 

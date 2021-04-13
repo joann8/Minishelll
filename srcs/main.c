@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 14:27:56 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 14:53:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int main(int ac, char **av, char **envp)
 	t_list			*cmd_list;
 	char			*line;
 	t_list			*var_list;
+	char			*job;
 	
 	(void)ac;
 	(void)av;
@@ -60,7 +61,11 @@ int main(int ac, char **av, char **envp)
 	cmd_list = create_command(cmd_list, tab_seq, seq_nb);
 	printf("\n****RESUlT COMMAND******\n");
 	print_cmd(cmd_list);
+	job = ((t_simple_cmd *)cmd_list->content)->job;
+	printf("job = %s\n", job);
+	job = ft_find_cmd_path(job);
 //	ft_lstclear_envlst(&var_list);
+	execve(job, ((t_simple_cmd *)cmd_list->content)->av, envp);
 	return (0);
 }
 

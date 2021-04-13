@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:37 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 10:09:52 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/13 14:51:53 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_print_prompt(t_term *term);
 void	ft_print_str_av(char **av);
 void	ft_print_str_lst(t_list *head);
 void	ft_print_str_lst(t_list *head);
+char	*ft_find_cmd_path(char *exec);
 
 
 #endif
