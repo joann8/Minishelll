@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 10:07:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/13 13:51:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 						log, &(user->i)) == -1)
 					return (-1); // Err malloc
 		}
-		//else
-		//	printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
+		else
+			printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
 	return (0);
 }
 

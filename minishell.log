@@ -61,3 +61,5 @@ echo abc > file1 ; echo < file1 >
 echo abc > file1 ; echo < file1
 echo abc etc > file1 | echo < file2 ; tralala > file300
 > file1 > file3 echo < file1 >file4 abc > file5
+ > file1 > file3 echo < file1 >file4 abc > file5
+> file1 > file3 echo < file1 >file4 abc > file5

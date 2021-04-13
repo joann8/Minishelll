@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 11:24:26 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 13:54:38 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
 
 	if (buf[0] == 127 && **screen != '\0')
 		(*screen)[s_len - 1] = '\0';
-	else
+	else if (ft_isprint(buf[0]) && ft_strlen(buf) == 1)
 	{
 		to_free = *screen;
 		*screen = ft_strjoin(*screen, buf);
