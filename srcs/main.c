@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 19:10:47 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/13 10:51:41 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int main(int ac, char **av, char **envp)
 		printf("pbm tokenize\n");
 		return (0);
 	}
+
 	assign_type_1(token_list);
 	if (assign_type_2(token_list) == -1)
 		return(printf("wrong inputs\n"));
