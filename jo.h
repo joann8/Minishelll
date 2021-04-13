@@ -17,9 +17,10 @@ void	unget_char(t_source *src);
 char	peek_char(t_source *src);
 void	skip_whitespace(t_source *src);
 
-//prompt
+//promp et erreurs
 void	print_str(char *str);
-int		print_error(int errno, char *error);
+int		print_error(int errnum, char *error);
+int		print_syntax_error(int errnum, char *error);
 
 //print_help
 void	print_list(t_list *list);
@@ -27,18 +28,23 @@ void	print_token(t_list *token);
 void	print_cmd(t_list *cmd);
 void	print_seq(t_seq *tab_seq, int seq_nb);
 
+//ft free
+void	ft_free_token(t_list *token_list);
+
 //tokenize_utils
 int		is_whitespace(char c);
 int		comp(char c1, char c2);
 void	escape_quote(char *str, int *pos);
 int		look_second_quote(char c, char *str, int *pos);
+
 //tokenize_assign
 void	assign_type_1(t_list *token_list);
 int		assign_type_2(t_list *head);
 int 	assign_type_2_help(t_list **head, t_list **tmp, t_token *t2, t_token *t3);
 
 //tokenize 
-t_list	*ft_get_token_list(t_list *token_list, char *input);
+//t_list	*ft_get_token_list(t_list *token_list, char *input);
+int		ft_get_token_list(t_list **token_list, char *input);
 
 // sequence utils
 int		get_seq_number(t_list *token_list);

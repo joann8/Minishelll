@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 11:30:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/13 14:22:13 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ int		ft_create_token(t_list **token_list, char *input, int start, int end)
 
 	token = malloc(sizeof(token));
 	if (token == NULL)
-		return (-1); //erreur malloc//print_error(int errno, char **error);
+		return (print_error(0, "malloc error\n"));
+		//return (-1); //erreur malloc >> quoi afficher?
 	token->tok_str = malloc(sizeof(char) * (end - start + 2));
 	if (token->tok_str == NULL)
-		return (-1); //erreur malloc//print_error(int errno, char **error);
+		return (print_error(0, "malloc error\n"));
+		//return (-1); //erreur malloci >> quoi afficher?
 	ft_strlcpy(token->tok_str, input + start, end - start + 2);
 	ft_lstadd_back(token_list, ft_lstnew((void *)token));
 	return (0);
@@ -32,17 +34,19 @@ int		analyze_inputs(char *inp, int *pos)
 	int i;
 
 	i = *pos;
-	while (inp[i] && !is_whitespace(inp[i]))// == 0)
+	while (inp[i] && !is_whitespace(inp[i]))
 	{
 		if (inp[i] == '|' == 1 || inp[i] == ';' || inp[i] == '<' ||
 				inp[i] == '>')
 			break ;
 		if (inp[i] == 34)
 			if (look_second_quote(34, inp, &i) == -1)
-				return (-1);//erreur quote pas fermée;//print_error(int errno, char **error);
+				return (print_error(0, "syntax error : quote is not closed\n"));
+				//return (-1);//erreur quote pas fermée;//print_error(int errno, char **error);
 		if (inp[i] == 39)
 			if (look_second_quote(39, inp, &i) == -1)
-				return (-1);//erreur quote pas fermée;//print_error(int errno, char **error);
+				return (print_error(0, "syntax error : quote is not closed\n"));
+				//return (-1);//erreur quote pas fermée;//print_error(int errno, char **error);
 		if (inp[i] == '\\')
 			escape_quote(inp, &i);
 		i++;
@@ -51,7 +55,7 @@ int		analyze_inputs(char *inp, int *pos)
 	return (0);
 }
 
-t_list	*ft_get_token_list(t_list *token_list, char *s)
+int		ft_get_token_list(t_list **token_list, char *s)
 {
 	int		i;
 	int		start;
@@ -71,11 +75,17 @@ t_list	*ft_get_token_list(t_list *token_list, char *s)
 		else
 		{
 			if (analyze_inputs(s, &i) == -1)
-				return (NULL);
+			{
+				//ft_free_token(token_list);
+				return (-1); //erreur manage dans analyze inputs
+			}
 		}
 		if (i != start)
-			if (ft_create_token(&token_list, s, start, i - 1) == -1)
-				return (NULL); //erreur malloc//print_error(int errno, char **error);
+			if (ft_create_token(token_list, s, start, i - 1) == -1)
+			{
+				//ft_free_token(token_list);
+				return (-1); ///erreur manage dans create token
+			}
 	}
-	return (token_list);
+	return (0);
 }
