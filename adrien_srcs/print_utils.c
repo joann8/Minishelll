@@ -6,13 +6,13 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:56:23 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 10:04:35 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/13 18:49:54 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	ft_print_str_table(char **av)
+void	ft_puttab(char **av)
 {
 	while (*av)
 	{
