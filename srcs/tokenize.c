@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 14:22:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 15:33:02 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,29 @@
 int		ft_create_token(t_list **token_list, char *input, int start, int end)
 {
 	t_token	*token;
+	t_list 	*new;
 
-	token = malloc(sizeof(token));
+	token = (t_token *)malloc(sizeof(t_token));
 	if (token == NULL)
 		return (print_error(0, "malloc error\n"));
 		//return (-1); //erreur malloc >> quoi afficher?
-	token->tok_str = malloc(sizeof(char) * (end - start + 2));
+	token->tok_str = (char *)malloc(sizeof(char) * (end - start + 2));
 	if (token->tok_str == NULL)
+	{
+		free(token);
 		return (print_error(0, "malloc error\n"));
+	}
 		//return (-1); //erreur malloci >> quoi afficher?
 	ft_strlcpy(token->tok_str, input + start, end - start + 2);
-	ft_lstadd_back(token_list, ft_lstnew((void *)token));
+	new = ft_lstnew((void *)token);//protection malloc de ft_lst new?
+	if (new == NULL)
+	{
+		free(token->tok_str);
+		free(token);
+		return (print_error(0, "malloc error\n"));
+	}
+	ft_lstadd_back(token_list, new);//protection malloc de ft_lst new?
+	//free(new);
 	return (0);
 }
 
@@ -75,17 +87,11 @@ int		ft_get_token_list(t_list **token_list, char *s)
 		else
 		{
 			if (analyze_inputs(s, &i) == -1)
-			{
-				//ft_free_token(token_list);
 				return (-1); //erreur manage dans analyze inputs
-			}
 		}
 		if (i != start)
 			if (ft_create_token(token_list, s, start, i - 1) == -1)
-			{
-				//ft_free_token(token_list);
 				return (-1); ///erreur manage dans create token
-			}
 	}
 	return (0);
 }

@@ -21,6 +21,7 @@ void	skip_whitespace(t_source *src);
 void	print_str(char *str);
 int		print_error(int errnum, char *error);
 int		print_syntax_error(int errnum, char *error);
+int		print_cmd_error(int errnum, t_list *error);
 
 //print_help
 void	print_list(t_list *list);
@@ -30,6 +31,10 @@ void	print_seq(t_seq *tab_seq, int seq_nb);
 
 //ft free
 void	ft_free_token(t_list *token_list);
+void	ft_free_redir(t_list *redir_list);
+void	ft_free_tab_seq(t_seq *tab_seq, int seq_nb);
+void	ft_free_command(t_list *cmd_list);
+
 
 //tokenize_utils
 int		is_whitespace(char c);
@@ -76,5 +81,8 @@ t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
 
 //command
 t_list *create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
+
+//execute
+int	execute_cmd(t_list *cmd_list, char **envp);
 
 #endif
