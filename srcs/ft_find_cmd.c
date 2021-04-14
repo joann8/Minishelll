@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/13 12:32:32 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 19:29:12 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -21,7 +21,6 @@ int		ft_is_file_executable(char *filename, char *filepath)
 	tmp = ft_strjoin(filepath, filename);
 	if (tmp == NULL)
 		return (-1);
-
 	if (stat(tmp, &sb) == 0)
 	{
 		if (S_ISREG(sb.st_mode))
@@ -76,6 +75,7 @@ char	*ft_find_cmd_path(char *exec)
 	char	*env_path_val;
 	char	*dir_path;
 	char	*tmp;
+	int		i;
 //	struct	stat	buff;
 
 	//env_path_val = (char *)((ft_lstfind(env_lst, "PATH", ft_strcmp))->content);
@@ -84,9 +84,10 @@ char	*ft_find_cmd_path(char *exec)
 	dir_tab = ft_split_charset(env_path_val, ":");
 	if (dir_tab == NULL)
 		return (NULL); //command could not be found;
-	while (*dir_tab)
+	i = 0;
+	while (dir_tab[i])
 	{
-		dir_path = ft_strjoin(*dir_tab, "/");
+		dir_path = ft_strjoin(dir_tab[i], "/");
 		if (dir_path == NULL)
 			return (NULL);
 	//	dir_path = ft_strdup(*dir_tab);
@@ -96,17 +97,18 @@ char	*ft_find_cmd_path(char *exec)
 			tmp = dir_path;
 			dir_path = ft_strjoin(dir_path, exec);
 			free(tmp);
+			free_double_tab(dir_tab);
 			if (dir_path == NULL)
 				return (NULL);
 			return (dir_path);
 		}
 		printf("\n");
 		free(dir_path);
-		dir_tab++;
+		i++;
 	}
+	free_double_tab(dir_tab);
 	return (NULL); //no file corresponding to criteria was found
 }
-
 	/*if (stat(job_path, &buff))
 		{
 			printf("stat : %s", job_path);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   adrien_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 16:25:16 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 19:45:28 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@
 char	*ft_relative_to_absolute(char *exec);
 int		ft_path_is_relative(char *str);
 
-t_list	*ft_lstfind_env(t_list *begin, char *content_ref, int (*cmp)())
+t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)())
 {
 	t_var *tmp;
+	t_list *cur;
 
-	while (begin)
+	if (!begin || !*begin)
+		return (NULL);
+
+	cur = *begin;
+	while (cur)
 	{
-		tmp = (t_var *)begin->content;
-
+		tmp = (t_var *)(cur->content);
+		if (!tmp->name)
+			tmp->name = "";
 		if (!((*cmp)(tmp->name, content_ref)))
-			return (begin);
-		begin = begin->next;
+			return (cur);
+		cur = cur->next;
 	}
 	return (NULL);
 }
@@ -71,33 +77,47 @@ int		main(int ac, char **av, char **envp)
 	t_list	*env_lst;
 	char *user_input;
 	char *prompt;
+	char *tmp;
+	char *log_path;
 	t_list	*pwd_node;
 
 	env_lst = NULL;
 	ft_make_envlst(&env_lst, envp);
-	pwd_node = (ft_lstfind_env(env_lst, "PWD", ft_strcmp));
+	if (env_lst == NULL)
+		return (-1);
+	ft_print_envlst(env_lst);
+	log_path = ft_my_getcwd();
+	if (log_path == NULL)
+		return (-1);
+	tmp = log_path;
+	log_path = ft_strjoin(log_path, "minishell.log");
+	free(tmp);
+	pwd_node = (ft_lstfind_env(&env_lst, "PWD", ft_strcmp));
+	if (pwd_node == NULL)
+		return (-1);
 	while (1)
 	{
 		prompt = ft_make_prompt(pwd_node);
 		printf("\n\nprompt = %s\n", prompt);
 		if (prompt == NULL)
 			return (-1);
-		ft_get_userinput(&user_input, prompt);
+		ft_get_userinput(&user_input, prompt, log_path);
 		printf("user input = %s\n", user_input); 
 		if (user_input == NULL)
 			return (-1);
-		char *cwd;
+		if (ft_strcmp(user_input, "") != 0)
+			tmp_main(user_input, env_lst, envp); 
+	
+	/*	char *cwd;
 		cwd = ft_relative_to_absolute(user_input);
 		printf("new cwd = %s\n", cwd);
 		if (cwd == NULL)
 			return (-1);
 		ft_update_pwd(pwd_node, cwd);
-		printf("new $PWD = %s\n", ((t_var *)(pwd_node->content))->value );
-	//	if (ft_strcmp("/", cwd) == 0 || ft_strcmp("//", cwd) == 0)
-	//		break;
+		printf("new $PWD = %s\n", ((t_var *)(pwd_node->content))->value );*/
 		free(prompt);
 		free(user_input);
-		free(cwd);
+		//free(cwd);
 		//user_input = NULL;
 	}
 	return (0);

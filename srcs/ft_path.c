@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 15:22:17 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 18:49:25 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,4 +185,3 @@ char	*ft_relative_to_absolute(char *r_path)
 	printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
 	return (0);
 }
-

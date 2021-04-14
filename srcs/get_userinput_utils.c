@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 16:08:02 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 18:15:44 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 	log_size = ft_lstsize(log);
 	s_len = ft_strlen(user->screen);
 	//printf("screen = %s| input = %s\n", user->screen, user->input);
-	if (/*bytes == 1 && */(ft_isprint(buf[0]) || buf[0] == 127))
+	//ft_strle(buf) == protection contre CTRL + A et E?
+	if (ft_strlen(buf) == 1 && (ft_isprint(buf[0]) || buf[0] == 127))
 		{
 			if (ft_edit_line(&(user->screen), buf, s_len) == -1)
 				return (-1); // Malloc error;
 			if (user->i == log_size)
-			   user->input = user->screen;	
+			   user->input = user->screen;// verifier pertinence ou leaks
 		}
 		//Changement de screen display
 		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
@@ -55,7 +56,7 @@ int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
 
 	if (buf[0] == 127 && **screen != '\0')
 		(*screen)[s_len - 1] = '\0';
-	else
+	else if (ft_isprint(buf[0]))
 	{
 		to_free = *screen;
 		*screen = ft_strjoin(*screen, buf);
@@ -127,7 +128,6 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 		last_log = (char *)((ft_lstat(log, log_size - 1))->content);
 	else
 		last_log = "";
-	//write(1, "A\n", 2);
 	if (ft_strcmp(*screen, last_log)
 			&& !ft_is_only_space(*screen))
 	{
@@ -138,7 +138,6 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 			return (-1);
 		ft_lstadd_back(&log, new);
 	}
-//	write(1, "B\n", 2);
 	//Mauvaise idee si echo - n ??
 	write(1, "\n", 1);
 	return (0);

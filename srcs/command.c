@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 14:10:11 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 19:10:10 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 		if (i == 0)
 				//error opening with wrong rights
 		{
-			cmd->job = ft_strdup(tmp->content);	
+			cmd->job = ft_strdup((char *)tmp->content);	
 			if (cmd->job == NULL)
 				return (-1); //erreur malloc
 		}

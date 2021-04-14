@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 17:14:34 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 19:44:19 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 
 #include "struct.h"
 
+int		tmp_main(char *user_input, t_list *env_lst, char **envp);
+
 // ADCONSTA.H
 char	*ft_getenv_name(char *env_str);
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt);
@@ -44,7 +46,7 @@ char	*ft_strndup(char *src, int len);
 
 int		ft_down_arrow(char **screen, char **user_input, t_list *log, unsigned int *i);
 int		ft_edit_line(char **screen, char *buf, unsigned int s_len);
-int		ft_get_userinput(char **line, char *prompt);
+int		ft_get_userinput(char **line, char *prompt, char *log_path);
 int		ft_init_termcap(t_term *term);
 int		ft_is_only_space(char *str);
 int		ft_make_envlst(t_list **head, char **envp);
@@ -67,7 +69,8 @@ void	ft_print_prompt(t_term *term, char *prompt);
 char	*ft_relative_to_absolute(char *exec);
 int		ft_path_is_relative(char *str);
 char	*ft_make_prompt(t_list *pwd_node);
-t_list	*ft_lstfind_env(t_list *begin, char *content_ref, int (*cmp)());
+t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
+char	*ft_my_getcwd(void);
 
 
 //	JO.H

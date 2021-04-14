@@ -6,13 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 16:30:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 18:30:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int	ft_get_userinput(char **line, char *prompt)
+int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
 	t_term			term;
 	t_list			*log;
@@ -20,7 +20,7 @@ int	ft_get_userinput(char **line, char *prompt)
 	struct termios	origin;
 	
 	log = NULL;
-	fd_log = open("minishell.log", O_RDWR | O_CREAT | O_APPEND, 0666);
+	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
 	
 	//Init la historique de cmd
 	if (fd_log < 0)
@@ -29,29 +29,20 @@ int	ft_get_userinput(char **line, char *prompt)
 		return (-1); // Err opening
 	}
 	if (ft_make_loglst(&log, fd_log) < 0)
-	{
 		return (-1);
-	}
-	write(1, "\n2\n", 3);
 	//Initialise la librairie termcap avec la var $TERM
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
-//	write(1, "1\n", 2);
-	ft_print_prompt(&term, prompt);
+//	ft_print_prompt(&term, prompt);
 	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	
 	if (*line == NULL)
 		return (printf("error in get_raw_input\n"));
-	write(1, "3\n", 2);
 	if (ft_update_log(line, log, fd_log) == -1)
-	{
-		write(1, "4\n", 2);
 		return (-1); // Err malloc
-	}
-	write(1, "5\n", 2);
 	if (close(fd_log) < 0)
 		return (-1);
 	ft_lstclear(&log, free);
@@ -69,20 +60,31 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	if (user.input == NULL)
 		return (NULL);
 	user.screen = user.input;
+	ft_print_prompt(term, prompt);
 	while ((bytes = read(fd, user.buf, 4)))
 	{
 		user.buf[bytes] = '\0';
+		/*int i;
+
+		i = 0;
+		while (user.buf[i])
+		{
+			printf("buf[%d] = %c| buf[%d] = %d\n", i, user.buf[i], i, user.buf[i]);
+			i++;
+		}
+		*/
 		if (user.buf[0] == '\n')
 		{
-			printf("\\n\n");
 			if (user.i < user.log_size)
 				free(user.input);
 			return (user.screen);
 		}
 		else
 			ft_screen_wrapper(&user, log);
-		tputs(tparm(term->ch, ft_strlen(prompt)), 1, ft_termcap_on);
+		tputs(tparm(term->ch, 0), 1, ft_termcap_on);
+		//tputs(term->ch, 0, ft_termcap_on);
 		tputs(term->ce, 1, ft_termcap_on);
+		ft_print_prompt(term, prompt);
 		write(1, user.screen, ft_strlen(user.screen));
 	//	write(1, "\n", 1);
 	}
