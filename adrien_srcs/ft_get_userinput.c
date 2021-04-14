@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 13:59:33 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 16:30:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,20 @@ int	ft_get_userinput(char **line, char *prompt)
 	
 	//Init la historique de cmd
 	if (fd_log < 0)
+	{
+		printf("fd_log return == -1, errno = %s\n", strerror(errno));
 		return (-1); // Err opening
+	}
 	if (ft_make_loglst(&log, fd_log) < 0)
+	{
 		return (-1);
-
+	}
+	write(1, "\n2\n", 3);
 	//Initialise la librairie termcap avec la var $TERM
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
+//	write(1, "1\n", 2);
 	ft_print_prompt(&term, prompt);
 	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
@@ -39,8 +45,13 @@ int	ft_get_userinput(char **line, char *prompt)
 	
 	if (*line == NULL)
 		return (printf("error in get_raw_input\n"));
+	write(1, "3\n", 2);
 	if (ft_update_log(line, log, fd_log) == -1)
+	{
+		write(1, "4\n", 2);
 		return (-1); // Err malloc
+	}
+	write(1, "5\n", 2);
 	if (close(fd_log) < 0)
 		return (-1);
 	ft_lstclear(&log, free);
@@ -63,6 +74,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		user.buf[bytes] = '\0';
 		if (user.buf[0] == '\n')
 		{
+			printf("\\n\n");
 			if (user.i < user.log_size)
 				free(user.input);
 			return (user.screen);
@@ -72,6 +84,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		tputs(tparm(term->ch, ft_strlen(prompt)), 1, ft_termcap_on);
 		tputs(term->ce, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
+	//	write(1, "\n", 1);
 	}
 	return (NULL);
 }

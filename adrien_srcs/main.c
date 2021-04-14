@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 14:02:57 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 16:25:16 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,25 +69,36 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	//(void)envp;
 	t_list	*env_lst;
-	t_list	*pwd_node;
-	char *path;
+	char *user_input;
 	char *prompt;
+	t_list	*pwd_node;
 
 	env_lst = NULL;
 	ft_make_envlst(&env_lst, envp);
-	ft_print_envlst(env_lst);
 	pwd_node = (ft_lstfind_env(env_lst, "PWD", ft_strcmp));
 	while (1)
 	{
 		prompt = ft_make_prompt(pwd_node);
+		printf("\n\nprompt = %s\n", prompt);
 		if (prompt == NULL)
 			return (-1);
-		ft_get_userinput(&path, prompt);
-		path = ft_relative_to_absolute(path);
-		if (path == NULL)
+		ft_get_userinput(&user_input, prompt);
+		printf("user input = %s\n", user_input); 
+		if (user_input == NULL)
 			return (-1);
-		ft_update_pwd(pwd_node, path);
+		char *cwd;
+		cwd = ft_relative_to_absolute(user_input);
+		printf("new cwd = %s\n", cwd);
+		if (cwd == NULL)
+			return (-1);
+		ft_update_pwd(pwd_node, cwd);
+		printf("new $PWD = %s\n", ((t_var *)(pwd_node->content))->value );
+	//	if (ft_strcmp("/", cwd) == 0 || ft_strcmp("//", cwd) == 0)
+	//		break;
 		free(prompt);
+		free(user_input);
+		free(cwd);
+		//user_input = NULL;
 	}
 	return (0);
 }
