@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 16:40:39 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 17:15:23 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main(int ac, char **av, char **envp)
 	var_list = NULL;
 	ft_make_envlst(&var_list, envp);
 //	ft_print_envlst(var_list);
-	ft_get_userinput(&line);
+	ft_get_userinput(&line, "prompt@jo:$ ");
 
 	write(1, "\ninput = [", 10);
 	write(1, line, ft_strlen(line));

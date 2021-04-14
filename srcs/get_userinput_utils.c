@@ -6,11 +6,46 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/13 10:17:11 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 16:08:02 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+int		ft_screen_wrapper(t_input *user, t_list *log)
+{
+	unsigned int	s_len;
+	char			*buf;
+	unsigned		int	log_size;
+
+	buf = user->buf;
+	log_size = ft_lstsize(log);
+	s_len = ft_strlen(user->screen);
+	//printf("screen = %s| input = %s\n", user->screen, user->input);
+	if (/*bytes == 1 && */(ft_isprint(buf[0]) || buf[0] == 127))
+		{
+			if (ft_edit_line(&(user->screen), buf, s_len) == -1)
+				return (-1); // Malloc error;
+			if (user->i == log_size)
+			   user->input = user->screen;	
+		}
+		//Changement de screen display
+		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
+		{
+			if (ft_down_arrow(&(user->screen), &(user->input),
+							log, &(user->i)) == -1)
+					return (-1); // MALLOC ERROR
+		}
+		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'A')
+		{
+			if (ft_up_arrow(&(user->screen), &(user->input),
+						log, &(user->i)) == -1)
+					return (-1); // Err malloc
+		}
+		//else
+		//	printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
+	return (0);
+}
 
 int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
 {
@@ -20,7 +55,7 @@ int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
 
 	if (buf[0] == 127 && **screen != '\0')
 		(*screen)[s_len - 1] = '\0';
-	else if (ft_isprint(buf[0]))
+	else
 	{
 		to_free = *screen;
 		*screen = ft_strjoin(*screen, buf);
@@ -92,6 +127,7 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 		last_log = (char *)((ft_lstat(log, log_size - 1))->content);
 	else
 		last_log = "";
+	//write(1, "A\n", 2);
 	if (ft_strcmp(*screen, last_log)
 			&& !ft_is_only_space(*screen))
 	{
@@ -102,38 +138,10 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 			return (-1);
 		ft_lstadd_back(&log, new);
 	}
+//	write(1, "B\n", 2);
 	//Mauvaise idee si echo - n ??
 	write(1, "\n", 1);
-	return (2);
-}
-
-int		ft_screen_wrapper(t_input *user, t_list *log)
-{
-	unsigned int	s_len;
-	char			*buf;
-
-	buf = user->buf;
-	s_len = ft_strlen(user->screen);
-	if (/*bytes == 1 && */(ft_isprint(buf[0]) || buf[0] == 127))
-		{
-			if (ft_edit_line(&(user->screen), buf, s_len) == -1)
-				return (-1); // Malloc error;
-		}
-		//Changement de screen display
-		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'B')
-		{
-			if (ft_down_arrow(&(user->screen), &(user->input),
-							log, &(user->i)) == -1)
-					return (-1); // MALLOC ERROR
-		}
-		else if (buf[0] == 27 && buf[1] == '[' && buf[2] == 'A')
-		{
-			if (ft_up_arrow(&(user->screen), &(user->input),
-						log, &(user->i)) == -1)
-					return (-1); // Err malloc
-		}
-		//else
-		//	printf("\nSPECIAL_CHAR hooked.SO WHAT..?\n");
 	return (0);
 }
+
 

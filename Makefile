@@ -9,7 +9,9 @@ SRCS =	srcs/command.c			\
 		srcs/ft_get_userinput.c 		\
 		srcs/ft_make_envlst.c 		\
 		srcs/ft_other_utils.c		\
+		srcs/ft_path.c				\
 		srcs/get_userinput_utils.c 	\
+		srcs/main_adrien.c			\
 		srcs/main.c					\
 		srcs/print_help.c			\
 		srcs/print_utils.c			\
