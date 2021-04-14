@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 13:17:47 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 13:47:57 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <termios.h>
 #include <unistd.h>
+#include <wait.h>
 
 #include "libft/libft.h"
 

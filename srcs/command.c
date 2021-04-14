@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 14:55:00 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 14:10:11 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,10 @@ t_list *create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb)
 			if (assign_list_redir(&pipe_link, tmp_s, tmp_c) == -2)
 				return (NULL); //erreur malloc
 			ft_lstadd_back(&cmd_list, ft_lstnew((void*)tmp_c));
+			if (tmp_s->pipe_pos ==  tmp_s->pipe_total)
+				tmp_c->last = 1;
+			else
+				tmp_c->last = 0;
 			tmp_s = tmp_s->next_pipe;
 		}
 		i++;

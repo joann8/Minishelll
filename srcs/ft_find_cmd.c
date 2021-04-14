@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/13 20:58:54 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 13:41:36 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -60,7 +60,7 @@ int		ft_search_dir(char *exec, char *dir_path)
 			{
 				if (ft_is_file_executable(s_dir->d_name, dir_path))
 				{
-					printf("\tcommand [%s] found !\n\n", exec);
+			//		printf("\tcommand [%s] found !\n\n", exec);
 					if (closedir(d_stream))
 						return (0);
 					return (1);
@@ -90,7 +90,7 @@ char	*ft_find_cmd_path(char *exec)
 		if (dir_path == NULL)
 			return (NULL);
 	//	dir_path = ft_strdup(*dir_tab);
-		printf("searching for:[%s] in dir:[%s]:\n", exec, dir_path);
+//		printf("searching for:[%s] in dir:[%s]:\n", exec, dir_path);
 		if (ft_search_dir(exec, dir_path))
 		{
 			tmp = dir_path;
@@ -100,7 +100,7 @@ char	*ft_find_cmd_path(char *exec)
 				return (NULL);
 			return (dir_path);
 		}
-		printf("\n");
+//		printf("\n");
 		free(dir_path);
 		dir_tab++;
 	}
