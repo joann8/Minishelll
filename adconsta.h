@@ -39,7 +39,6 @@ void	ft_print_prompt(t_term *term, char *cwd);
 void	ft_puttab(char **av);
 void	ft_print_str_lst(t_list *head);
 void	ft_print_str_lst(t_list *head);
-char	*ft_find_cmd_path(char *exec);
 
 
 #endif
