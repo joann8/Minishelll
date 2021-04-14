@@ -6,11 +6,20 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/13 20:41:54 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 10:52:20 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+int		ft_path_is_relative(char *str)
+{
+	if (*str == '/')
+		return (0);
+	else
+		return (1);
+}
+
 
 char	*ft_my_getcwd(void)
 {
@@ -27,7 +36,6 @@ char	*ft_my_getcwd(void)
 		cwd = getcwd(cwd, size);
 		if (cwd == NULL)
 		{
-			printf("tour %d\n", i);
 			if (errno == ERANGE)
 				size += 20;
 			else
@@ -143,10 +151,19 @@ int		ft_relative_to_absolute(char *r_path)
 {
 	char	*cwd;
 	t_list	*dir_lst;
-	(void)r_path;
 
 	dir_lst = NULL;
-	cwd = ft_my_getcwd();
+
+	if (ft_path_is_relative(r_path))
+	{
+		printf("**RELATIVE PATH:\n");
+		cwd = ft_my_getcwd();
+	}
+	else
+	{
+		printf("**ABSOLUTE PATH:\n");
+		cwd = ft_strdup("/");
+	}
 	if (cwd == NULL)
 		return (-1);
 	printf("cwd = %s\n", cwd);
@@ -159,6 +176,10 @@ int		ft_relative_to_absolute(char *r_path)
 	ft_print_str_lst(dir_lst);
 	cwd = ft_get_absolute_path(dir_lst);
 	printf("abs_path = %s\n", cwd);
+	if (chdir(cwd) == 0)
+		printf("chdir(0) = sucess\n");
+	else
+		printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
 	return (0);
 }
 
