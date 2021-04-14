@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 11:08:30 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 13:44:11 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ char	*ft_get_absolute_path(t_list *dir)
 	return (final_path);
 }
 
-int		ft_relative_to_absolute(char *r_path)
+char	*ft_relative_to_absolute(char *r_path)
 {
 	char	*cwd;
 	t_list	*dir_lst;
@@ -165,11 +165,11 @@ int		ft_relative_to_absolute(char *r_path)
 		cwd = ft_strdup("/");
 	}
 	if (cwd == NULL)
-		return (-1);
+		return (NULL);
 	printf("cwd = %s\n", cwd);
 	printf("r_path = %s\n", r_path);
 	if (ft_make_dir_lst(&dir_lst, cwd) == -1)
-		return (-1);
+		return (NULL);
 	free(cwd);
 	ft_print_str_lst(dir_lst);
 	ft_edit_dir_lst(&dir_lst, r_path);
@@ -179,10 +179,10 @@ int		ft_relative_to_absolute(char *r_path)
 	if (chdir(cwd) == 0)
 	{
 		printf("chdir(0) = sucess\n");
+		printf("new cwd = %s\n", cwd);
+		return (cwd);
 	}
-	else
-		printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
-	printf("new dir = %s\n", ft_my_getcwd());
+	printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
 	return (0);
 }
 

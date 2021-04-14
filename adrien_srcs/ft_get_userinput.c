@@ -6,13 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 11:30:00 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 13:59:33 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int	ft_get_userinput(char **line, char *cwd)
+int	ft_get_userinput(char **line, char *prompt)
 {
 	t_term			term;
 	t_list			*log;
@@ -32,8 +32,8 @@ int	ft_get_userinput(char **line, char *cwd)
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
-	
-	*line = ft_read_input(STDIN_FILENO, &term, log, cwd);
+	ft_print_prompt(&term, prompt);
+	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	
@@ -47,7 +47,7 @@ int	ft_get_userinput(char **line, char *cwd)
 	return (1);
 }
 
-char	*ft_read_input(int fd, t_term *term, t_list *log, char *cwd)
+char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 {
 	t_input				user;
 	int					bytes;
@@ -58,7 +58,6 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *cwd)
 	if (user.input == NULL)
 		return (NULL);
 	user.screen = user.input;
-	ft_print_prompt(term, cwd);
 	while ((bytes = read(fd, user.buf, 4)))
 	{
 		user.buf[bytes] = '\0';
@@ -70,7 +69,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *cwd)
 		}
 		else
 			ft_screen_wrapper(&user, log);
-		tputs(tparm(term->ch, ft_strlen("Minishell_says$ ")), 1, ft_termcap_on);
+		tputs(tparm(term->ch, ft_strlen(prompt)), 1, ft_termcap_on);
 		tputs(term->ce, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
 	}
@@ -100,22 +99,42 @@ int		ft_make_loglst(t_list **head, int fd)
 	return (0);
 }
 
-void	ft_print_prompt(t_term *term, char *cwd)
+void	ft_print_prompt(t_term *term, char *prompt)
 {
-	char *prompt;
+	int i;
+	int color;
+	int finish;
 
-	prompt = "Minishell_says$ ";
-	//Mets le prompt en gras
-	tputs(term->md, 1, ft_termcap_on);
-	//Souligne le prompt
-	//tputs(term->us, 1, ft_termcap_on);
-	//Choisir la couleur du prompt
-	tputs(tparm(term->AF, COLOR_GREEN), 1, ft_termcap_on);
-	ft_putstr(prompt);
-	tputs(tparm(term->AF, COLOR_WHITE), 1, ft_termcap_on);
-	ft_putstr(":");
-	tputs(tparm(term->AF, COLOR_BLUE), 1, ft_termcap_on);
-	ft_putstr(cwd);
-	//Reset les settings d'ecriture
-	tputs(term->me, 1, ft_termcap_on);
+	i = 0;
+	color = 1;
+	finish = 0;
+	while (prompt[i] && !finish)
+	{
+		if (prompt[i] == '$' && prompt[i + 2] == '\0')
+		{
+			tputs(tparm(term->AF, COLOR_WHITE), 1, ft_termcap_on);
+			ft_putstr("$ ");
+			finish = 1;
+		}
+		else if (color == 1 && prompt[i] == ':')
+		{
+			tputs(tparm(term->AF, COLOR_WHITE), 1, ft_termcap_on);
+			color = 2;
+			ft_putchar(prompt[i]);
+		}
+		else if (color == 1)
+		{
+			tputs(term->md, 1, ft_termcap_on);
+			tputs(tparm(term->AF, COLOR_RED), 1, ft_termcap_on);
+			ft_putchar(prompt[i]);
+		}
+		else if (color == 2)
+		{
+			tputs(term->md, 1, ft_termcap_on);
+			tputs(tparm(term->AF, COLOR_YELLOW), 1, ft_termcap_on);
+			ft_putchar(prompt[i]);
+		}
+		i++;
+		tputs(term->me, 1, ft_termcap_on);
+	}
 }
