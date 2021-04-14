@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 10:03:49 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 19:51:54 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ char	*ft_getenv_name(char *env_str)
 	char	*name;
 
 	len = 0;
-	while (env_str[len] != '=' && env_str[len])
+	if (env_str == NULL)
+		return (NULL);
+	while (env_str[len] && env_str[len] != '=')
 		len++;
-	name = malloc(sizeof(*name) * (len + 1));
+	name = malloc(sizeof(char) * (len + 1));
 	if (name == NULL)
-		return (name);
+		return (NULL);
 	ft_strncpy(name, env_str, len);
 	return (name);
 }
@@ -41,6 +43,8 @@ int		ft_make_envlst(t_list **head, char **envp)
 		my_env = malloc(sizeof(*my_env));
 		if (my_env == NULL)
 			return (-1);
+		my_env->name = NULL;
+		my_env->value = NULL;
 		// erreur possible dans ces fonctions ?
 		my_env->name = ft_getenv_name(*envp);
 		if (my_env->name == NULL)

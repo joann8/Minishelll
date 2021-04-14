@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 14:22:57 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 19:34:10 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,13 @@ void	print_cmd(t_list *cmd_list)
 		j = 0;
 		while (j < tmp_c->ac)
 		{
-			printf("av[%d] = %s\n", j, tmp_c->av[j]);
-			j++;
+			if (tmp_c->av)
+			{
+				printf("av[%d] = %s\n", j, tmp_c->av[j]);
+				j++;
+			}
+			else
+				break;
 		}
 		printf("fd_in = %d\n", tmp_c->fd_in);
 		printf("fd_out = %d\n", tmp_c->fd_out);

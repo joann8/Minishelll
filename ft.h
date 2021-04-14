@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 13:47:57 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 19:44:19 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,112 @@
 
 
 #include "struct.h"
-#include "adconsta.h"
-#include "jo.h"
+
+int		tmp_main(char *user_input, t_list *env_lst, char **envp);
+
+// ADCONSTA.H
+char	*ft_getenv_name(char *env_str);
+char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt);
+char	*ft_strndup(char *src, int len);
+char	*ft_strndup(char *src, int len);
+
+int		ft_down_arrow(char **screen, char **user_input, t_list *log, unsigned int *i);
+int		ft_edit_line(char **screen, char *buf, unsigned int s_len);
+int		ft_get_userinput(char **line, char *prompt, char *log_path);
+int		ft_init_termcap(t_term *term);
+int		ft_is_only_space(char *str);
+int		ft_make_envlst(t_list **head, char **envp);
+int		ft_make_loglst(t_list **log, int fd);
+int		ft_screen_wrapper(t_input *user, t_list *log);
+int		ft_termcap_on(int c);
+int		ft_up_arrow(char **screen, char **user_input, t_list *log, unsigned int *i);
+int		ft_update_log(char **screen, t_list *log, int fd_log);
+
+void	ft_disable_raw_mode(struct termios *origin);
+void	ft_enable_raw_mode(struct termios *origin);
+void	ft_init_term_struct(t_term *term);
+void	ft_lstclear_envlst(t_list **head);
+void	ft_print_envlst(t_list *env_head);
+void	ft_puttab(char **av);
+void	ft_print_str_lst(t_list *head);
+void	ft_print_str_lst(t_list *head);
+char	*ft_find_cmd_path(char *exec);
+void	ft_print_prompt(t_term *term, char *prompt);
+char	*ft_relative_to_absolute(char *exec);
+int		ft_path_is_relative(char *str);
+char	*ft_make_prompt(t_list *pwd_node);
+t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
+char	*ft_my_getcwd(void);
+
+
+//	JO.H
+//promp et erreurs
+void	print_str(char *str);
+int		print_error(int errnum, char *error);
+int		print_syntax_error(int errnum, char *error);
+int		print_cmd_error(int errnum, t_list *error);
+
+//print_help
+void	print_list(t_list *list);
+void	print_token(t_list *token);
+void	print_cmd(t_list *cmd);
+void	print_seq(t_seq *tab_seq, int seq_nb);
+
+//ft free
+void	ft_free_token(t_list *token_list);
+void	ft_free_redir(t_list *redir_list);
+void	ft_free_tab_seq(t_seq *tab_seq, int seq_nb);
+void	ft_free_command(t_list *cmd_list);
+
+
+//tokenize_utils
+int		is_whitespace(char c);
+int		comp(char c1, char c2);
+void	escape_quote(char *str, int *pos);
+int		look_second_quote(char c, char *str, int *pos);
+
+//tokenize_assign
+void	assign_type_1(t_list *token_list);
+int		assign_type_2(t_list *head);
+int 	assign_type_2_help(t_list **head, t_list **tmp, t_token *t2, t_token *t3);
+
+//tokenize 
+//t_list	*ft_get_token_list(t_list *token_list, char *input);
+int		ft_get_token_list(t_list **token_list, char *input);
+
+// sequence utils
+int		get_seq_number(t_list *token_list);
+void	set_up_pipe_number(t_seq *tab_seq, int cmd_nb, int pipe_pos);
+void	init_setup(t_seq *tab_seq, t_seq **tmp, int *pipe_pos, int cmd_nb);
+
+//sequence
+t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
+
+//expansion utils
+int		is_word(char *str);
+int		is_var_name(char c);
+
+//expansion manage
+void	manage_quotes(t_expansion *exp, char c);
+void	manage_escape(t_expansion *exp);
+int		manage_variable(t_expansion *expi, t_list *var);
+void	escape_within_doubles(t_expansion *exp);
+
+//expansion find
+int		count_final_str(t_expansion *exp, t_list *var);
+int		find_variable_length(char *str, int start, int end, t_list *var);
+char 	*find_variable_str(char *str, int start, int end, t_list *var);
+char 	*assign_final_str(t_expansion *exp, t_list *var);
+
+//expansion
+void escape_within_doubles(t_expansion *exp);
+t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
+
+//command
+t_list *create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
+
+//execute
+int	execute_cmd(t_list *cmd_list, char **envp);
 
 #include <term.h> 
 #endif

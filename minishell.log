@@ -1,1 +1,33 @@
-sllls
+
+1
+2
+3
+echo hello >a ; cat a
+echo hello >a ; cat b
+echo hello >a ; cat b | cat a
+clear
+ls
+clear
+poupiuy'
+jojo
+echo "hello you"
+echo $PATH >path;
+cat path
+ls
+echo $PATH >tata
+cat tata
+echo $PATH >tata; cat tata
+echo $PATH
+echo $PATH >titi ; cat titi
+hello you
+hello
+echo hello
+;;;
+echo hello
+exit
+ldlld
+exit
+make
+;s;s;;ss
+lslslsls
+echo hello you

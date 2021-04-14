@@ -6,40 +6,50 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 16:40:39 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 18:59:48 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int main(int ac, char **av, char **envp)
+//int tmp_main(int ac, char **av, char **envp)
+int tmp_main(char *line, t_list *var_list, char **envp)//a changer nous emem tab env
 {
 	t_list			*token_list;
 	t_seq			*tab_seq;
 	t_list			*cmd_list;
-	char			*line;
-	t_list			*var_list;
+//	char			*line;
+//	t_list			*var_list;
 //	char			*job;
 	
-	(void)ac;
-	(void)av;
+//	(void)ac;
+//	(void)av;
 	tab_seq = NULL;
 	cmd_list = NULL;
 	token_list = NULL;
-	var_list = NULL;
-	ft_make_envlst(&var_list, envp);
+//	var_list = NULL;
+//	ft_make_envlst(&var_list, envp);
 //	ft_print_envlst(var_list);
-	ft_get_userinput(&line);
+//	ft_get_userinput(&line, "prompt@jo:$ ", "minishell.log");
 
 	write(1, "\ninput = [", 10);
 	write(1, line, ft_strlen(line));
 	write(1, "]\n", 2);
+	int i;
+	
+	i = 0;
+	while (line[i])
+	{
+		printf("line[%d] = %c ou = %d\n", i, line[i], line[i]);
+		i++;
+	}
+
 	//token_list = ft_get_token_list(token_list, line);
 	if (ft_get_token_list(&token_list, line) == -1)
 	{
 		ft_free_token(token_list);
 		ft_lstclear(&token_list, free);
-		free(line);
+	//	free(line);
 //		ft_lstclear_envlst(&var_list);
 //		ft_lstclear(&var_list, free);
 		printf("pbm tokenize\n");
@@ -50,14 +60,14 @@ int main(int ac, char **av, char **envp)
 	{
 		ft_free_token(token_list);
 		ft_lstclear(&token_list, free);
-		free(line);
+	//	free(line);
 //		ft_lstclear_envlst(&var_list);
 //		ft_lstclear(&var_list, free);
 		return(printf("wrong inputs\n"));
 	}
 	printf("\n****RESUlT TOKEN******\n");
 	print_token(token_list);
-	free(line);
+//	free(line);
 
 	int seq_nb;
 	seq_nb = get_seq_number(token_list);
@@ -92,7 +102,7 @@ int main(int ac, char **av, char **envp)
 	execute_cmd(cmd_list, envp);
 	ft_free_token(token_list);
 	ft_lstclear(&token_list, free);
-//	ft_free_tab_seq(tab_seq, seq_nb);
+	ft_free_tab_seq(tab_seq, seq_nb);
 	ft_free_command(cmd_list);
 	ft_lstclear(&cmd_list, free);
 	/*

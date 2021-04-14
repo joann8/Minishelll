@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 14:47:35 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/14 19:15:15 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@ int		execute_cmd(t_list *cmd_list, char **envp)
 		tmp_c = (t_simple_cmd *)tmp_l->content;
 		//tmp_c->retour = 0; >> comment le modifier?
 		//if job ) buildin
-			//start buildin
+			//start buildin/
 		//else
 		//{
 			job = ft_find_cmd_path(tmp_c->job);
 			if (job == NULL)
-				ft_lstadd_back(&error, ft_lstnew((void*)(tmp_c->job)));
+			{
+				job = ft_strdup(tmp_c->job);
+				if (job == NULL)
+					return (-1);//erreur malloc
+				ft_lstadd_back(&error, ft_lstnew((void*)(job)));
+			}
 		//		printf("fd[0] = %d | fd[1] = %d\n", tmp_c->fd_tab[0], tmp_c->fd_tab[1]);
 			else
 			{
