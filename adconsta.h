@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:37 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 11:31:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 12:59:58 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define ADCONSTA_H
 
 char	*ft_getenv_name(char *env_str);
-char	*ft_read_input(int fd, t_term *term, t_list *log, char *cwd);
+char	*ft_read_input(int fd, t_term *term, t_list *log, char *promt);
 char	*ft_strndup(char *src, int len);
 char	*ft_strndup(char *src, int len);
 
 int		ft_down_arrow(char **screen, char **user_input, t_list *log, unsigned int *i);
 int		ft_edit_line(char **screen, char *buf, unsigned int s_len);
-int		ft_get_userinput(char **line, char *cwd);
+int		ft_get_userinput(char **line, char *promt);
 int		ft_init_termcap(t_term *term);
 int		ft_is_only_space(char *str);
 int		ft_make_envlst(t_list **head, char **envp);
