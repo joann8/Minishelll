@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 10:52:20 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/14 10:59:23 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int		ft_relative_to_absolute(char *r_path)
 		printf("chdir(0) = sucess\n");
 	else
 		printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
+	printf("new dir = %s\n", ft_my_getcwd());
 	return (0);
 }
 
