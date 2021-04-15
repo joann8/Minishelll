@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 19:45:28 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 16:04:07 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		main(int ac, char **av, char **envp)
 	ft_make_envlst(&env_lst, envp);
 	if (env_lst == NULL)
 		return (-1);
-	ft_print_envlst(env_lst);
+	//ft_print_envlst(env_lst);
 	log_path = ft_my_getcwd();
 	if (log_path == NULL)
 		return (-1);

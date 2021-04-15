@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 10:00:14 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 15:49:26 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,7 @@ void	ft_init_term_struct(t_term *term)
 	term->cb = tgetstr("cb", NULL);
 	term->ch = tgetstr("ch", NULL);
 	term->ce = tgetstr("ce", NULL);
+	term->sc = tgetstr("sc", NULL);
+	term->rc = tgetstr("rc", NULL);
+	term->cd = tgetstr("cd", NULL);
 }

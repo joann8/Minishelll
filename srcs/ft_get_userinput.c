@@ -6,11 +6,16 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 18:30:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 22:18:09 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+#define ANSI_WHITE			"\E[0;37m"
+#define ANSI_BOLD_WHITE		"\E[1;37m"
+#define ANSI_BOLD_RED		"\E[1;31m"
+#define ANSI_BOLD_YELLOW	"\E[1;33m"
 
 int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
@@ -60,19 +65,13 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	if (user.input == NULL)
 		return (NULL);
 	user.screen = user.input;
+	printf("col = %d\n", term->col);
+	printf("row = %d\n", term->line);
 	ft_print_prompt(term, prompt);
+	tputs(term->sc, 0, ft_termcap_on);
 	while ((bytes = read(fd, user.buf, 4)))
 	{
 		user.buf[bytes] = '\0';
-		/*int i;
-
-		i = 0;
-		while (user.buf[i])
-		{
-			printf("buf[%d] = %c| buf[%d] = %d\n", i, user.buf[i], i, user.buf[i]);
-			i++;
-		}
-		*/
 		if (user.buf[0] == '\n')
 		{
 			if (user.i < user.log_size)
@@ -81,12 +80,9 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		}
 		else
 			ft_screen_wrapper(&user, log);
-		tputs(tparm(term->ch, 0), 1, ft_termcap_on);
-		//tputs(term->ch, 0, ft_termcap_on);
-		tputs(term->ce, 1, ft_termcap_on);
-		ft_print_prompt(term, prompt);
+		tputs(term->rc, 1, ft_termcap_on);
+		tputs(term->cd, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
-	//	write(1, "\n", 1);
 	}
 	return (NULL);
 }
@@ -127,29 +123,69 @@ void	ft_print_prompt(t_term *term, char *prompt)
 	{
 		if (prompt[i] == '$' && prompt[i + 2] == '\0')
 		{
-			tputs(tparm(term->AF, COLOR_WHITE), 1, ft_termcap_on);
+			tputs(ANSI_WHITE, 1, ft_termcap_on);
 			ft_putstr("$ ");
 			finish = 1;
 		}
 		else if (color == 1 && prompt[i] == ':')
 		{
-			tputs(tparm(term->AF, COLOR_WHITE), 1, ft_termcap_on);
+			tputs(ANSI_WHITE, 1, ft_termcap_on);
 			color = 2;
 			ft_putchar(prompt[i]);
 		}
 		else if (color == 1)
 		{
-			tputs(term->md, 1, ft_termcap_on);
-			tputs(tparm(term->AF, COLOR_RED), 1, ft_termcap_on);
+			tputs(ANSI_BOLD_RED, 1, ft_termcap_on);
 			ft_putchar(prompt[i]);
 		}
 		else if (color == 2)
 		{
-			tputs(term->md, 1, ft_termcap_on);
-			tputs(tparm(term->AF, COLOR_YELLOW), 1, ft_termcap_on);
+			tputs(ANSI_BOLD_YELLOW, 1, ft_termcap_on);
 			ft_putchar(prompt[i]);
 		}
 		i++;
 		tputs(term->me, 1, ft_termcap_on);
 	}
 }
+/* VERSION qui semi fonctionne
+char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
+{
+	t_input				user;
+	int					bytes;
+
+	user.log_size = ft_lstsize(log);
+	user.i = user.log_size;
+	user.input = ft_strdup("");
+	if (user.input == NULL)
+		return (NULL);
+	user.screen = user.input;
+	printf("col = %d\n", term->col);
+	printf("row = %d\n", term->line);
+	tputs(term->sc, 0, ft_termcap_on);
+	ft_print_prompt(term, prompt);
+	while ((bytes = read(fd, user.buf, 4)))
+	{
+		user.buf[bytes] = '\0';
+		if (user.buf[0] == '\n')
+		{
+			if (user.i < user.log_size)
+				free(user.input);
+			return (user.screen);
+		}
+		else
+			ft_screen_wrapper(&user, log);
+		//tputs(tgoto(term->ch, 0, 1), 1, ft_termcap_on);
+		//write(1, "@", 1);
+		tputs(term->rc, 1, ft_termcap_on);
+		//tputs(tgoto(term->cm, col, row), 1, ft_termcap_on);
+		//write(1, "adrien", 6);
+		//tputs(term->ch, 0, ft_termcap_on);
+		tputs(term->cd, 1, ft_termcap_on);
+		ft_print_prompt(term, prompt);
+		write(1, user.screen, ft_strlen(user.screen));
+	//	write(1, "\n", 1);
+	}
+	return (NULL);
+}
+*/
+
