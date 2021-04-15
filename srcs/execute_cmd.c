@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 20:35:16 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/15 20:40:00 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		execute_cmd(t_list *cmd_list, char **envp)
 		//			printf("executinf |%s| with fd in to use = %d | fd out = %d\n", job , fd_in_to_use, fd_out_to_use);
 					if (dup2(fd_in_to_use, STDIN_FILENO) == -1)
 						return (-1);
-					close(fd_in_to_use);
+				//	close(fd_in_to_use);
 					if (dup2(fd_out_to_use, STDOUT_FILENO) == -1)
 						return (-1);
 				//	close(fd_out_to_use);
