@@ -1,4 +1,6 @@
-SRCS =	srcs/command.c			\
+SRCS =	srcs/built_in.c			\
+		srcs/built_in_echo.c	\
+		srcs/command_test.c			\
 		srcs/execute_cmd.c		\
 		srcs/expansion.c 		\
 		srcs/expansion_find.c 		\

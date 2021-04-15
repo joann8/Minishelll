@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 19:16:25 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 16:22:40 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void ft_free_tab_seq(t_seq *tab_seq, int seq_nb)
 				ft_lstclear(&tmp_s->word, free);
 			to_delete = tmp_s;
 			tmp_s = tmp_s->next_pipe;
-			free(to_delete); //pas sure 
+			//free(to_delete); //pas sure 
 		}
 		i++;
 	}
-	//free(tab_seq); //pas sure
+	free(tab_seq); //pas sure
 }
 
 void ft_free_command(t_list *cmd_list)

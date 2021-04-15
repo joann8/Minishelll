@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 19:44:19 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 16:00:27 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,20 @@ char 	*find_variable_str(char *str, int start, int end, t_list *var);
 char 	*assign_final_str(t_expansion *exp, t_list *var);
 
 //expansion
-void escape_within_doubles(t_expansion *exp);
-t_seq *make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
+void	escape_within_doubles(t_expansion *exp);
+t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
 
 //command
-t_list *create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
+t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 
 //execute
-int	execute_cmd(t_list *cmd_list, char **envp);
+int		execute_cmd(t_list *cmd_list, char **envp);
+
+//built in
+int		find_built_in(t_simple_cmd *cmd, char **envp);
+void	ft_echo(t_simple_cmd *cmd);
+
+
 
 #include <term.h> 
 #endif

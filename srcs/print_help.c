@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 19:34:10 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 18:30:45 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	print_cmd(t_list *cmd_list)
 		printf("fd_in = %d\n", tmp_c->fd_in);
 		printf("fd_out = %d\n", tmp_c->fd_out);
 		printf("fd_tab[0] = %d | fd_tab[1] = %d\n", tmp_c->fd_tab[0], tmp_c->fd_tab[1]);
-		printf("last : %d\n", tmp_c->last);
+		printf("pipe pos: %d\n", tmp_c->pipe_pos);
 		tmp_l = tmp_l->next;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 14:41:28 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/15 18:27:17 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct		s_simple_cmd
 	int				fd_tab[2];
 	int				fd_in;
 	int				fd_out;
-	int				last;
+	int				pipe_mod; //0 N // 1 Y
+	int				pipe_pos; // -1 first 0middle 1 last 
 	int				retour;
 }					t_simple_cmd;
 
