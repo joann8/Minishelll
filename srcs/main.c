@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/14 18:59:48 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 20:27:10 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int tmp_main(char *line, t_list *var_list, char **envp)//a changer nous emem tab
 		return(printf("pbm table sequence\n"));
 	}
 	print_cmd(cmd_list);
-	printf("\n****START EXECUTE COMMAND******\n");
+	printf("\n****START EXECUTE COMMAND******\n\n");
 	execute_cmd(cmd_list, envp);
 	ft_free_token(token_list);
 	ft_lstclear(&token_list, free);
