@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 22:18:09 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/15 23:26:40 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #define ANSI_BOLD_WHITE		"\E[1;37m"
 #define ANSI_BOLD_RED		"\E[1;31m"
 #define ANSI_BOLD_YELLOW	"\E[1;33m"
+
+int		ft_must_clean_screen(t_term *term, char *prompt);
 
 int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
@@ -80,12 +82,83 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		}
 		else
 			ft_screen_wrapper(&user, log);
+		/*
+		{
+			tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
+			tputs(term->sc, 0, ft_termcap_on);
+		}
+		*/
+		ft_must_clean_screen(term, prompt);
 		tputs(term->rc, 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
 	}
 	return (NULL);
 }
+
+void	ft_getcursorxy(int *row, int *col)
+{
+	char	buf[1000];
+	int		ret;
+	int		bol;
+	int		i;
+	
+
+	write(1, "\033[6n", 4); 
+	//write(1, "\E[033[6n", 8);
+	ret = read(1, &buf, 1000);
+	if (ret <= 0)
+	{
+		printf("Error reading getcursorxy()\n");
+		return;
+	}
+	buf[ret] = '\0';
+	i = 0;
+	bol = 0;
+	while (buf[i] && buf[i] != '[')
+		i++;
+	while (buf[i])
+	{
+		if (ft_isdigit(buf[i]))
+		{
+			if (bol == 0)
+			{
+				*row = ft_atoi(buf + i) - 1;
+				bol = 1;
+				while (ft_isdigit(buf[i]))
+						i++;
+			}
+			else
+			{
+				*col = ft_atoi(buf +i) - 1;
+				return;
+			}
+		}
+		i++;
+	}
+}
+
+
+int		ft_must_clean_screen(t_term *term, char *prompt)
+{
+	int		cur_row;
+	int		cur_col;
+
+	ft_getcursorxy(&cur_row, &cur_col);
+	//printf("cur_row = %d | cur_col = %d\n", cur_row, cur_col);
+	if (cur_row == term->line && cur_col == term->col)
+	{
+		tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
+		tputs(term->cd, 1, ft_termcap_on);
+		ft_print_prompt(term, prompt);
+		tputs(term->sc, 0, ft_termcap_on);
+		return (1);
+	}
+	return (0);
+}
+
+
+
 
 int		ft_make_loglst(t_list **head, int fd)
 {
