@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 11:02:58 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 11:05:13 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path)
 	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
-	
 	if (*line == NULL || ft_update_log(line, log, fd_log) == -1
 			|| close(fd_log) < 0)
 		return (printf("error in ft_read_input\n"));
