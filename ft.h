@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 17:52:25 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 19:01:53 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_init_term_struct(t_term *term);
 void	ft_lstclear_envlst(t_list **head);
 void	ft_print_envlst(t_list *env_head);
 void	ft_puttab(char **av);
-void	ft_print_str_lst(t_list *head);
+void	ft_print_str_table(char **av);
 void	ft_print_str_lst(t_list *head);
 int		ft_find_cmd_path(char **job, char *exec, t_list **env);
 void	ft_print_prompt(t_term *term, char *prompt);
@@ -78,7 +78,7 @@ char	*ft_make_prompt(t_list *pwd_node);
 t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 char	*ft_my_getcwd(void);
 int		ft_move_cursor_home(t_term *term, char *prompt);
-
+char	**ft_make_ourenvp(t_list **env);
 
 //	JO.H
 //promp et erreurs

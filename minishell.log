@@ -91,3 +91,6 @@ grep
 clear
 ls -l
 echo $PATH
+clear
+ls
+clear

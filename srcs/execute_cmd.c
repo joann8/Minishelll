@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 17:47:11 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 19:01:21 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,10 @@ int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p)
 	return (0);
 }
 
-int		ft_split_process(char *job, t_simple_cmd *tmp_c, t_list **env, t_pipe p)
+int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp, t_pipe p)
 {
 	pid_t pid;
-	char	**our_envp;
-	(void)env;
 
-	our_envp = NULL;
 	pid = fork();
 	if (pid == -1)
 		return (-1);
@@ -108,8 +105,10 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 {
 	char *job;
 	int		res;
+	char	**our_envp;
 
 	job = NULL;
+	our_envp = NULL;
 	res = 1;
 	// RES NE FONCTIONNE PAS
 	if (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')// a verifier pour les point
@@ -127,9 +126,16 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 	}
 	else
 	{
-		if (ft_split_process(job, tmp_c, env, p) == -1)
+		if ((our_envp = ft_make_ourenvp(env)) == NULL)
+			return (-1);//malloc err
+		ft_print_str_table(our_envp);
+		if (ft_split_process(job, tmp_c, our_envp, p) == -1)
+		{
+			free_double_tab(our_envp);
 			return (-1);
+		}
 	}
+	free_double_tab(our_envp);
 	return (0);
 }
 
