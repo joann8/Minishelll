@@ -38,9 +38,15 @@
 
 t_gnl	g_gnl;
 
-int		tmp_main(char *user_input, t_list *env_lst);
+int		tmp_main(char *user_input, t_list **env_lst);
 
 // ADCONSTA.H
+
+#define ANSI_WHITE			"\E[0;37m"
+#define ANSI_BOLD_WHITE		"\E[1;37m"
+#define ANSI_BOLD_RED		"\E[1;31m"
+#define ANSI_BOLD_YELLOW	"\E[1;33m"
+
 char	*ft_getenv_name(char *env_str);
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt);
 char	*ft_strndup(char *src, int len);
@@ -64,16 +70,17 @@ void	ft_init_term_struct(t_term *term);
 void	ft_lstclear_envlst(t_list **head);
 void	ft_print_envlst(t_list *env_head);
 void	ft_puttab(char **av);
+void	ft_print_str_table(char **av);
 void	ft_print_str_lst(t_list *head);
-void	ft_print_str_lst(t_list *head);
-char	*ft_find_cmd_path(char *exec);
+int		ft_find_cmd_path(char **job, char *exec, t_list **env);
 void	ft_print_prompt(t_term *term, char *prompt);
 char	*ft_relative_to_absolute(char *exec);
 int		ft_path_is_relative(char *str);
 char	*ft_make_prompt(t_list *pwd_node);
 t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 char	*ft_my_getcwd(void);
-
+int		ft_move_cursor_home(t_term *term, char *prompt);
+char	**ft_make_ourenvp(t_list **env);
 
 //	JO.H
 //promp et erreurs
@@ -142,12 +149,14 @@ t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 
 //execute
-int		execute_cmd(t_list *cmd_list, t_list *env);
 
 //built in
-int		find_built_in(t_simple_cmd *cmd, t_pipe *pipei, t_list **error, t_list **env);
 int		ft_echo(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
 int		ft_pwd(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
+int		execute_cmd(t_list *cmd_list, t_list **env);
+
+//built in
+int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
 
 
 

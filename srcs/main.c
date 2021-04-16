@@ -6,13 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 16:01:01 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 17:51:57 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int tmp_main(char *line, t_list *env)//a changer nous emem tab env
+int tmp_main(char *line, t_list **var_list)//a changer nous emem tab env
 {
 	t_list			*token_list;
 	t_seq			*tab_seq;
@@ -51,7 +51,7 @@ int tmp_main(char *line, t_list *env)//a changer nous emem tab env
 		ft_lstclear(&token_list, free);
 		return(printf("pbm table sequence\n"));
 	}
-	tab_seq = make_expansion(tab_seq, seq_nb, env);
+	tab_seq = make_expansion(tab_seq, seq_nb, *var_list);
 	if (tab_seq ==  NULL)
 	{
 		ft_free_token(token_list);
@@ -71,7 +71,7 @@ int tmp_main(char *line, t_list *env)//a changer nous emem tab env
 	}
 	print_cmd(cmd_list);
 	printf("\n****START EXECUTE COMMAND******\n\n");
-	execute_cmd(cmd_list, env);
+	execute_cmd(cmd_list, var_list);
 	ft_free_token(token_list);
 	ft_lstclear(&token_list, free);
 	ft_free_tab_seq(tab_seq, seq_nb);

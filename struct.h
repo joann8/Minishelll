@@ -70,6 +70,7 @@ typedef struct		s_var
 {
 	char			*name;
 	char			*value;
+	int				on;
 }					t_var;
 
 typedef	struct	s_term
@@ -99,6 +100,7 @@ typedef	struct s_input
 {
 	unsigned int	i;
 	unsigned int	log_size;
+	int				bytes;
 	char			buf[5];
 	char			*screen;
 	char			*input;

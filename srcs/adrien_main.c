@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/16 16:01:42 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 17:55:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,6 @@
 
 char	*ft_relative_to_absolute(char *exec);
 int		ft_path_is_relative(char *str);
-
-t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)())
-{
-	t_var *tmp;
-	t_list *cur;
-
-	if (!begin || !*begin)
-		return (NULL);
-
-	cur = *begin;
-	while (cur)
-	{
-		tmp = (t_var *)(cur->content);
-		if (!tmp->name)
-			tmp->name = "";
-		if (!((*cmp)(tmp->name, content_ref)))
-			return (cur);
-		cur = cur->next;
-	}
-	return (NULL);
-}
-
 
 char	*ft_make_prompt(t_list *pwd_node)
 {
@@ -106,7 +84,7 @@ int		main(int ac, char **av, char **envp)
 		if (user_input == NULL)
 			return (-1);
 		if (ft_strcmp(user_input, "") != 0)
-			tmp_main(user_input, env_lst); 
+			tmp_main(user_input, &env_lst); 
 	
 	/*	char *cwd;
 		cwd = ft_relative_to_absolute(user_input);
