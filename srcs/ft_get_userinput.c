@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 23:26:40 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 10:08:08 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define ANSI_BOLD_RED		"\E[1;31m"
 #define ANSI_BOLD_YELLOW	"\E[1;33m"
 
-int		ft_must_clean_screen(t_term *term, char *prompt);
+int		ft_move_cursor_home(t_term *term, char *prompt);
 
 int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
@@ -28,8 +28,6 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path)
 	
 	log = NULL;
 	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
-	
-	//Init la historique de cmd
 	if (fd_log < 0)
 	{
 		printf("fd_log return == -1, errno = %s\n", strerror(errno));
@@ -37,23 +35,21 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path)
 	}
 	if (ft_make_loglst(&log, fd_log) < 0)
 		return (-1);
-	//Initialise la librairie termcap avec la var $TERM
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
 		return (-(printf("termcap init failed\n")));
-//	ft_print_prompt(&term, prompt);
 	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	
 	if (*line == NULL)
-		return (printf("error in get_raw_input\n"));
+		return (printf("error in ft_read_input\n"));
 	if (ft_update_log(line, log, fd_log) == -1)
 		return (-1); // Err malloc
 	if (close(fd_log) < 0)
 		return (-1);
 	ft_lstclear(&log, free);
-	return (1);
+	return (0);
 }
 
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
@@ -82,13 +78,11 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		}
 		else
 			ft_screen_wrapper(&user, log);
-		/*
+		if (ft_move_cursor_home(term, prompt))
 		{
-			tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
-			tputs(term->sc, 0, ft_termcap_on);
+			printf("Error while reading cursors position\n");
+			return (NULL);
 		}
-		*/
-		ft_must_clean_screen(term, prompt);
 		tputs(term->rc, 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
@@ -96,22 +90,18 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	return (NULL);
 }
 
-void	ft_getcursorxy(int *row, int *col)
+int		ft_getcursorxy(int *row, int *col)
 {
 	char	buf[1000];
-	int		ret;
 	int		bol;
 	int		i;
+	int		ret;
 	
 
-	write(1, "\033[6n", 4); 
-	//write(1, "\E[033[6n", 8);
-	ret = read(1, &buf, 1000);
+	write(STDOUT_FILENO, "\033[6n", 4); 
+	ret = read(STDIN_FILENO, &buf, 1000);
 	if (ret <= 0)
-	{
-		printf("Error reading getcursorxy()\n");
-		return;
-	}
+		return (-1);
 	buf[ret] = '\0';
 	i = 0;
 	bol = 0;
@@ -123,36 +113,36 @@ void	ft_getcursorxy(int *row, int *col)
 		{
 			if (bol == 0)
 			{
-				*row = ft_atoi(buf + i) - 1;
+				*row = ft_atoi(buf + i);
 				bol = 1;
 				while (ft_isdigit(buf[i]))
 						i++;
 			}
 			else
 			{
-				*col = ft_atoi(buf +i) - 1;
-				return;
+				*col = ft_atoi(buf +i);
+				return (0);
 			}
 		}
 		i++;
 	}
+	return (0);
 }
 
 
-int		ft_must_clean_screen(t_term *term, char *prompt)
+int		ft_move_cursor_home(t_term *term, char *prompt)
 {
 	int		cur_row;
 	int		cur_col;
 
-	ft_getcursorxy(&cur_row, &cur_col);
-	//printf("cur_row = %d | cur_col = %d\n", cur_row, cur_col);
+	if (ft_getcursorxy(&cur_row, &cur_col))
+		return (-1);
 	if (cur_row == term->line && cur_col == term->col)
 	{
 		tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		ft_print_prompt(term, prompt);
 		tputs(term->sc, 0, ft_termcap_on);
-		return (1);
 	}
 	return (0);
 }
@@ -179,7 +169,6 @@ int		ft_make_loglst(t_list **head, int fd)
 		ft_lstadd_back(head, new_node);
 	}
 	free(line);
-	//Recoder une fois pour la derniere ligne ?
 	return (0);
 }
 
@@ -220,45 +209,3 @@ void	ft_print_prompt(t_term *term, char *prompt)
 		tputs(term->me, 1, ft_termcap_on);
 	}
 }
-/* VERSION qui semi fonctionne
-char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
-{
-	t_input				user;
-	int					bytes;
-
-	user.log_size = ft_lstsize(log);
-	user.i = user.log_size;
-	user.input = ft_strdup("");
-	if (user.input == NULL)
-		return (NULL);
-	user.screen = user.input;
-	printf("col = %d\n", term->col);
-	printf("row = %d\n", term->line);
-	tputs(term->sc, 0, ft_termcap_on);
-	ft_print_prompt(term, prompt);
-	while ((bytes = read(fd, user.buf, 4)))
-	{
-		user.buf[bytes] = '\0';
-		if (user.buf[0] == '\n')
-		{
-			if (user.i < user.log_size)
-				free(user.input);
-			return (user.screen);
-		}
-		else
-			ft_screen_wrapper(&user, log);
-		//tputs(tgoto(term->ch, 0, 1), 1, ft_termcap_on);
-		//write(1, "@", 1);
-		tputs(term->rc, 1, ft_termcap_on);
-		//tputs(tgoto(term->cm, col, row), 1, ft_termcap_on);
-		//write(1, "adrien", 6);
-		//tputs(term->ch, 0, ft_termcap_on);
-		tputs(term->cd, 1, ft_termcap_on);
-		ft_print_prompt(term, prompt);
-		write(1, user.screen, ft_strlen(user.screen));
-	//	write(1, "\n", 1);
-	}
-	return (NULL);
-}
-*/
-
