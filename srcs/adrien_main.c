@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/15 18:33:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 16:01:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int		main(int ac, char **av, char **envp)
 		if (user_input == NULL)
 			return (-1);
 		if (ft_strcmp(user_input, "") != 0)
-			tmp_main(user_input, env_lst, envp); 
+			tmp_main(user_input, env_lst); 
 	
 	/*	char *cwd;
 		cwd = ft_relative_to_absolute(user_input);

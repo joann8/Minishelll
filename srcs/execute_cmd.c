@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 15:38:18 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 16:16:55 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int		execute_cmd(t_list *cmd_list, t_list *env)
 	t_list			*error;
 	t_pipe			p;
 	char			**our_envp;
+	int				res;
 
 	error = NULL;
 	tmp_l = cmd_list;
@@ -151,7 +152,10 @@ int		execute_cmd(t_list *cmd_list, t_list *env)
 			if (prepare_pipes(tmp_c, &p) == -1)
 				return (-1);
 	//	printf("--fd in to use = %d | fd out = %d | fd next = %d--\n-------\n", fd_in_to_use, fd_out_to_use, fd_in_next);
-		if (find_built_in(tmp_c, &p, &error, env) == 0)//if different 0, execute build in in built in
+		res = find_built_in(tmp_c, &p, &error, env);//if different 0, execute build in in built in
+		if (res == -1)
+			return (-1); //erreur malloc dans built in
+		if (res == 0)//if different 0, execute build in in built in
 		{
 			//create_tab_env;
 			look_for_command_and_path(&error, tmp_c, our_envp, p);

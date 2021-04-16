@@ -6,13 +6,21 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:23:35 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 18:45:02 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 
 # define STRUCT_H
+
+typedef	struct	s_gnl
+{
+	//int		index; 
+//	pid_t		pid[2];
+	int			shell_level;
+	int			exit_status;
+}				t_gnl;
 
 typedef	enum	e_type
 {
