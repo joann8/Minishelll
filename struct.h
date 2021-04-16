@@ -82,6 +82,9 @@ typedef	struct	s_term
 	char	*cb; //clear du curseur -> begining of line
 	char	*ch; //replace le curseur a la position P
 	char	*ce; // clear to EOL
+	char	*rc;
+	char	*sc;
+	char	*cd;
 }				t_term;
 
 
