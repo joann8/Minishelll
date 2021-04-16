@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 11:05:13 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 11:23:45 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,35 +180,23 @@ void	ft_print_prompt(t_term *term, char *prompt)
 {
 	int i;
 	int color;
-	int finish;
 
 	i = 0;
 	color = 1;
-	finish = 0;
-	while (prompt[i] && !finish)
+	while (prompt[i])
 	{
 		if (prompt[i] == '$' && prompt[i + 2] == '\0')
-		{
 			tputs(ANSI_WHITE, 1, ft_termcap_on);
-			ft_putstr("$ ");
-			finish = 1;
-		}
 		else if (color == 1 && prompt[i] == ':')
 		{
 			tputs(ANSI_WHITE, 1, ft_termcap_on);
 			color = 2;
-			ft_putchar(prompt[i]);
 		}
 		else if (color == 1)
-		{
 			tputs(ANSI_BOLD_RED, 1, ft_termcap_on);
-			ft_putchar(prompt[i]);
-		}
 		else if (color == 2)
-		{
 			tputs(ANSI_BOLD_YELLOW, 1, ft_termcap_on);
-			ft_putchar(prompt[i]);
-		}
+		ft_putchar(prompt[i]);
 		i++;
 		tputs(term->me, 1, ft_termcap_on);
 	}
