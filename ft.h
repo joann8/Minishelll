@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:44:37 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:42:29 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@
 int		tmp_main(char *user_input, t_list *env_lst, char **envp);
 
 // ADCONSTA.H
+
+#define ANSI_WHITE			"\E[0;37m"
+#define ANSI_BOLD_WHITE		"\E[1;37m"
+#define ANSI_BOLD_RED		"\E[1;31m"
+#define ANSI_BOLD_YELLOW	"\E[1;33m"
+
 char	*ft_getenv_name(char *env_str);
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt);
 char	*ft_strndup(char *src, int len);
@@ -71,6 +77,7 @@ int		ft_path_is_relative(char *str);
 char	*ft_make_prompt(t_list *pwd_node);
 t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 char	*ft_my_getcwd(void);
+int		ft_move_cursor_home(t_term *term, char *prompt);
 
 
 //	JO.H

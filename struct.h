@@ -91,6 +91,7 @@ typedef	struct s_input
 {
 	unsigned int	i;
 	unsigned int	log_size;
+	int				bytes;
 	char			buf[5];
 	char			*screen;
 	char			*input;
