@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 18:27:17 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:49:50 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef	struct s_input
 {
 	unsigned int	i;
 	unsigned int	log_size;
+	int				bytes;
 	char			buf[5];
 	char			*screen;
 	char			*input;

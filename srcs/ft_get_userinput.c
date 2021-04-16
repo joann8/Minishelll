@@ -6,18 +6,12 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:32:07 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 11:02:58 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-#define ANSI_WHITE			"\E[0;37m"
-#define ANSI_BOLD_WHITE		"\E[1;37m"
-#define ANSI_BOLD_RED		"\E[1;31m"
-#define ANSI_BOLD_YELLOW	"\E[1;33m"
-
-int		ft_move_cursor_home(t_term *term, char *prompt);
 
 int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
@@ -42,21 +36,28 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path)
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	
-	if (*line == NULL)
+	if (*line == NULL || ft_update_log(line, log, fd_log) == -1
+			|| close(fd_log) < 0)
 		return (printf("error in ft_read_input\n"));
-	if (ft_update_log(line, log, fd_log) == -1)
-		return (-1); // Err malloc
-	if (close(fd_log) < 0)
-		return (-1);
 	ft_lstclear(&log, free);
 	return (0);
 }
-
-char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
+int	ft_init_input(t_input *user, t_term *term, t_list *log, char *prompt)
 {
-	t_input				user;
-	int					bytes;
+	user->log_size = ft_lstsize(log);
+	user->i = user->log_size;
+	user->input = ft_strdup("");
+	if (user->input == NULL)
+		return (-1);
+	user->screen = user->input;
+	printf("col = %d\n", term->col);
+	printf("row = %d\n", term->line);
+	ft_print_prompt(term, prompt);
+	tputs(term->sc, 1, ft_termcap_on);
+	return (0);
+}
 
+/*
 	user.log_size = ft_lstsize(log);
 	user.i = user.log_size;
 	user.input = ft_strdup("");
@@ -67,9 +68,16 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	printf("row = %d\n", term->line);
 	ft_print_prompt(term, prompt);
 	tputs(term->sc, 1, ft_termcap_on);
-	while ((bytes = read(fd, user.buf, 4)))
+	*/
+
+char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
+{
+	t_input				user;
+	if (ft_init_input(&user, term, log, prompt) == -1)
+		return (NULL);
+	while ((user.bytes = read(fd, user.buf, 4)))
 	{
-		user.buf[bytes] = '\0';
+		user.buf[user.bytes] = '\0';
 		if (user.buf[0] == '\n')
 		{
 			if (user.i < user.log_size)
@@ -79,10 +87,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		else
 			ft_screen_wrapper(&user, log);
 		if (ft_move_cursor_home(term, prompt))
-		{
-			printf("Error while reading cursors position\n");
 			return (NULL);
-		}
 		tputs(term->rc, 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
@@ -136,7 +141,10 @@ int		ft_move_cursor_home(t_term *term, char *prompt)
 	int		cur_col;
 
 	if (ft_getcursorxy(&cur_row, &cur_col))
+	{
+		printf("Error while reading cursors position\n");
 		return (-1);
+	}
 	if (cur_row == term->line && cur_col == term->col)
 	{
 		tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
@@ -146,9 +154,6 @@ int		ft_move_cursor_home(t_term *term, char *prompt)
 	}
 	return (0);
 }
-
-
-
 
 int		ft_make_loglst(t_list **head, int fd)
 {
