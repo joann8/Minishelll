@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:08:08 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 10:32:07 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	printf("col = %d\n", term->col);
 	printf("row = %d\n", term->line);
 	ft_print_prompt(term, prompt);
-	tputs(term->sc, 0, ft_termcap_on);
+	tputs(term->sc, 1, ft_termcap_on);
 	while ((bytes = read(fd, user.buf, 4)))
 	{
 		user.buf[bytes] = '\0';
@@ -142,7 +142,7 @@ int		ft_move_cursor_home(t_term *term, char *prompt)
 		tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		ft_print_prompt(term, prompt);
-		tputs(term->sc, 0, ft_termcap_on);
+		tputs(term->sc, 1, ft_termcap_on);
 	}
 	return (0);
 }
