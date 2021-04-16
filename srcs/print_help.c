@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 18:30:45 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:17:10 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ void	print_cmd(t_list *cmd_list)
 			else
 				break;
 		}
+		printf("ac = %d\n", tmp_c->ac);
 		printf("fd_in = %d\n", tmp_c->fd_in);
 		printf("fd_out = %d\n", tmp_c->fd_out);
-		printf("fd_tab[0] = %d | fd_tab[1] = %d\n", tmp_c->fd_tab[0], tmp_c->fd_tab[1]);
+		printf("pipe mod: %d\n", tmp_c->pipe_mod);
 		printf("pipe pos: %d\n", tmp_c->pipe_pos);
+		//printf("retour : %d\n", tmp_c->retour);
 		tmp_l = tmp_l->next;
 		i++;
 	}
