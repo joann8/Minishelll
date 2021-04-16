@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:26:35 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:54:06 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 18:09:47 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		is_arg_n(char *str)
 	return (1);
 }
 
-void	ft_echo(t_simple_cmd *cmd, t_pipe *p)
+int		ft_echo(t_simple_cmd *cmd, t_pipe *p)
 {
 	int		mod_n;
 	int		word;
@@ -60,6 +60,7 @@ void	ft_echo(t_simple_cmd *cmd, t_pipe *p)
 	}
 	if (mod_n == 0)
 		write(p->fd_out_to_use, "\n", 1);
+	g_gnl.exit_status = 1;
+	//EXIT SUCCESS TO REGISTER
+	return (1);
 }
-
-

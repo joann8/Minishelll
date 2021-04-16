@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 19:01:53 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 17:56:35 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 
 
 #include "struct.h"
+
+t_gnl	g_gnl;
 
 int		tmp_main(char *user_input, t_list **env_lst);
 
@@ -147,11 +149,14 @@ t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 
 //execute
+
+//built in
+int		ft_echo(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
+int		ft_pwd(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
 int		execute_cmd(t_list *cmd_list, t_list **env);
 
 //built in
 int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
-void	ft_echo(t_simple_cmd *cmd, t_pipe *pipe);
 
 
 
