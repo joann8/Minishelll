@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 18:27:17 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:23:35 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct		s_simple_cmd
 	char			*job;
 	char			**av;
 	int				ac;
-	int				fd_tab[2];
 	int				fd_in;
 	int				fd_out;
 	int				pipe_mod; //0 N // 1 Y
@@ -105,4 +104,11 @@ typedef struct	s_expansion
 	int			mod;
 }				t_expansion;
 
+typedef struct	s_pipe
+{
+	int			fd_tab[2];
+	int			fd_in_to_use;
+	int			fd_out_to_use;
+	int			fd_in_next;
+}				t_pipe;
 #endif

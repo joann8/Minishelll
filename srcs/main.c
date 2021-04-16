@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 20:27:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:40:52 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ int tmp_main(char *line, t_list *var_list, char **envp)//a changer nous emem tab
 	write(1, "\ninput = [", 10);
 	write(1, line, ft_strlen(line));
 	write(1, "]\n", 2);
-	int i;
-	
-	i = 0;
-	while (line[i])
-	{
-		printf("line[%d] = %c ou = %d\n", i, line[i], line[i]);
-		i++;
-	}
-
 	//token_list = ft_get_token_list(token_list, line);
 	if (ft_get_token_list(&token_list, line) == -1)
 	{

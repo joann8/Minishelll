@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 16:00:27 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:44:37 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 int		execute_cmd(t_list *cmd_list, char **envp);
 
 //built in
-int		find_built_in(t_simple_cmd *cmd, char **envp);
-void	ft_echo(t_simple_cmd *cmd);
+int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe);
+void	ft_echo(t_simple_cmd *cmd, t_pipe *pipe);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:26:35 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 16:12:27 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:54:06 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int		is_arg_n(char *str)
 	return (1);
 }
 
-void	ft_echo(t_simple_cmd *cmd)
+void	ft_echo(t_simple_cmd *cmd, t_pipe *p)
 {
 	int		mod_n;
 	int		word;
 	int		i;
 
+// Y'a t'il des erreurs a gérer?? 
 	mod_n = 0;
 	word = 0;
 	i = 1;
@@ -47,18 +48,18 @@ void	ft_echo(t_simple_cmd *cmd)
 			else
 			{
 				word = 1;
-				write(cmd->fd_out, cmd->av[i], ft_strlen(cmd->av[i]));
+				write(p->fd_out_to_use, cmd->av[i], ft_strlen(cmd->av[i]));
 			}
 		}
 		else
 		{
-			write(cmd->fd_out, " ", 1);
-			write(cmd->fd_out, cmd->av[i], ft_strlen(cmd->av[i]));
+			write(p->fd_out_to_use, " ", 1);
+			write(p->fd_out_to_use, cmd->av[i], ft_strlen(cmd->av[i]));
 		}
 		i++;
 	}
 	if (mod_n == 0)
-		write(cmd->fd_out, "\n", 1);
+		write(p->fd_out_to_use, "\n", 1);
 }
 
 

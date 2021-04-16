@@ -6,19 +6,18 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 20:32:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:47:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		find_built_in(t_simple_cmd *cmd, char **envp)
+int		find_built_in(t_simple_cmd *cmd, t_pipe *p)
 {
-	(void)envp;
-
 	if (ft_strcmp(cmd->job, "echo") == 0)
 	{
-		ft_echo(cmd);
+		printf("ECHO FOUND!\n");
+		ft_echo(cmd, p);
 		return (1);
 	}
 /*	if (ft_strcmp(cmd->job, "cd") == 0)
