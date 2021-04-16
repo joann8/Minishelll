@@ -150,8 +150,8 @@ t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 int		execute_cmd(t_list *cmd_list, char **envp);
 
 //built in
-int		find_built_in(t_simple_cmd *cmd, char **envp);
-void	ft_echo(t_simple_cmd *cmd);
+int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe);
+void	ft_echo(t_simple_cmd *cmd, t_pipe *pipe);
 
 
 
