@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 11:01:58 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 15:38:18 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,18 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **envp, t_pipe p)
 int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, char **envp, t_pipe p)
 {
 	char *job;
+	int		res;
 
-	job = ft_find_cmd_path(tmp_c->job);
-	if (job == NULL)
+	job = NULL;
+	res = 1;
+	// RES NE FONCTIONNE PAS
+	if (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')// a verifier pour les point
+		res = ft_find_cmd_path(&job, tmp_c->job);
+	else
+		job = ft_strdup(tmp_c->job);//a verifier erreur malloc
+	if (res == -1 || (job == NULL && res != 0))
+		return (-1);//erreur malloc
+	else if (res == 0)
 	{
 		job = ft_strdup(tmp_c->job);
 		if (job == NULL)
@@ -118,21 +127,16 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, char **envp,
 		if (ft_split_process(job, tmp_c, envp, p) == -1)
 			return (-1);
 	}
-	if (tmp_c->pipe_pos == 1)
-	{
-		print_cmd_error(0, *error);
-		ft_lstclear(error, free);
-	}
 	return (0);
 }
 
-int		execute_cmd(t_list *cmd_list, char **envp)
+int		execute_cmd(t_list *cmd_list, t_list *env)
 {
 	t_list			*tmp_l;
 	t_simple_cmd	*tmp_c;
-//	char			*job;
 	t_list			*error;
 	t_pipe			p;
+	char			**our_envp;
 
 	error = NULL;
 	tmp_l = cmd_list;
@@ -147,8 +151,17 @@ int		execute_cmd(t_list *cmd_list, char **envp)
 			if (prepare_pipes(tmp_c, &p) == -1)
 				return (-1);
 	//	printf("--fd in to use = %d | fd out = %d | fd next = %d--\n-------\n", fd_in_to_use, fd_out_to_use, fd_in_next);
-		if (find_built_in(tmp_c, &p) == 0)//if different 0, execute build in in built in
-			look_for_command_and_path(&error, tmp_c, envp, p);
+		if (find_built_in(tmp_c, &p, &error, env) == 0)//if different 0, execute build in in built in
+		{
+			//create_tab_env;
+			look_for_command_and_path(&error, tmp_c, our_envp, p);
+			//free_env_tab;
+		}
+		if (tmp_c->pipe_pos == 1)// a voir avec le sbuilt in
+		{
+			print_cmd_error(0, error);
+			ft_lstclear(&error, free);
+		}
 		update_fd_pipes(tmp_c, &p);
 		tmp_l = tmp_l->next;
 	}

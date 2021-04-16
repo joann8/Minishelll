@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/15 18:36:56 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 15:10:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -69,8 +69,10 @@ int		ft_search_dir(char *exec, char *dir_path)
 	}
 }
 
-char	*ft_find_cmd_path(char *exec)
+char	*ft_find_cmd_path(char **job, char *exec)
 {
+
+	//INT A ENVOYER POUR DIFFERENCIER -1 malloc 1 trouve 0 pas touve
 	char	**dir_tab;
 	char	*env_path_val;
 	char	*dir_path;
