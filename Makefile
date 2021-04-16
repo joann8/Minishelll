@@ -6,7 +6,7 @@ SRCS =	srcs/built_in.c			\
 		srcs/expansion_find.c 		\
 		srcs/expansion_manage.c 		\
 		srcs/expansion_utils.c 		\
-		srcs/ft_find_cmd.c			\
+		srcs/ft_find_cmd_path.c			\
 		srcs/ft_free.c 				\
 		srcs/ft_get_userinput.c 		\
 		srcs/ft_make_envlst.c 		\

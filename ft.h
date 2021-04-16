@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:42:29 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 17:52:25 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 #include "struct.h"
 
-int		tmp_main(char *user_input, t_list *env_lst, char **envp);
+int		tmp_main(char *user_input, t_list **env_lst);
 
 // ADCONSTA.H
 
@@ -70,7 +70,7 @@ void	ft_print_envlst(t_list *env_head);
 void	ft_puttab(char **av);
 void	ft_print_str_lst(t_list *head);
 void	ft_print_str_lst(t_list *head);
-char	*ft_find_cmd_path(char *exec);
+int		ft_find_cmd_path(char **job, char *exec, t_list **env);
 void	ft_print_prompt(t_term *term, char *prompt);
 char	*ft_relative_to_absolute(char *exec);
 int		ft_path_is_relative(char *str);
@@ -147,10 +147,10 @@ t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 
 //execute
-int		execute_cmd(t_list *cmd_list, char **envp);
+int		execute_cmd(t_list *cmd_list, t_list **env);
 
 //built in
-int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe);
+int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
 void	ft_echo(t_simple_cmd *cmd, t_pipe *pipe);
 
 
