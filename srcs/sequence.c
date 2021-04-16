@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/15 16:27:17 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 10:14:51 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,19 @@ int		assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos)
 	if (tok->e_type == WORD)
 	{
 		tmp_c = ft_strdup(tok->tok_str);
-		if (tmp == NULL)
+		if (tmp_c == NULL)
 			return (-1);
 		ft_lstadd_back(&(*tmp)->word, ft_lstnew(tmp_c));
-		//	ft_lstadd_back(&(*tmp)->word, ft_lstnew((void *)(tok->tok_str)));
 	}
 	else if (tok->e_type == IN || tok->e_type == OUT || tok->e_type == APPEND)
 	{
 		if (assign_redir(*tmp, *lst_tok, tok) == -1)
-			return (-1); // erreur malloc
+			return (-1);// erreur malloc
 	}
 	else if (tok->e_type == PIPE)
 	{
 		if (assign_pipe(tmp, pipe_pos) == -1)
-			return (-1); //erreur malloc
+			return (-1);//erreur malloc
 	}
 	else if (tok->e_type == SEPARATOR)
 	{
