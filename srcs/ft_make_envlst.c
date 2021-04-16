@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/16 16:16:52 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 22:20:44 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,14 @@ void	ft_lstclear_envlst(t_list **head)
 	{
 		next = tmp->next;
 		var = (t_var*)(tmp->content);
-		//printf("name=%s\n", var->name);
-		free(var->name);
-		free(var->value);
-		free(tmp->content);
+		if (var)
+		{
+			if (var->name)
+				free(var->name);
+			if (var->value)
+				free(var->value);
+			free(var);
+		}
 		free(tmp);
 		tmp = next;
 	}
