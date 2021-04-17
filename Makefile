@@ -15,6 +15,7 @@ SRCS =	srcs/built_in.c			\
 		srcs/ft_make_envlst.c 		\
 		srcs/ft_other_utils.c		\
 		srcs/ft_path.c				\
+		srcs/ft_unset.c				\
 		srcs/get_userinput_utils.c 	\
 		srcs/adrien_main.c			\
 		srcs/print_help.c			\

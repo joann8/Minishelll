@@ -18,6 +18,7 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 {
 	(void)error;
 	(void)env;
+
 	if (ft_strcmp(cmd->job, "echo") == 0)
 	{
 		return(ft_echo(cmd, p));
@@ -30,16 +31,19 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 	}
 	if (ft_strcmp(cmd->job, "pwd") == 0)//JOANN
 		return (ft_pwd(p, error));
-
+/*
 	//	if (ft_strcmp(cmd->job, "cd") == 0)//ADRIEN
 //		return (2);
 	//-1 retourne si erreur malloc
-/*	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
+	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
 		return (4);
+	*/
 	if (ft_strcmp(cmd->job, "unset") == 0)//ADRIEN
+	{
+		write(1, "AAA_unset_AAA\n", 18);
+		ft_unset(env, cmd->av, cmd->pipe_mod);
 		return (5);
-*/
-	
+	}
 	if (ft_strcmp(cmd->job, "exit") == 0)//JOANN
 		return (7);
 	return (0);

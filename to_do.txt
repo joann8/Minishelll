@@ -1,0 +1,11 @@
+#General:
+-> Comment gerer les Shell lvl? (+ env_var shell_lvl)
+-> Afficher les msgs d'erreur dans STDERR_FILENO
+-> Gerer les #
+
+#Prompt:
+-> Multiligne chez Joann quand on remonte historique
+
+#Built_in:
+-> Implementer le pipe dans exit
+

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/09 17:43:19 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 15:35:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		is_name(char *str)
 	{
 		if (i == 0 && (ft_isalpha(str[i]) || str[i] == '_'))
 			i++;
-		else if (ft_isalnum(str[i]) == 1 || str[i] == '_')
+		else if (i > 0 && (ft_isalnum(str[i]) == 1 || str[i] == '_'))
 			i++;
 		else
 			return (0);
