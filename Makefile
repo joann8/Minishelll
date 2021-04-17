@@ -3,6 +3,7 @@ SRCS =	srcs/built_in.c			\
 		srcs/built_in_pwd.c		\
 		srcs/command.c			\
 		srcs/execute_cmd_by_cmd.c		\
+		srcs/execution_main.c					\
 		srcs/expansion_cmd_by_cmd.c 		\
 		srcs/expansion_find.c 		\
 		srcs/expansion_manage.c 		\
@@ -17,7 +18,6 @@ SRCS =	srcs/built_in.c			\
 		srcs/ft_unset.c				\
 		srcs/get_userinput_utils.c 	\
 		srcs/adrien_main.c			\
-		srcs/main.c					\
 		srcs/print_help.c			\
 		srcs/print_utils.c			\
 		srcs/prompt_and_error.c		\

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 11:13:35 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 14:37:16 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,25 @@ int		manage_variable(t_expansion *exp, t_list *var)
 	int res;
 
 	k = exp->i + 1;
-//	if (exp->str[k] == '?' && is_var_name(exp->str[k + 1]) == 0)
+/*	if (exp->str[k] == '?')
+	{
+		if (exp->mod == 1)
+			res = 1;
+		else
+		{
+			exp->var_str = malloc(sizeof(char) * 2);
+			if (exp->var_str == NULL)
+				return (-1);//erreur malloc
+			exp->i = k;
+
+			k = 0;
+			while (exp->var_str[k])
+			{
+				exp->tmp[exp->j] = exp->var_str[k];
+				exp->j += 1;
+				k++;
+			}
+	}*/
 		//manage exit status for mod 1 && mod 2
 		// DEFINITION : $? expands to the exit status of the most recebtly executed foreground pipeline
 //  else
