@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 13:41:21 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 17:13:08 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		main(int ac, char **av, char **envp)
 	char *tmp;
 	char *log_path;
 
+	g_process.exit_status = 0;
 
 	//Creation de la lst de env_var;	
 	env_lst = NULL;

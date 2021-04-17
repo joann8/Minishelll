@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/12 18:58:23 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 18:05:22 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		find_variable_length(char *str, int start, int end, t_list *var)
 	if (tofind == NULL)
 		return (-1);
 	ft_copy_loc(tofind, str, start, end);
-//	ft_strncpy(tofind, str + start, (size_t)( start - end ));
 	tmp = var;
 	while (tmp)
 	{
@@ -65,7 +64,7 @@ int		count_final_str(t_expansion *e, t_list *var)
 			manage_escape(e);
 		else if (e->str[e->i] == '$' && (e->quote == 0 || e->quote == 34))
 		{
-			if (manage_variable(e, var) == -1)
+			if(manage_variable(e, var) == -1)
 				return (-1);//erreur malloc
 		}
 		else if ((e->str[e->i] == 34 || e->str[e->i] == 39)
@@ -91,7 +90,6 @@ char	*find_variable_str(char *str, int start, int end, t_list *var)
 	if (tofind == NULL)
 		return (NULL);
 	ft_copy_loc(tofind, str, start, end);
-	//ft_strcpy(tofind, start + i, start - end + 1);
 	tmp = var;
 	while (tmp)
 	{

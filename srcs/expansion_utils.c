@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 15:35:34 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 17:02:13 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,17 @@ int		is_name(char *str)
 	return (1);
 }
 
-int		is_var_name(char c)
+int		is_var_name(char c, int mod)
 {
-	if (ft_isalnum(c) == 1 || c == '_')
-		return (1);
+	if (mod == 0)//checker 1re lettre
+	{
+		if (ft_isalpha(c) == 1 || c == '_')
+			return (1);
+	}
+	if (mod == 1)//checker milieu
+	{
+		if (ft_isalnum(c) == 1 || c == '_')
+			return (1);
+	}
 	return (0);
 }

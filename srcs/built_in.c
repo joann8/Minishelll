@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 15:27:09 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 17:25:04 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 		return (5);
 	}
 	if (ft_strcmp(cmd->job, "exit") == 0)//JOANN
-		return (7);
+		return (ft_exit(cmd, p));
 	return (0);
 }
 

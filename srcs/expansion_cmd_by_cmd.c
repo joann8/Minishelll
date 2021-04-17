@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 14:30:18 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 17:50:55 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*modify_str(char *str, t_list **var)
 //	printf("size = %d\n", size);
 	if (size == -1)//erreur malloc
 		return (NULL);
-	if (size == 0)
+	if (size == 0 || size == -2)//-2 == cas variable name commencant par chiffre apr ex
 		return (ft_strdup(""));
 	tmp = malloc(sizeof(char) * (size + 1));
 	if (tmp == NULL)
@@ -37,7 +37,6 @@ char	*modify_str(char *str, t_list **var)
 
 t_seq	*make_expansion_cmd_by_cmd(t_seq *tab_seq, t_list **var)
 {
-//	int		i;
 	t_seq	*tmp_s;
 	t_list	*tmp_w;
 	char	*delete;
@@ -57,6 +56,5 @@ t_seq	*make_expansion_cmd_by_cmd(t_seq *tab_seq, t_list **var)
 		}
 		tmp_s = tmp_s->next_pipe;	
 	}
-//	}
 	return (tab_seq);
 }

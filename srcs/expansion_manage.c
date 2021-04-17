@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 14:37:16 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 18:08:00 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,37 +82,57 @@ void	manage_escape(t_expansion *exp)
 	}
 }
 
+int		manage_special_exit(t_expansion *exp)
+{
+	int		res;
+	char	*tmp;
+	int		k;
+
+	if (exp->mod == 1)
+	{
+		tmp = ft_itoa(g_process.exit_status);
+		if (tmp == NULL)
+			return (-1);//NULL
+		res = ft_strlen(tmp);
+		free(tmp);
+		exp->j += res;
+		exp->i += 1;
+	}
+	else if (exp->mod == 2)
+	{
+		exp->var_str = ft_itoa(g_process.exit_status);
+		if (exp->var_str == NULL)
+			return (-1);//erreur malloc
+		exp->i += 2;
+		k = 0;
+		while (exp->var_str[k])
+		{
+			exp->tmp[exp->j] = exp->var_str[k];
+			exp->j += 1;
+			k++;
+		}
+	}
+	return (0);
+}
+
 int		manage_variable(t_expansion *exp, t_list *var)
 {
 	int k;
 	int res;
 
 	k = exp->i + 1;
-/*	if (exp->str[k] == '?')
+	if (exp->str[k] == '?')
+		return (manage_special_exit(exp));
+	if (is_var_name(exp->str[k], 0) == 1)
 	{
-		if (exp->mod == 1)
-			res = 1;
-		else
-		{
-			exp->var_str = malloc(sizeof(char) * 2);
-			if (exp->var_str == NULL)
-				return (-1);//erreur malloc
-			exp->i = k;
-
-			k = 0;
-			while (exp->var_str[k])
-			{
-				exp->tmp[exp->j] = exp->var_str[k];
-				exp->j += 1;
-				k++;
-			}
-	}*/
-		//manage exit status for mod 1 && mod 2
-		// DEFINITION : $? expands to the exit status of the most recebtly executed foreground pipeline
-//  else
-//	{
-	while (is_var_name(exp->str[k]) == 1)
-		k++;
+		while (is_var_name(exp->str[k], 1) == 1)
+			k++;
+	}
+	else
+	{
+		exp->i = k + 1;
+		return (0);
+	}
 	if (exp->mod == 1)
 	{
 		res = find_variable_length(exp->str, exp->i + 1, k - 1, var);
