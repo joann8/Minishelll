@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 10:47:43 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 15:02:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,18 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 	}
 	if (ft_strcmp(cmd->job, "pwd") == 0)//JOANN
 		return (ft_pwd(p, error));
-
+/*
 	//	if (ft_strcmp(cmd->job, "cd") == 0)//ADRIEN
 //		return (2);
 	//-1 retourne si erreur malloc
-/*	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
+	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
 		return (4);
+	*/
 	if (ft_strcmp(cmd->job, "unset") == 0)//ADRIEN
+	{
+		ft_unset(env, cmd->av);
 		return (5);
-*/
+	}
 	
 	if (ft_strcmp(cmd->job, "exit") == 0)//JOANN
 		return (7);

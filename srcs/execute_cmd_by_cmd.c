@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 12:21:37 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 14:55:52 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 			free_double_tab(our_envp);
 			return (-1);
 		}
-	}
 	free_double_tab(our_envp);
+	}
 	return (0);
 }
 

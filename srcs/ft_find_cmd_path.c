@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/16 17:50:29 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 14:57:36 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -38,7 +38,7 @@ int		ft_search_dir(char *exec, char *dir_path)
 
 	d_stream = opendir(dir_path);
 	if (!d_stream)
-		return (-1);// error d'ouverture du dossier
+		return (0); // Dossier inouvrable ou inexistant
 	while (1)
 	{
 		s_dir = readdir(d_stream);

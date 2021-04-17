@@ -117,3 +117,21 @@ export A=A ; echo $A; export A=B ; echo $A
 echo $PATH ; export $PATH=lol ; echo $PATH
 echo $PATH ; echo hello
 echo $PATH ; export $PATH=lol ; echo $PATH
+q
+echo a | echo b <ehhehehe | echo c
+j
+ko
+s
+a
+ls
+a
+env
+unset USER
+env
+unset
+env
+unset USER
+env
+env | grep USER
+unset JOANN
+env
