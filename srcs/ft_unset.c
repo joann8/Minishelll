@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 15:05:10 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 15:33:30 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,28 @@ void	ft_unset_node(t_list **env, t_list *tmp)
 	free(tmp);
 }
 
-int		ft_unset(t_list **env, char **argv)
+int		ft_unset(t_list **env, char **argv, int pipe_mod)
 {
 	t_list *tmp;
-	char *str;
-	str = "\n\tTTTTTT____enter UNSET____TTTTTTT\n";
-	write(1, str, ft_strlen(str));
+	
 	argv++; // skip le job en ar 1 
 	while (*argv)
 	{
-		if (!is_name(*argv))
+		printf("argv = %s\n", *argv);
+		if (is_name(*argv) == 0)
 		{
+			write(1, "NON\n", 4);
 			//Ecrire dans le stderr
 			printf("bash: unset: `%s': not a valid identifier\n", *argv);
 		}
 		else
 		{
-			tmp = ft_lstfind_env(env, *argv, ft_strcmp);
-			if (tmp)
-				ft_unset_node(env, tmp);
+			if (pipe_mod == 0)
+			{
+				tmp = ft_lstfind_env(env, *argv, ft_strcmp);
+				if (tmp)
+					ft_unset_node(env, tmp);
+			}
 		}
 		argv++;
 	}

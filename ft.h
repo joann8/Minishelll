@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 14:58:43 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 15:19:30 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		ft_move_cursor_home(t_term *term, char *prompt);
 char	**ft_make_ourenvp(t_list **env);
 void	ft_lst_env_sort(t_list **begin, int (*cmp)());
 void	ft_lst_env_copy(t_list **dest, t_list **src);
-int		ft_unset(t_list **env, char **argv);
+int		ft_unset(t_list **env, char **argv, int pipe_mod);
 
 
 

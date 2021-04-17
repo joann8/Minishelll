@@ -135,3 +135,26 @@ env
 env | grep USER
 unset JOANN
 env
+echo ha | unset JOANN | echo e
+env
+unset 100
+unset 1000
+unset 
+:q
+make
+unset
+unset JOANN
+unset
+unset 1000
+unset
+unset 1000
+unset joann
+unset
+env
+unset JOANN
+env
+unset 1000
+unset @
+unset 1000
+echo hello | unset JOANN | echo  hello; unset USER
+env
