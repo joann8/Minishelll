@@ -104,3 +104,16 @@ echo e
 pwd
 ls
 pwd
+export JOANN=A
+export JOANN=A ;echo JOANN
+export JOANN=A ; echo $JOANN
+export
+export JOANN=A ; echo $JOANN
+export A=A ; echo $A; export A=B ; echo $A
+make
+export A=A ; echo $A; export A=B ; echo $A
+make
+export A=A ; echo $A; export A=B ; echo $A
+echo $PATH ; export $PATH=lol ; echo $PATH
+echo $PATH ; echo hello
+echo $PATH ; export $PATH=lol ; echo $PATH

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:12:11 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 13:11:22 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		assign_pipes(t_seq *seq, t_simple_cmd *cmd)
 		cmd->pipe_pos = 0;
 }
 
-t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb)
+t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env)
 {
 	int				i;
 	t_seq			*tmp_s;
@@ -112,6 +112,7 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb)
 	while (i < seq_nb)
 	{
 		tmp_s = &tab_seq[i];
+		make_expansion_cmd_by_cmd(tmp_s, env);
 		while (tmp_s)
 		{
 			tmp_c = malloc(sizeof(t_simple_cmd));
@@ -125,6 +126,8 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb)
 			ft_lstadd_back(&cmd_list, ft_lstnew((void*)tmp_c));
 			tmp_s = tmp_s->next_pipe;
 		}
+		printf("EXECUTE %s\n", tmp_c->job);
+		execute_cmd_by_cmd(tmp_c, env);
 		i++;
 	}
 	return (cmd_list);
