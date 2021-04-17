@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 10:47:43 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 15:27:09 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 	(void)env;
 	if (ft_strcmp(cmd->job, "echo") == 0)
 	{
-		printf("ECHO FOUND!\n");
 		return(ft_echo(cmd, p));
 	}
 	if (ft_strcmp(cmd->job, "env") == 0)//ADRIEN

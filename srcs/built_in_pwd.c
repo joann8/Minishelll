@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 15:54:26 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 10:47:38 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 14:05:22 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int 	ft_pwd(t_pipe *p, t_list **error)
 	ft_putstr_fd(to_write, p->fd_out_to_use);
 	ft_putstr_fd("\n", p->fd_out_to_use);
 	free(to_write);
-	g_gnl.exit_status = 0;
+	g_process.exit_status = 0;
 	//EXIT SUCCESS VALUE
 	return (1);
 }

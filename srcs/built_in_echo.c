@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:26:35 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 22:45:58 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 14:04:34 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		ft_echo(t_simple_cmd *cmd, t_pipe *p)
 	}
 	if (mod_n == 0)
 		write(p->fd_out_to_use, "\n", 1);
-	g_gnl.exit_status = 1;
+	g_process.exit_status = 1;
 	//EXIT SUCCESS TO REGISTER
 	return (1);
 }

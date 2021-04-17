@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 13:11:22 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 15:25:39 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,17 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 	int				i;
 	t_seq			*tmp_s;
 	t_simple_cmd	*tmp_c;
+	t_list 			*error;
+	t_pipe			p;
 
 	i = 0;
 	while (i < seq_nb)
 	{
 		tmp_s = &tab_seq[i];
 		make_expansion_cmd_by_cmd(tmp_s, env);
+		error = NULL;
+		//prepare pipes?
+		p.fd_in_next = -1;
 		while (tmp_s)
 		{
 			tmp_c = malloc(sizeof(t_simple_cmd));
@@ -124,10 +129,23 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 			if (assign_list_redir(tmp_s, tmp_c) == -2)
 				return (NULL); //erreur malloc
 			ft_lstadd_back(&cmd_list, ft_lstnew((void*)tmp_c));
+			
+			
+			//printf("EXECUTE %d.%s\n", i, tmp_c->job);
+			p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir	
+			p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
+			if (tmp_c->pipe_mod == 1)// si je suis piped
+				if (prepare_pipes(tmp_c, &p) == -1)
+					return (NULL);//plutot -1 erreur systeme
+			execute_cmd_by_cmd(tmp_c, env, &error, &p);
+			update_fd_pipes(tmp_c, &p);
+
+
 			tmp_s = tmp_s->next_pipe;
 		}
-		printf("EXECUTE %s\n", tmp_c->job);
-		execute_cmd_by_cmd(tmp_c, env);
+		print_cmd_error(0, error);
+		ft_lstclear(&error, free);
+		//clean pipes?
 		i++;
 	}
 	return (cmd_list);

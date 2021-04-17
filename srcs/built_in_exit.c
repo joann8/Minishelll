@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:26:23 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 18:16:48 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 14:05:12 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ int		ft_exit(t_simple_cmd *cmd, t_pipe *p)
 				ft_putstr_fd("msh : exit: ", p->fd_is_out_to_use);
 				ft_putstr_fd(av[1], p->fd_out_to_use);
 				ft_putstr_fd(" : argument numérique nécessaire\n", p->fd_out_to_use);
-				g_gnl.exit_code = 2;
-				return (g_gnl.exit_status);//error code
+				g_process.exit_code = 2;
+				return (g_process.exit_status);//error code
 			}
 		}
 		if (cmd->ac > 2)
 		{
 			ft_putstr_fd("msh : exit: trop d'arguments.\n", p->fd_out_to_use);
-			g_gnl.exit_code =131; //a verifier, equivalent -1
-			return (g_gnl.exit_status);
+			g_process.exit_code =131; //a verifier, equivalent -1
+			return (g_process.exit_status);
 		}
 	}
-	g_gnl.exit_status = 0;
+	g_process.exit_status = 0;
 	return (0); //cas par défaut : returned last exit code
 }
