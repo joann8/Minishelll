@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 22:46:16 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 10:20:09 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		ft_find_cmd_path(char **job, char *exec, t_list **env);
 void	ft_print_prompt(t_term *term, char *prompt);
 char	*ft_relative_to_absolute(char *exec);
 int		ft_path_is_relative(char *str);
-char	*ft_make_prompt(t_list *pwd_node);
+char	*ft_make_prompt(t_list **env_lst);
 t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 char	*ft_my_getcwd(void);
 int		ft_move_cursor_home(t_term *term, char *prompt);

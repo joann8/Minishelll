@@ -100,3 +100,6 @@ evn
 env
 ls
 env
+echo e
+pwd
+ls
