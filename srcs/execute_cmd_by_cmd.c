@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 12:21:37 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 15:26:30 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 		res = ft_find_cmd_path(&job, tmp_c->job, env);
 	else
 		job = ft_strdup(tmp_c->job);//a verifier erreur malloc
+//	printf("res = %d\n", res);
 	if (res == -1 || (job == NULL && res != 0))
 		return (-1);//erreur malloc
 	else if (res == 0)
@@ -122,6 +123,7 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 		job = ft_strdup(tmp_c->job);
 		if (job == NULL)
 			return (-1);//erreur malloc
+	//	printf("add error\n"); //======> ERREUR FCT BABI?
 		ft_lstadd_back(error, ft_lstnew((void*)(job)));
 	}
 	else
@@ -134,47 +136,49 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 			free_double_tab(our_envp);
 			return (-1);
 		}
+		free_double_tab(our_envp);
 	}
-	free_double_tab(our_envp);
 	return (0);
 }
 
-int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env)
+int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p)
 {
 //	t_list			*tmp_l;
 //	t_simple_cmd	*tmp_c;
-	t_list			*error;
-	t_pipe			p;
+//	t_list			*error;
+//	t_pipe			p;
 	int				res;
 
-	error = NULL;
+//	error = NULL;
 //	tmp_l = cmd_list;
-	p.fd_in_next = -1;
+//	p.fd_in_next = -1;
 //	while(tmp_l)
 //	{
 //		tmp_c = (t_simple_cmd *)tmp_l->content;
 		//tmp_c->retour = 0; >> comment le modifier?
-		p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir	
-		p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
-		if (tmp_c->pipe_mod == 1)// si je suis piped
-			if (prepare_pipes(tmp_c, &p) == -1)
-				return (-1);
+	///	p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir	
+	//	p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
+	//	if (tmp_c->pipe_mod == 1)// si je suis piped
+	//		if (prepare_pipes(tmp_c, &p) == -1)
+	//			return (-1);
 	//	printf("--fd in to use = %d | fd out = %d | fd next = %d--\n-------\n", fd_in_to_use, fd_out_to_use, fd_in_next);
-		res = find_built_in(tmp_c, &p, &error, env);//if different 0, execute build in in built in
+		res = find_built_in(tmp_c, p, error, env);//if different 0, execute build in in built in
+	//	printf("res built in = %d\n", res);
 		if (res == -1)
 			return (-1); //erreur malloc dans built in
 		if (res == 0)//if different 0, execute build in in built in
 		{
 			//create_tab_env;
-			look_for_command_and_path(&error, tmp_c, env, p);
+			look_for_command_and_path(error, tmp_c, env, *p);
 			//free_env_tab;
 		}
-		if (tmp_c->pipe_pos == 1)// a voir avec le sbuilt in
+	/*	if (tmp_c->pipe_pos == 1)// a voir avec les built in
 		{
+			printf("error list\n");
 			print_cmd_error(0, error);
 			ft_lstclear(&error, free);
-		}
-		update_fd_pipes(tmp_c, &p);
+		}*/
+	//	update_fd_pipes(tmp_c, &p);
 //		tmp_l = tmp_l->next;
 //	}
 	return (0);

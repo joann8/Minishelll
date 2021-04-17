@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 18:45:02 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 13:39:06 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 # define STRUCT_H
 
-typedef	struct	s_gnl
+typedef	struct	s_process
 {
 	//int		index; 
-//	pid_t		pid[2];
+	pid_t		pid[2];
 	int			shell_level;
 	int			exit_status;
-}				t_gnl;
+}				t_process;
 
 typedef	enum	e_type
 {

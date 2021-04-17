@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 13:10:12 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/17 15:24:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@
 
 #include "struct.h"
 
-t_gnl	g_gnl;
+t_process	g_process;
 
-int		tmp_main(char *user_input, t_list **env_lst);
+int		execution_main(char *user_input, t_list **env_lst);
 
 // ADCONSTA.H
 
@@ -153,12 +153,14 @@ t_seq	*make_expansion_cmd_by_cmd(t_seq *tab_seq, t_list **var);
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
 
 //execute
+void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p);
+int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p);
 
 //built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
 int		ft_pwd(t_pipe *pipe, t_list **error);
 int		execute_cmd(t_list *cmd_list, t_list **env);
-int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env);
+int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p);
 
 //built in
 int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);

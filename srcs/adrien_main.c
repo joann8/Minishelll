@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 10:25:02 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 13:41:21 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		main(int ac, char **av, char **envp)
 			return (-1);
 		}
 		if (ft_strcmp(user_input, "") != 0)
-			tmp_main(user_input, &env_lst); 
+			execution_main(user_input, &env_lst); 
 		free(prompt);
 		free(user_input);
 	}
