@@ -1,5 +1,6 @@
 SRCS =	srcs/built_in.c			\
 		srcs/built_in_echo.c	\
+		srcs/built_in_pwd.c		\
 		srcs/command.c			\
 		srcs/execute_cmd.c		\
 		srcs/expansion.c 		\
