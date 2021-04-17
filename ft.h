@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 17:56:35 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/16 22:46:16 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 char	*ft_my_getcwd(void);
 int		ft_move_cursor_home(t_term *term, char *prompt);
 char	**ft_make_ourenvp(t_list **env);
+void	ft_lst_env_sort(t_list **begin, int (*cmp)());
+void	ft_lst_env_copy(t_list **dest, t_list **src);
 
 //	JO.H
 //promp et erreurs
@@ -151,7 +153,7 @@ t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 //execute
 
 //built in
-int		ft_echo(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
+int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
 int		ft_pwd(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
 int		execute_cmd(t_list *cmd_list, t_list **env);
 

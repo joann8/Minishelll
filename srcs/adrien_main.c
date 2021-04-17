@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/16 17:55:34 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/16 22:50:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	//(void)envp;
 	t_list	*env_lst;
+	t_list	*lst_copy;
 	char *user_input;
 	char *prompt;
 	char *tmp;
@@ -60,7 +61,15 @@ int		main(int ac, char **av, char **envp)
 	t_list	*pwd_node;
 
 	env_lst = NULL;
+	lst_copy = NULL;
 	ft_make_envlst(&env_lst, envp);
+	ft_print_envlst(env_lst);
+	printf("\n**************************************************\n");
+	ft_lst_env_copy(&lst_copy, &env_lst);
+	ft_print_envlst(lst_copy);
+	printf("\n**************************************************\n");
+	ft_lst_env_sort(&lst_copy, ft_strcmp);
+	ft_print_envlst(lst_copy);
 	if (env_lst == NULL)
 		return (-1);
 	//ft_print_envlst(env_lst);
