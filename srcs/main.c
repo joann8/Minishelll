@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 17:51:57 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 13:04:30 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ int tmp_main(char *line, t_list **var_list)//a changer nous emem tab env
 		ft_lstclear(&token_list, free);
 		return(printf("pbm table sequence\n"));
 	}
-	tab_seq = make_expansion(tab_seq, seq_nb, *var_list);
+/*	tab_seq = make_expansion(tab_seq, seq_nb, *var_list);
 	if (tab_seq ==  NULL)
 	{
 		ft_free_token(token_list);
 		ft_lstclear(&token_list, free);
 		return(printf("pbm table sequence\n"));
-	}
+	}*/
 	printf("\n****RESUlT SEQUENCE******\n");
 	print_seq(tab_seq, seq_nb);
-	cmd_list = create_command(cmd_list, tab_seq, seq_nb);
+	printf("\n**********\n");
+	cmd_list = create_command(cmd_list, tab_seq, seq_nb, var_list);
 	printf("\n****RESUlT COMMAND******\n");
 	if (cmd_list == NULL)
 	{
@@ -69,9 +70,10 @@ int tmp_main(char *line, t_list **var_list)//a changer nous emem tab env
 		ft_free_tab_seq(tab_seq, seq_nb);
 		return(printf("pbm table sequence\n"));
 	}
+	printf("\n****END EXECUTE COMMAND******\n\n");
 	print_cmd(cmd_list);
-	printf("\n****START EXECUTE COMMAND******\n\n");
-	execute_cmd(cmd_list, var_list);
+//	printf("\n****START EXECUTE COMMAND******\n\n");
+//	execute_cmd(cmd_list, var_list);
 	ft_free_token(token_list);
 	ft_lstclear(&token_list, free);
 	ft_free_tab_seq(tab_seq, seq_nb);
