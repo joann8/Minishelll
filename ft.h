@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 10:47:57 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 13:10:12 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,11 @@ char 	*assign_final_str(t_expansion *exp, t_list *var);
 //expansion
 void	escape_within_doubles(t_expansion *exp);
 t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
+t_seq	*make_expansion_cmd_by_cmd(t_seq *tab_seq, t_list **var);
 
 //command
-t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
+//t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
+t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
 
 //execute
 
@@ -156,6 +158,7 @@ t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
 int		ft_pwd(t_pipe *pipe, t_list **error);
 int		execute_cmd(t_list *cmd_list, t_list **env);
+int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env);
 
 //built in
 int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
