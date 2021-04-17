@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 10:20:09 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 10:47:57 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 
 //built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
-int		ft_pwd(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
+int		ft_pwd(t_pipe *pipe, t_list **error);
 int		execute_cmd(t_list *cmd_list, t_list **env);
 
 //built in
