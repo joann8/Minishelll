@@ -324,3 +324,67 @@ cd
 pwd
 export HOME=BLEU
 cd
+cd ..
+pwd
+cd ......
+cd ../../../../
+cd ../../../../../../../../
+cd ../../../../../../../..//
+cd ../..//
+cd ../../////
+vim srcs/ft_get_userinput.c
+super
+cd
+pwd
+cd ..
+c
+cd
+cd ./
+cd /bin
+cd
+cd ""
+cd ici
+cd ..
+ls
+pwd
+cd minishell
+cd .
+cd /bin
+cd ..
+cd
+cd ""
+cd minishell
+cd /bin
+pwd
+cd /
+pwd
+cd /bin
+pwd
+cd
+pwd
+cd ""
+pwd
+cd /home
+pwd
+cd /usr/bin
+pwd
+cd /bin
+pwd
+cd /
+pwd
+cd bin
+cd ../
+cd ..
+cd hop
+cd ../hop
+cd hop
+cd ../hop
+cd ../
+pwd
+cd ..
+cd
+cd ""
+cd /
+cd /bin
+cd /bin/
+cd /usr

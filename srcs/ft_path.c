@@ -6,18 +6,18 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/18 17:11:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/18 18:26:42 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		ft_path_is_relative(char *str)
+int		is_absolute_path(char *str)
 {
 	if (*str == '/')
-		return (0);
-	else
 		return (1);
+	else
+		return (0);
 }
 
 
@@ -147,35 +147,30 @@ char	*ft_get_absolute_path(t_list *dir)
 	return (final_path);
 }
 
-char	*ft_relative_to_absolute(char *r_path)
+//cur_path = cwd //operand = r_path
+char	*get_newpath(char *operand)
 {
-	char	*cwd;
 	t_list	*dir_lst;
+	char	*cur_path;
+	char	*new_path;
 
 	dir_lst = NULL;
-
-	if (ft_path_is_relative(r_path))
-	{
-		printf("**RELATIVE PATH:\n");
-		cwd = ft_my_getcwd();
-	}
-	else
-	{
-		printf("**ABSOLUTE PATH:\n");
-		cwd = ft_strdup("/");
-	}
-	if (cwd == NULL)
+	cur_path = getcwd(NULL, 0);
+	if (cur_path == NULL)
 		return (NULL);
-	printf("cwd = %s\n", cwd);
-	printf("r_path = %s\n", r_path);
-	if (ft_make_dir_lst(&dir_lst, cwd) == -1)
+	printf("cur_path = %s\n", cur_path);
+	printf("operand = %s\n", operand);
+	if (ft_make_dir_lst(&dir_lst, cur_path) == -1)
+	{
+		free(cur_path);
 		return (NULL);
-	free(cwd);
+	}
+	free(cur_path);
 	ft_print_str_lst(dir_lst);
-	ft_edit_dir_lst(&dir_lst, r_path);
+	ft_edit_dir_lst(&dir_lst, operand);
 	ft_print_str_lst(dir_lst);
-	cwd = ft_get_absolute_path(dir_lst);
-	printf("abs_path = %s\n", cwd);
+	new_path = ft_get_absolute_path(dir_lst);
+	/*
 	if (chdir(cwd) == 0)
 	{
 		printf("chdir(0) = sucess\n");
@@ -183,15 +178,8 @@ char	*ft_relative_to_absolute(char *r_path)
 		return (cwd);
 	}
 	printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
-	return (0);
-}
-
-char	*get_curpath(char *operand)
-{
-	if (ft_path_is_relative(operand))
-			return (getcwd(NULL, 0));
-	else
-		return (ft_strdup("/"));
+	*/
+	return (new_path);
 }
 
 int		ft_tablen(char **argv)
@@ -225,10 +213,42 @@ int		move_to_home_var(t_list **env)
 	//ft_update_pwd(env);
 	return (0);
 }
+
+int		ft_update_pwd(char *new_path, t_list **env)
+{
+	t_list	*pwd;
+	t_list	*o_pwd;
+	t_var	*o_tmp;
+	t_var	*p_tmp;
+
+	o_pwd = ft_lstfind_env(env, "OLDPWD", ft_strcmp);
+	pwd = ft_lstfind_env(env, "PWD", ft_strcmp);
+	if (o_pwd && pwd)
+	{
+		o_tmp = (t_var *)o_pwd->content;
+		p_tmp = (t_var *)pwd->content;
+		free(o_tmp->value);
+		o_tmp->value = ft_strdup(p_tmp->value);
+		if (o_tmp->value == NULL)
+			return (-1);
+	}
+	if (pwd)
+	{
+		p_tmp = (t_var *)pwd->content;
+		free(p_tmp->value);
+		p_tmp->value = ft_strdup(new_path);
+		if (p_tmp->value == NULL)
+			return (-1);
+	}
+	return (0);
+}
+		
+
+		
+	
 int		ft_cd(char **argv, t_list **env)
 {
-	//char	*cur_path;
-	//char	*new_path;
+	char	*new_path;
 	char	*operand;
 
 	if (ft_tablen(argv) > 2)
@@ -240,32 +260,24 @@ int		ft_cd(char **argv, t_list **env)
 	// Ici add gestion (cd | cd ~) et (cd -) ? 
 	if (operand == NULL || ft_strcmp(operand, "") == 0)
 		return (move_to_home_var(env));
-	/*
-	cur_path = get_curpath(operand);
-	if (cur_path == NULL)
-		return (-1);
-	new_path = get_newpath(curpath, operand);
-	free(cur_path);
+	if (is_absolute_path(operand))
+		new_path = ft_strdup(operand);
+	else
+		new_path = get_newpath(operand);
 	if (new_path == NULL)
 		return (-1); // Err malloc;
-	if (!ft_is_directory(new_path))
+	printf("new_path = %s\n", new_path);
+	if (chdir(new_path) == -1)
 	{
-		printf("Bash(adrien): cd: [%s] is not a directory\n", new_path);
-		free(cur_path);
+		printf("Bash(adrien): cd: [%s] is not a directory(errno : %s)\n", new_path, strerror(errno));
 		free(new_path);
 		return (1);
 	}
-	ft_change_current_directory();
-		//Change de directory ver new_path
-		//Actualise OLDPWD:
-		//	if (OLDPWD) && (PWD)
-		//		free(OLDPWD->value);
-		//		OLDPWD->value = ft_strdup(PWD->value);
-		//Actualise PWD:
-		//	if (PWD)
-		//		free(PWD->value)
-		//		PWD->value = ft_strdup(new_path);
-		return (0);
-		*/
+	if (ft_update_pwd(new_path, env) == -1)
+	{
+		free(new_path);
+		return (1);
+	}
+	free(new_path);
 	return (0);
 }
