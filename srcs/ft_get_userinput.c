@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/18 10:14:55 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/18 17:35:45 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	ft_init_input(t_input *user, t_term *term, t_list *log, char *prompt)
 	if (user->input == NULL)
 		return (-1);
 	user->screen = user->input;
-	printf("col = %d\n", term->col);
-	printf("row = %d\n", term->line);
 	ft_print_prompt(term, prompt);
 	tputs(term->sc, 1, ft_termcap_on);
 	return (0);

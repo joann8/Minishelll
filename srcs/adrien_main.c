@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 17:13:08 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/18 17:42:38 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,6 @@ char	*ft_make_prompt(t_list **env_lst)
 	if (prompt == NULL)
 		return (NULL);
 	return (prompt);
-}
-
-int		ft_update_pwd(t_list *pwd_node, char *cwd)
-{
-//	t_var *var;
-
-	free(((t_var *)(pwd_node->content))->value);
-	if ((((t_var *)(pwd_node->content))->value = ft_strdup(cwd)) == NULL)
-		return (-1);
-	return (0);
 }
 
 int		main(int ac, char **av, char **envp)
