@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/18 10:08:21 by marvin           ###   ########.fr       */
+/*   Updated: 2021/04/17 17:25:59 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
 
 //expansion utils
 int		is_word(char *str);
-int		is_var_name(char c);
+int		is_var_name(char c, int mod);
 int		is_name(char *str);
 
 //expansion manage
@@ -174,6 +174,7 @@ int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p);
 //built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
 int		ft_pwd(t_pipe *pipe, t_list **error);
+int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe);
 int		execute_cmd(t_list *cmd_list, t_list **env);
 int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p);
 
