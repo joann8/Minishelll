@@ -1,17 +1,18 @@
-SRCS =	srcs/built_in.c			\
-		srcs/built_in_echo.c	\
-		srcs/built_in_pwd.c		\
-		srcs/command.c			\
-		srcs/execute_cmd_by_cmd.c		\
-		srcs/execution_main.c					\
-		srcs/expansion_cmd_by_cmd.c 		\
+SRCS =	srcs/built_in.c				\
+		srcs/built_in_echo.c		\
+		srcs/built_in_pwd.c			\
+		srcs/command.c				\
+		srcs/execute_cmd_by_cmd.c	\
+		srcs/execution_main.c		\
+		srcs/expansion_cmd_by_cmd.c \
 		srcs/expansion_find.c 		\
-		srcs/expansion_manage.c 		\
+		srcs/expansion_manage.c 	\
 		srcs/expansion_utils.c 		\
 		srcs/ft_env_utils.c			\
-		srcs/ft_find_cmd_path.c			\
+		srcs/ft_export.c			\
+		srcs/ft_find_cmd_path.c		\
 		srcs/ft_free.c 				\
-		srcs/ft_get_userinput.c 		\
+		srcs/ft_get_userinput.c 	\
 		srcs/ft_make_envlst.c 		\
 		srcs/ft_other_utils.c		\
 		srcs/ft_path.c				\
@@ -23,7 +24,7 @@ SRCS =	srcs/built_in.c			\
 		srcs/prompt_and_error.c		\
 		srcs/sequence.c				\
 		srcs/sequence_utils.c		\
-		srcs/termcap_utils.c			\
+		srcs/termcap_utils.c		\
 		srcs/tokenize_assign.c		\
 		srcs/tokenize.c				\
 		srcs/tokenize_utils.c		

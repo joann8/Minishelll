@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/16 22:20:44 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/18 09:40:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ char	*ft_getenv_name(char *env_str)
 	char	*name;
 
 	len = 0;
-	if (env_str == NULL)
-		return (NULL);
 	while (env_str[len] && env_str[len] != '=')
 		len++;
-	name = malloc(sizeof(char) * (len + 1));
+	name = ft_strndup(env_str, len);
 	if (name == NULL)
 		return (NULL);
-	ft_strncpy(name, env_str, len);
 	return (name);
 }
 

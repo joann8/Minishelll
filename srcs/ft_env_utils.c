@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 18:03:42 by calao             #+#    #+#             */
-/*   Updated: 2021/04/16 23:04:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/17 17:50:06 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ t_list	*ft_env_node_copy(t_var *v_src)
 	return (new);
 }
 
-void	ft_lst_env_copy(t_list **dest, t_list **src)
+int		ft_lst_env_copy(t_list **dest, t_list **src)
 {
 	t_var	*v_src;
+	t_var	*v_dst;
 	t_list	*tmp;
 	t_list	*new;
 
@@ -112,10 +113,14 @@ void	ft_lst_env_copy(t_list **dest, t_list **src)
 	{
 		v_src = (t_var *)(tmp->content);
 		new = ft_env_node_copy(v_src);
-		((t_var *)(new->content))->on = v_src->on;
+		if (new == NULL)
+			return (-1);
+		v_dst = (t_var *)new->content;
+		v_dst->on = v_src->on;
 		ft_lstadd_back(dest, new);
 		tmp = tmp->next;
 	}
+	return (0);
 	//SUPPRIMER le dernier noeud ? _=./minishell pour export ???
 }
 
