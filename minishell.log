@@ -308,3 +308,19 @@ llaa
 s
 aalalala
 trrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+#lol
+echo e #lalala
+cd
+nev
+env
+env | sort
+cd
+pwd
+unset HOME
+cd
+cd ""
+export HOME=/bin
+cd
+pwd
+export HOME=BLEU
+cd

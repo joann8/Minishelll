@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 17:25:04 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/18 17:12:51 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 	}
 	if (ft_strcmp(cmd->job, "pwd") == 0)//JOANN
 		return (ft_pwd(p, error));
-/*
-	//	if (ft_strcmp(cmd->job, "cd") == 0)//ADRIEN
-//		return (2);
-//		*/
+	if (ft_strcmp(cmd->job, "cd") == 0)//ADRIEN
+	{
+		ft_cd(cmd->av, env);
+		return (2);
+	}
 	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
 	{
 		ft_export(env, cmd->av, p->fd_out_to_use, cmd->pipe_mod); 

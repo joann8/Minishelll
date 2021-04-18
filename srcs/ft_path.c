@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 18:49:25 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/18 17:11:05 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,89 @@ char	*ft_relative_to_absolute(char *r_path)
 		return (cwd);
 	}
 	printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
+	return (0);
+}
+
+char	*get_curpath(char *operand)
+{
+	if (ft_path_is_relative(operand))
+			return (getcwd(NULL, 0));
+	else
+		return (ft_strdup("/"));
+}
+
+int		ft_tablen(char **argv)
+{
+	int i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
+}
+
+int		move_to_home_var(t_list **env)
+{
+	t_list *home_node;
+	t_var	*v_tmp;
+
+	home_node = ft_lstfind_env(env, "HOME", ft_strcmp);
+	if (home_node == NULL)
+	{
+		printf("Bash(adrien): cd: HOME is not set\n");
+		return (1);
+	}
+	v_tmp = (t_var *)home_node->content;
+	if (chdir(v_tmp->value) == -1)
+	{
+		printf("Bash(adrien): cd: errno = %s\n", strerror(errno));
+		return (1);
+	}
+	//ft_update_oldpwd(env);
+	//ft_update_pwd(env);
+	return (0);
+}
+int		ft_cd(char **argv, t_list **env)
+{
+	//char	*cur_path;
+	//char	*new_path;
+	char	*operand;
+
+	if (ft_tablen(argv) > 2)
+	{
+		printf("bash: cd: too many arguments\n");
+		return (1);
+	}
+	operand = *(argv + 1);
+	// Ici add gestion (cd | cd ~) et (cd -) ? 
+	if (operand == NULL || ft_strcmp(operand, "") == 0)
+		return (move_to_home_var(env));
+	/*
+	cur_path = get_curpath(operand);
+	if (cur_path == NULL)
+		return (-1);
+	new_path = get_newpath(curpath, operand);
+	free(cur_path);
+	if (new_path == NULL)
+		return (-1); // Err malloc;
+	if (!ft_is_directory(new_path))
+	{
+		printf("Bash(adrien): cd: [%s] is not a directory\n", new_path);
+		free(cur_path);
+		free(new_path);
+		return (1);
+	}
+	ft_change_current_directory();
+		//Change de directory ver new_path
+		//Actualise OLDPWD:
+		//	if (OLDPWD) && (PWD)
+		//		free(OLDPWD->value);
+		//		OLDPWD->value = ft_strdup(PWD->value);
+		//Actualise PWD:
+		//	if (PWD)
+		//		free(PWD->value)
+		//		PWD->value = ft_strdup(new_path);
+		return (0);
+		*/
 	return (0);
 }

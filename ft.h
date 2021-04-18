@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 17:25:59 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/18 17:11:59 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
 //Built in
 int		ft_unset(t_list **env, char **argv, int pipe_mod);
 int		ft_export(t_list **env, char **argv, int fd_out, int pipe_mod);
+int		ft_cd(char **argv, t_list **env);
 
 // Print
 void	ft_print_prompt(t_term *term, char *prompt);
