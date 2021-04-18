@@ -3,9 +3,11 @@
 -> Afficher les msgs d'erreur dans STDERR_FILENO
 -> Gerer les #
 
+
 #Prompt:
 -> Multiligne chez Joann quand on remonte historique
 
 #Built_in:
 -> Implementer le pipe dans exit
+->supprimer le dernier noeud de export _=./minishell ?
 

@@ -6,12 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 11:23:45 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/18 10:14:55 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
+int		ft_is_endofscreen(t_term *term, char *prompt);
 
 int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
@@ -83,9 +84,11 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 				free(user.input);
 			return (user.screen);
 		}
+		else if (user.buf[0] == 12)
+			ft_move_cursor_home(term, prompt);
 		else
 			ft_screen_wrapper(&user, log);
-		if (ft_move_cursor_home(term, prompt))
+		if (ft_is_endofscreen(term, prompt))
 			return (NULL);
 		tputs(term->rc, 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
@@ -133,8 +136,7 @@ int		ft_getcursorxy(int *row, int *col)
 	return (0);
 }
 
-
-int		ft_move_cursor_home(t_term *term, char *prompt)
+int		ft_is_endofscreen(t_term *term, char *prompt)
 {
 	int		cur_row;
 	int		cur_col;
@@ -145,13 +147,18 @@ int		ft_move_cursor_home(t_term *term, char *prompt)
 		return (-1);
 	}
 	if (cur_row == term->line && cur_col == term->col)
-	{
-		tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
-		tputs(term->cd, 1, ft_termcap_on);
-		ft_print_prompt(term, prompt);
-		tputs(term->sc, 1, ft_termcap_on);
-	}
+		ft_move_cursor_home(term, prompt);
 	return (0);
+}
+
+
+
+void	ft_move_cursor_home(t_term *term, char *prompt)
+{
+	tputs(tgoto(term->cm, 0, 0), 1, ft_termcap_on);
+	tputs(term->cd, 1, ft_termcap_on);
+	ft_print_prompt(term, prompt);
+	tputs(term->sc, 1, ft_termcap_on);
 }
 
 int		ft_make_loglst(t_list **head, int fd)
