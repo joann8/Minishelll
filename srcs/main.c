@@ -1,47 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   adrien_main.c                                      :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/18 17:42:38 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 15:13:11 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
-
-
-char	*ft_relative_to_absolute(char *exec);
-int		ft_path_is_relative(char *str);
-
-char	*ft_make_prompt(t_list **env_lst)
-{
-	t_list	*pwd_node;
-	char *tmp;
-	char *pwd;
-	char *prompt;
-
-
-	pwd_node = (ft_lstfind_env(env_lst, "PWD", ft_strcmp));
-	if (pwd_node == NULL)
-		pwd = getcwd(NULL, 0);
-	else
-		pwd = ft_strdup(((t_var *)(pwd_node->content))->value);
-	if (pwd == NULL)
-		return (NULL);
-	prompt = ft_strjoin("minishell@jacher-adconsta:", pwd);
-	free(pwd);
-	if (prompt == NULL)
-		return (NULL);
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, "$ ");
-	free(tmp);
-	if (prompt == NULL)
-		return (NULL);
-	return (prompt);
-}
 
 int		main(int ac, char **av, char **envp)
 {

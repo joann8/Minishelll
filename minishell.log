@@ -388,3 +388,26 @@ cd /
 cd /bin
 cd /bin/
 cd /usr
+echo hello
+exit 55
+echo $?
+exit sjjs
+echo $?
+cat shhs
+echo $?
+echo hello > file1
+cat file1
+echo $?
+cat file1
+exit
+cat file1
+ls
+cat file1
+pwd
+pwd jdjs$
+cd hshs hss jh
+echo $?
+cd ..
+echo $?
+kskks
+echo $?

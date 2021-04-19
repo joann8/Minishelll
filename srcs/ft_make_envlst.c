@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/18 09:40:29 by marvin           ###   ########.fr       */
+/*   Updated: 2021/04/19 15:13:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,14 @@ int		ft_make_envlst(t_list **head, char **envp)
 	new_node = NULL;
 	while (*envp)
 	{
+		new_node = ft_lstnew(NULL);
+		if (new_node == NULL)
+			return (-1);
+		ft_lstadd_back(head, new_node);
 		my_env = malloc(sizeof(*my_env));
 		if (my_env == NULL)
 			return (-1);
+		new_node->content = my_env;
 		my_env->name = NULL;
 		my_env->value = NULL;
 		my_env->on = -1;
@@ -49,10 +54,7 @@ int		ft_make_envlst(t_list **head, char **envp)
 		if (my_env->value == NULL)
 			return (-1);
 		my_env->on = 1;
-		new_node = ft_lstnew(my_env);
-		if (new_node == NULL)
-			return (-1);
-		ft_lstadd_back(head, new_node);
+
 		envp++;
 	}
 	return (0);

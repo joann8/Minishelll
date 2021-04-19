@@ -1,6 +1,9 @@
 #General:
 -> Comment gerer les Shell lvl? (+ env_var shell_lvl)
 -> Afficher les msgs d'erreur dans STDERR_FILENO
+-> signaux globaux + enregistremnt PID (et les fermer)
+-> exit code built in /exceve
+
 -> Gerer les #
 
 
@@ -10,4 +13,5 @@
 #Built_in:
 -> Implementer le pipe dans exit
 ->supprimer le dernier noeud de export _=./minishell ?
-
+-> cd + chemin direct / chemin local 
+-> quoi fermer dans exit

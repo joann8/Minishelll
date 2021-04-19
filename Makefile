@@ -20,9 +20,10 @@ SRCS =	srcs/built_in.c			\
 		srcs/ft_path.c				\
 		srcs/ft_unset.c				\
 		srcs/get_userinput_utils.c 	\
-		srcs/adrien_main.c			\
+		srcs/main.c			\
 		srcs/print_help.c			\
 		srcs/print_utils.c			\
+		srcs/prompt.c		\
 		srcs/prompt_and_error.c		\
 		srcs/sequence.c				\
 		srcs/sequence_utils.c		\
