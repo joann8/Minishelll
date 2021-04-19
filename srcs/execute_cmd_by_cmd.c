@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 11:12:26 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 15:42:20 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,16 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp, t_pipe p)
 	//	close(fd_out_to_use);
 		err = execve(job, tmp_c->av, our_envp);
 		if (err == -1)
+		{
+			printf("pbm execve %d - %s\n", errno, strerror(errno));
+			kill(0, SIGKILL);
 			return (-1); //erreur execution
+		}
 	}
 	else
 	{
 		wait(&wstatus);
+		printf("hello from parent\n");
 		g_process.exit_status = WEXITSTATUS(wstatus);
 	}
 	return (0);		

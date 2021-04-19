@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/15 15:49:26 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 16:00:25 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ int		ft_init_termcap(t_term *term)
 	if (term->name == NULL)
 	{
 		printf("env '$TERM' not found\n");
-		return (1);
+		return (-1);
 	}
 	ret = tgetent(NULL, term->name);
 	if (ret == 0)
 	{
 		printf("tgetent == 0\n");
-		return (1);
+		return (-1);
 	}
 	else if (ret == -1)
 	{

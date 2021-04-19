@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/18 17:11:59 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 15:53:45 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		ft_make_loglst(t_list **log, int fd);
 int		ft_screen_wrapper(t_input *user, t_list *log);
 int		ft_termcap_on(int c);
 int		ft_up_arrow(char **screen, char **user_input, t_list *log, unsigned int *i);
+int		ft_isendofscreen(t_term *term, char *prompt);
 
 // ENV
 int		ft_make_envlst(t_list **head, char **envp);

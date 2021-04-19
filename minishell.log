@@ -411,3 +411,18 @@ cd ..
 echo $?
 kskks
 echo $?
+ls
+export JOANN==1000
+env
+./minishell
+env
+exit
+./minishell
+quit
+env
+./minishell
+env
+cd ..
+/minishell/minishell
+cd minishell
+./minishell/minishell

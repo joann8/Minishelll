@@ -6,13 +6,11 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/18 17:35:45 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 16:08:38 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
-
-int		ft_is_endofscreen(t_term *term, char *prompt);
 
 int	ft_get_userinput(char **line, char *prompt, char *log_path)
 {
@@ -29,19 +27,31 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path)
 		return (-1); // Err opening
 	}
 	if (ft_make_loglst(&log, fd_log) < 0)
+	{
+		ft_lstclear(&log, free);
 		return (-1);
+	}
 	ft_enable_raw_mode(&origin);
 	if (ft_init_termcap(&term))
-		return (-(printf("termcap init failed\n")));
+	{
+		ft_lstclear(&log, free);
+		printf("termcap init failed\n");
+		return (-1);
+	}
 	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	if (*line == NULL || ft_update_log(line, log, fd_log) == -1
 			|| close(fd_log) < 0)
-		return (printf("error in ft_read_input\n"));
+	{
+		ft_lstclear(&log, free);
+		printf("error in ft_read_input\n");
+		return (-1);
+	}
 	ft_lstclear(&log, free);
 	return (0);
 }
+
 int	ft_init_input(t_input *user, t_term *term, t_list *log, char *prompt)
 {
 	user->log_size = ft_lstsize(log);
@@ -55,25 +65,13 @@ int	ft_init_input(t_input *user, t_term *term, t_list *log, char *prompt)
 	return (0);
 }
 
-/*
-	user.log_size = ft_lstsize(log);
-	user.i = user.log_size;
-	user.input = ft_strdup("");
-	if (user.input == NULL)
-		return (NULL);
-	user.screen = user.input;
-	printf("col = %d\n", term->col);
-	printf("row = %d\n", term->line);
-	ft_print_prompt(term, prompt);
-	tputs(term->sc, 1, ft_termcap_on);
-	*/
-
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 {
 	t_input				user;
+
 	if (ft_init_input(&user, term, log, prompt) == -1)
 		return (NULL);
-	while ((user.bytes = read(fd, user.buf, 4)))
+	while ((user.bytes = read(fd, user.buf, 4)) > 0)
 	{
 		user.buf[user.bytes] = '\0';
 		if (user.buf[0] == '\n')
@@ -87,11 +85,19 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		else
 			ft_screen_wrapper(&user, log);
 		if (ft_is_endofscreen(term, prompt))
+		{
+			free(user.screen);
+			if (user.input)
+				free(user.input);
 			return (NULL);
+		}
 		tputs(term->rc, 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		write(1, user.screen, ft_strlen(user.screen));
 	}
+	free(user.screen);
+	if (user.input)
+		free(user.input);
 	return (NULL);
 }
 
@@ -168,14 +174,15 @@ int		ft_make_loglst(t_list **head, int fd)
 	new_node = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
+		new_node = ft_lstnew(NULL);
+		if (new_node == NULL)
+			return (-1);
+		ft_lstadd_back(head, new_node);
 		log = ft_strdup(line);
 		free(line);
 		if (log == NULL)
 			return (-1);
-		new_node = ft_lstnew(log);
-		if (new_node == NULL)
-			return (-1);
-		ft_lstadd_back(head, new_node);
+		new_node->content = log;
 	}
 	free(line);
 	return (0);

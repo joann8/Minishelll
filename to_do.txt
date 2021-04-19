@@ -3,8 +3,10 @@
 -> Afficher les msgs d'erreur dans STDERR_FILENO
 -> signaux globaux + enregistremnt PID (et les fermer)
 -> exit code built in /exceve
-
+-> Si malloc fail quid du msg d'erreur ? (ERRNO deja set ?)
 -> Gerer les #
+-> creer une fonction qui verifier l'existence d'un executable avec un chemin absolu, avant de l'envoyer a execve; (Comme find_path mais sans chercher TOUT les chemin de $PATH;
+		ex: /home/calao/minishell
 
 
 #Prompt:

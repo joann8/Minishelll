@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:49:33 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 15:13:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 15:29:09 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int		ft_make_envlst(t_list **head, char **envp)
 		new_node->content = my_env;
 		my_env->name = NULL;
 		my_env->value = NULL;
-		my_env->on = -1;
 		// erreur possible dans ces fonctions ?
 		my_env->name = ft_getenv_name(*envp);
 		if (my_env->name == NULL)
@@ -54,7 +53,6 @@ int		ft_make_envlst(t_list **head, char **envp)
 		if (my_env->value == NULL)
 			return (-1);
 		my_env->on = 1;
-
 		envp++;
 	}
 	return (0);

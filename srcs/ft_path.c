@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 11:44:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 15:30:25 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,6 @@ int		is_absolute_path(char *str)
 		return (0);
 }
 
-
-char	*ft_my_getcwd(void)
-{
-	char	*cwd;
-	char	*tmp;
-	size_t	size;
-	int		i;
-
-	size = 10;
-	cwd = NULL;
-	i = 0;
-	while (cwd == NULL)
-	{
-		cwd = getcwd(cwd, size);
-		if (cwd == NULL)
-		{
-			if (errno == ERANGE)
-				size += 20;
-			else
-				return (NULL);
-		}
-		i++;
-	}
-	tmp = cwd;
-	cwd = ft_strjoin(cwd, "/");
-	free(tmp);
-	return (cwd);
-}
 
 int		ft_make_dir_lst(t_list **dir, char *str)
 {

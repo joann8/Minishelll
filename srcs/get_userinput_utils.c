@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/14 18:15:44 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 16:13:00 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		ft_up_arrow(char **screen, char **user_input,
 //	printf("\nUP_ARROW hooked\n");
 	//Save user_input avant de mettre screen sur history
 	if (*i == log_size)
-		*user_input = *screen;
+		*user_input = *screen; // BETISE non ? faut il free user_input?
 	//Screen est une copie de history et va changer, donc on free
 	//Opti possible
 	if (*i < log_size)
