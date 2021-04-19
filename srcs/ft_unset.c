@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 15:33:30 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 11:47:43 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	ft_unset_node(t_list **env, t_list *tmp)
 int		ft_unset(t_list **env, char **argv, int pipe_mod)
 {
 	t_list *tmp;
+	int		res;
 	
 	argv++; // skip le job en ar 1 
+	res = 0;
 	while (*argv)
 	{
 		printf("argv = %s\n", *argv);
@@ -46,6 +48,7 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod)
 			write(1, "NON\n", 4);
 			//Ecrire dans le stderr
 			printf("bash: unset: `%s': not a valid identifier\n", *argv);
+			res = 1;
 		}
 		else
 		{
@@ -58,5 +61,5 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod)
 		}
 		argv++;
 	}
-	return (1);
+	return (res);
 }

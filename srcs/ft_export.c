@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/18 10:00:55 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 11:46:45 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,11 @@ int		ft_export_print(t_list **env, int fd_out)
 
 	copy = NULL;
 	if (ft_lst_env_copy(&copy, env) == -1)
-			return (-1); // Err malloc
-		ft_lst_env_sort(&copy, ft_strcmp);
-		ft_print_exportlst_fd(copy, fd_out);
-		ft_lstclear_envlst(&copy);
-		return (1);
+			return (1); // Err malloc
+	ft_lst_env_sort(&copy, ft_strcmp);
+	ft_print_exportlst_fd(copy, fd_out);
+	ft_lstclear_envlst(&copy);
+	return (0);
 }
 
 
@@ -151,28 +151,33 @@ int		ft_export(t_list **env, char **argv, int fd_out, int pipe_mod)
 	t_list	*exist;
 	char	*key;
 	int		ret;
+	int		res;
 
 	argv++;
+	res = 0;
 	if (*argv == NULL)
 		return (ft_export_print(env, fd_out));
 	while (*argv)
 	{
 		ret = 0;
 		if (ft_check_export_name(*argv) == 0)
+		{
 			printf("bash: unset: `%s': not a valid identifier\n", *argv);
+			res = 1;
+		}
 		else if (pipe_mod == 0)
 		{
 			if ((key = ft_getenv_name(*argv)) == NULL)
-				return (-1);
+				return (1);
 			if ((exist = ft_lstfind_export(env, key, ft_strcmp)))
 				ret = ft_export_replace_value(exist, *argv);
 			else
 				ret = ft_lst_env_addback(env, *argv);
 			free(key);
 			if (ret == -1)
-				return (-1); //err malloc
+				return (1); //err malloc
 		}
 		argv++;
 	}
-	return (1);
+	return (res);
 }
