@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 16:16:55 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 19:01:54 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,20 @@ void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p)
 	if (tmp_c->pipe_mod == 1)
 	{
 		if (tmp_c->pipe_pos == -1)//first
-		{
-		//	printf("closing fd_tab[1]= %d\n", fd_tab[1]);
 			close(p->fd_tab[1]);
-		}
 		else if (tmp_c->pipe_pos == 1)//dernier
-		{
-		//	printf("closing fd_in_next= %d\n", fd_in_next);
 			close(p->fd_in_next);
-		}
 		else if (tmp_c->pipe_pos == 0)
 		{
 			close(p->fd_in_next);
-		//	printf("closing fd_in_next= %d\n", fd_in_next);
 			close(p->fd_tab[1]);
-		//	printf("closing fd_tab[1]= %d\n", fd_tab[1]);
 		}
 		p->fd_in_next = p->fd_tab[0];
 	}
 	if (tmp_c->fd_in != STDIN_FILENO)
-	{
 		close(tmp_c->fd_in);
-	//	printf("closing tmp_c->fd_in= %d\n", tmp_c->fd_in);
-	}
 	if (tmp_c->fd_out != STDOUT_FILENO)
-	{
 		close(tmp_c->fd_out);
-	//	printf("closing tmp_c->fd_out= %d\n", tmp_c->fd_out);
-	}
 }
 
 int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p) 
@@ -79,7 +65,9 @@ int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p)
 
 int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp, t_pipe p)
 {
-	pid_t pid;
+	pid_t	pid;
+	int		wstatus;
+	int		err; 
 
 	pid = fork();
 	if (pid == -1)
@@ -93,89 +81,65 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp, t_pipe p)
 		if (dup2(p.fd_out_to_use, STDOUT_FILENO) == -1)
 			return (-1);
 	//	close(fd_out_to_use);
-		execve(job, tmp_c->av, our_envp);
-		//gérer erreur execve
+		err = execve(job, tmp_c->av, our_envp);
+		if (err == -1)
+		{
+			printf("pbm execve %d - %s\n", errno, strerror(errno));
+			kill(0, SIGKILL);
+			return (-1); //erreur execution
+		}
 	}
 	else
-		wait(NULL);
+	{
+		wait(&wstatus);
+		printf("hello from parent\n");
+		g_process.exit_status = WEXITSTATUS(wstatus);
+	}
 	return (0);		
 }
 
-int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env, t_pipe p)
+int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c, t_list **env, t_pipe p)
 {
-	char *job;
-	int		res;
 	char	**our_envp;
 
-	job = NULL;
 	our_envp = NULL;
-	res = 1;
-	// RES NE FONCTIONNE PAS
-	if (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')// a verifier pour les point
-		res = ft_find_cmd_path(&job, tmp_c->job, env);
-	else
-		job = ft_strdup(tmp_c->job);//a verifier erreur malloc
-	if (res == -1 || (job == NULL && res != 0))
-		return (-1);//erreur malloc
-	else if (res == 0)
+	if ((our_envp = ft_make_ourenvp(env)) == NULL)
+		return (-1);//malloc err
+	if (ft_split_process(job, tmp_c, our_envp, p) == -1)
 	{
-		job = ft_strdup(tmp_c->job);
-		if (job == NULL)
-			return (-1);//erreur malloc
-		ft_lstadd_back(error, ft_lstnew((void*)(job)));
-	}
-	else
-	{
-		if ((our_envp = ft_make_ourenvp(env)) == NULL)
-			return (-1);//malloc err
-		ft_print_str_table(our_envp);
-		if (ft_split_process(job, tmp_c, our_envp, p) == -1)
-		{
-			free_double_tab(our_envp);
-			return (-1);
-		}
+		free_double_tab(our_envp);
+		return (-1);
 	}
 	free_double_tab(our_envp);
 	return (0);
 }
 
-int		execute_cmd(t_list *cmd_list, t_list **env)
+int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p)
 {
-	t_list			*tmp_l;
-	t_simple_cmd	*tmp_c;
-	t_list			*error;
-	t_pipe			p;
-	int				res;
+	int		built_in_found;
+	char	*job;
+	int		res;
 
-	error = NULL;
-	tmp_l = cmd_list;
-	p.fd_in_next = -1;
-	while(tmp_l)
+	built_in_found = find_built_in(tmp_c, p, error, env); //if different 0, execute build in in built in
+	if (built_in_found == 0)//if different 0, execute build in in built in
 	{
-		tmp_c = (t_simple_cmd *)tmp_l->content;
-		//tmp_c->retour = 0; >> comment le modifier?
-		p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir	
-		p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
-		if (tmp_c->pipe_mod == 1)// si je suis piped
-			if (prepare_pipes(tmp_c, &p) == -1)
-				return (-1);
-	//	printf("--fd in to use = %d | fd out = %d | fd next = %d--\n-------\n", fd_in_to_use, fd_out_to_use, fd_in_next);
-		res = find_built_in(tmp_c, &p, &error, env);//if different 0, execute build in in built in
-		if (res == -1)
-			return (-1); //erreur malloc dans built in
-		if (res == 0)//if different 0, execute build in in built in
+		job = NULL;
+		res = 1;
+		if (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')// a verifier pour les points
+			res = ft_find_cmd_path(&job, tmp_c->job, env);
+		else
+			job = ft_strdup(tmp_c->job);//a verifier erreur malloc
+		if (res == -1 || (job == NULL && res != 0))
+			return (-1);//erreur malloc
+		else if (res == 0)
 		{
-			//create_tab_env;
-			look_for_command_and_path(&error, tmp_c, env, p);
-			//free_env_tab;
+			job = ft_strdup(tmp_c->job);
+			if (job == NULL)
+				return (-1);//erreur malloc
+			ft_lstadd_back(error, ft_lstnew((void*)(job)));
 		}
-		if (tmp_c->pipe_pos == 1)// a voir avec le sbuilt in
-		{
-			print_cmd_error(0, error);
-			ft_lstclear(&error, free);
+		else
+			look_for_command_and_path(job, tmp_c, env, *p);
 		}
-		update_fd_pipes(tmp_c, &p);
-		tmp_l = tmp_l->next;
-	}
 	return (0);
 }

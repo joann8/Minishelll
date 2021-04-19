@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 15:53:45 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 18:06:21 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		ft_make_loglst(t_list **log, int fd);
 int		ft_screen_wrapper(t_input *user, t_list *log);
 int		ft_termcap_on(int c);
 int		ft_up_arrow(char **screen, char **user_input, t_list *log, unsigned int *i);
-int		ft_isendofscreen(t_term *term, char *prompt);
+int		ft_is_endofscreen(t_term *term, char *prompt);
 
 // ENV
 int		ft_make_envlst(t_list **head, char **envp);
@@ -103,8 +103,8 @@ char	*ft_relative_to_absolute(char *exec);
 //	JO.H
 //promp et erreurs
 void	print_str(char *str);
-int		print_error(int errnum, char *error);
-int		print_syntax_error(int errnum, char *error);
+int		print_error(int errnum, char *error, int ret_wanted);
+int		print_syntax_error(int errnum, char *error, int ret_wanted);
 int		print_cmd_error(int errnum, t_list *error);
 
 //print_help
@@ -162,11 +162,9 @@ char 	*assign_final_str(t_expansion *exp, t_list *var);
 
 //expansion
 void	escape_within_doubles(t_expansion *exp);
-t_seq	*make_expansion(t_seq *tab_seq, int seq_nb, t_list *var);
-t_seq	*make_expansion_cmd_by_cmd(t_seq *tab_seq, t_list **var);
+t_seq	*make_expansion(t_seq *tab_seq, t_list **var);
 
 //command
-//t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb);
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
 
 //execute
@@ -177,8 +175,7 @@ int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p);
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
 int		ft_pwd(t_pipe *pipe, t_list **error);
 int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe);
-int		execute_cmd(t_list *cmd_list, t_list **env);
-int		execute_cmd_by_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p);
+int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p);
 
 //built in
 int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:14:51 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 18:43:28 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		assign_redir(t_seq *tmp, t_list *lst_tok, t_token *tok)
 
 	redir = malloc(sizeof(t_redir));
 	if (redir == NULL)
-		return (-1); //erreur malloc
+		return (print_error(0, "malloc error\n",-1));
 	redir->e_type = tok->e_type;
 	lst_tok = lst_tok->next;
 	redir->file_name = ft_strdup(((t_token*)(lst_tok->content))->tok_str);
@@ -31,7 +31,7 @@ int		assign_pipe(t_seq **tmp, int *pipe_pos)
 	*pipe_pos += 1;
 	(*tmp)->next_pipe = malloc(sizeof(t_seq));
 	if ((*tmp)->next_pipe == NULL)
-		return (-1); //erreur malloc
+		return (print_error(0, "malloc error\n", -1));
 	(*tmp) = (*tmp)->next_pipe;
 	(*tmp)->pipe_pos = *pipe_pos;
 	(*tmp)->word = NULL;
@@ -50,18 +50,18 @@ int		assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos)
 	{
 		tmp_c = ft_strdup(tok->tok_str);
 		if (tmp_c == NULL)
-			return (-1);
+			return (print_error(0, "malloc error\n", -1));
 		ft_lstadd_back(&(*tmp)->word, ft_lstnew(tmp_c));
 	}
 	else if (tok->e_type == IN || tok->e_type == OUT || tok->e_type == APPEND)
 	{
 		if (assign_redir(*tmp, *lst_tok, tok) == -1)
-			return (-1);// erreur malloc
+			return (-1); //erreur gérée dans assign_redir
 	}
 	else if (tok->e_type == PIPE)
 	{
 		if (assign_pipe(tmp, pipe_pos) == -1)
-			return (-1);//erreur malloc
+			return (-1);//erreur gérée dans assign pipe
 	}
 	else if (tok->e_type == SEPARATOR)
 	{
@@ -81,7 +81,10 @@ t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb)
 	int			res;
 
 	if ((tab_seq = malloc(sizeof(t_seq) * (seq_nb + 1))) == NULL)
+	{
+		print_error(0, "malloc error\n", -1);
 		return (NULL); //erreur malloc
+	}
 	cmd_nb = 0;
 	lst_tok = token_list;
 	while (cmd_nb < seq_nb)
@@ -92,8 +95,11 @@ t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb)
 			res = assign_sequence(&tmp, &lst_tok, &pipe_pos);
 			if (res == 1)
 				break ; //separator
-			if (res == -1)
+			if (res == -1) //erreur malloc gérée dans assign sequence
+			{
+				ft_free_tab_seq(tab_seq, cmd_nb);
 				return (NULL); //erreur malloc
+			}
 		}
 		set_up_pipe_number(tab_seq, cmd_nb, pipe_pos);
 		cmd_nb++;

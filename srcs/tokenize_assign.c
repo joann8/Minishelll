@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/13 13:51:28 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 17:27:49 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ int		assign_type_2_help(t_list **head, t_list **tmp,
 	{
 		if (*tmp == *head || (t3 != NULL && (t3->e_type == PIPE ||
 			t3->e_type == SEPARATOR)))
-			return (print_syntax_error(0, ";")); //a verifier
+			return (print_syntax_error(0, ";", 1)); //a verifier
 	}
 	else if (t2->e_type == OUT || t2->e_type == IN || t2->e_type == APPEND)
 	{
 		if ((*tmp)->next == NULL || t3 == NULL || t3->e_type != WORD)
-			return (print_syntax_error(0, t2->tok_str));//parfois newline?
+			return (print_syntax_error(0, t2->tok_str, 1));//parfois newline?
 		(*tmp) = (*tmp)->next;
 		((t_token *)((*tmp)->content))->e_type = FILENAME;
 	}
 	else if (t2->e_type == PIPE)
 		if (*tmp == *head || (*tmp)->next == NULL || t3 == NULL ||
 			t3->e_type == PIPE || t3->e_type == SEPARATOR)
-			return (print_syntax_error(0, "|"));//parfois newline?
+			return (print_syntax_error(0, "|", 1));//parfois newline?
 	return (0);
 }
 
@@ -48,8 +48,8 @@ int		assign_type_2(t_list *head)
 		t3 = NULL;
 		if (tmp->next)
 			t3 = (t_token *)(tmp->next->content);
-		if (assign_type_2_help(&head, &tmp, t2, t3) == -1)
-			return (-1);//gérer dans assign 2
+		if (assign_type_2_help(&head, &tmp, t2, t3) == 1)
+			return (1);//gérer dans assign 2
 		tmp = tmp->next;
 	}
 	return (0);

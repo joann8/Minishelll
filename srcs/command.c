@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 15:25:39 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 19:00:36 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 	cmd->ac = ft_lstsize(seq->word);
 	cmd->av = malloc(sizeof(char*) * (cmd->ac + 1));
 	if (cmd->av == NULL)
-		return (-1);//erreur malloc
+		return (print_error(0, "malloc error\n", -1));
 	tmp = seq->word;
 	i = 0;
 	while (tmp)
@@ -74,11 +74,11 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 		{
 			cmd->job = ft_strdup((char *)tmp->content);
 			if (cmd->job == NULL)
-				return (-1);//erreur malloc
+				return (print_error(0, "malloc error\n", -1));
 		}
 		cmd->av[i] = ft_strdup(tmp->content);
 		if (cmd->job == NULL)//erreur malloc
-			return (-1);
+			return (print_error(0, "malloc error\n", -1));
 		tmp = tmp->next;
 		i++;
 	}
@@ -114,7 +114,7 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 	while (i < seq_nb)
 	{
 		tmp_s = &tab_seq[i];
-		make_expansion_cmd_by_cmd(tmp_s, env);
+		make_expansion(tmp_s, env);
 		error = NULL;
 		//prepare pipes?
 		p.fd_in_next = -1;
@@ -122,12 +122,21 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 		{
 			tmp_c = malloc(sizeof(t_simple_cmd));
 			if (tmp_c == NULL)
+			{
+				print_error(0, "malloc error\n", -1);
 				return (NULL);
-			if (assign_list_word(tmp_s, tmp_c) == -1)
-				return (NULL); //erreur malloc
+			}
+			if (assign_list_word(tmp_s, tmp_c) == -1)//erreur de malloc slmt
+			{
+				free(tmp_c);
+				return (NULL); //gérée dans list assign word
+			}
 			assign_pipes(tmp_s, tmp_c);
-			if (assign_list_redir(tmp_s, tmp_c) == -2)
-				return (NULL); //erreur malloc
+			if (assign_list_redir(tmp_s, tmp_c) == -1)
+			{
+				free(tmp_c);
+				return (NULL); //erreur des files openings  A FAIRE
+			}
 			ft_lstadd_back(&cmd_list, ft_lstnew((void*)tmp_c));
 			
 			
@@ -137,7 +146,7 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 			if (tmp_c->pipe_mod == 1)// si je suis piped
 				if (prepare_pipes(tmp_c, &p) == -1)
 					return (NULL);//plutot -1 erreur systeme
-			execute_cmd_by_cmd(tmp_c, env, &error, &p);
+			execute_cmd(tmp_c, env, &error, &p);
 			update_fd_pipes(tmp_c, &p);
 
 

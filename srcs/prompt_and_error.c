@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:40 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 15:21:58 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 17:17:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ void	print_str(char *str)
 	write(1, str, ft_strlen(str));
 }
 
-int		print_error(int errnum, char *error)//errno?
+int		print_error(int errnum, char *error, int ret_wanted)//errno?
 {
 	(void)errnum;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);//affiche l'erreur dans le std err
-	return (-1);
+	return (ret_wanted);
 }
 
-int		print_syntax_error(int errnum, char *error)//errno?
+int		print_syntax_error(int errnum, char *error, int ret_wanted)//errno?
 {
 	(void)errnum;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd("erreur de syntaxe près du symbole inattendu « ", STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
 	ft_putstr_fd(" »\n", STDERR_FILENO);
-	return (-1);
+	return (ret_wanted);
 }
 
 int		print_cmd_error(int errnum, t_list *l)//erno?

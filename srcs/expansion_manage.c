@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 18:08:00 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 18:38:16 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,30 @@ int		manage_special_exit(t_expansion *exp)
 	return (0);
 }
 
+int		manage_special_backslash(t_expansion *exp)
+{
+	if (exp->mod == 1)
+	{
+		exp->j += 1;
+		exp->i += 2;
+		if (exp->quote == 34)
+			exp->j += 1;
+	}
+	if (exp->mod == 2)
+	{
+		exp->tmp[exp->j] = exp->str[exp->i];
+		exp->j += 1;
+		exp->i += 1;
+		if (exp->quote == 34)
+		{
+			exp->tmp[exp->j] = exp->str[exp->i];
+			exp->j += 1;
+		}
+		exp->i += 1;
+	}
+	return (0);
+}
+
 int		manage_variable(t_expansion *exp, t_list *var)
 {
 	int k;
@@ -123,11 +147,11 @@ int		manage_variable(t_expansion *exp, t_list *var)
 	k = exp->i + 1;
 	if (exp->str[k] == '?')
 		return (manage_special_exit(exp));
+	if (exp->str[k] == '\\')
+		return (manage_special_backslash(exp));
 	if (is_var_name(exp->str[k], 0) == 1)
-	{
 		while (is_var_name(exp->str[k], 1) == 1)
 			k++;
-	}
 	else
 	{
 		exp->i = k + 1;
@@ -155,6 +179,5 @@ int		manage_variable(t_expansion *exp, t_list *var)
 			k++;
 		}
 	}
-//	}
 	return (0);
 }

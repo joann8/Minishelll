@@ -4,9 +4,9 @@ SRCS =	srcs/built_in.c			\
 		srcs/built_in_exit.c	\
 		srcs/built_in_pwd.c		\
 		srcs/command.c			\
-		srcs/execute_cmd_by_cmd.c		\
+		srcs/execute_cmd.c		\
 		srcs/execution_main.c					\
-		srcs/expansion_cmd_by_cmd.c 		\
+		srcs/expansion.c 		\
 		srcs/expansion_find.c 		\
 		srcs/expansion_manage.c 	\
 		srcs/expansion_utils.c 		\
