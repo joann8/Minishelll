@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 15:26:30 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 11:12:26 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p)
 
 int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp, t_pipe p)
 {
-	pid_t pid;
+	pid_t	pid;
+	int		wstatus;
+	int		err; 
 
 	pid = fork();
 	if (pid == -1)
@@ -93,11 +95,15 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp, t_pipe p)
 		if (dup2(p.fd_out_to_use, STDOUT_FILENO) == -1)
 			return (-1);
 	//	close(fd_out_to_use);
-		execve(job, tmp_c->av, our_envp);
-		//gérer erreur execve
+		err = execve(job, tmp_c->av, our_envp);
+		if (err == -1)
+			return (-1); //erreur execution
 	}
 	else
-		wait(NULL);
+	{
+		wait(&wstatus);
+		g_process.exit_status = WEXITSTATUS(wstatus);
+	}
 	return (0);		
 }
 
@@ -130,7 +136,7 @@ int		look_for_command_and_path(t_list **error, t_simple_cmd *tmp_c, t_list **env
 	{
 		if ((our_envp = ft_make_ourenvp(env)) == NULL)
 			return (-1);//malloc err
-		ft_print_str_table(our_envp);
+	//	ft_print_str_table(our_envp);
 		if (ft_split_process(job, tmp_c, our_envp, p) == -1)
 		{
 			free_double_tab(our_envp);

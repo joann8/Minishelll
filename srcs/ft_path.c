@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/18 18:26:42 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 11:44:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ int		ft_cd(char **argv, t_list **env)
 	else
 		new_path = get_newpath(operand);
 	if (new_path == NULL)
-		return (-1); // Err malloc;
+		return (1); // Err malloc;
 	printf("new_path = %s\n", new_path);
 	if (chdir(new_path) == -1)
 	{
