@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 11:49:29 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 22:20:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,21 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 	if (ft_strcmp(cmd->job, "cd") == 0)//ADRIEN
 	{
 		g_process.exit_status = ft_cd(cmd->av, env);
+		if (g_process.exit_status == -1)
+		{
+			g_process.exit_status = 1;
+			return (-1);
+		}
 		return (1);
 	}
 	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
 	{
 		g_process.exit_status = ft_export(env, cmd->av, p->fd_out_to_use, cmd->pipe_mod); 
+		if (g_process.exit_status == -1)
+		{
+			g_process.exit_status = 1;
+			return (-1);
+		}
 		return (1);
 	}
 	if (ft_strcmp(cmd->job, "unset") == 0)//ADRIEN

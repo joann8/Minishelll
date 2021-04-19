@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:26:23 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 11:40:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 21:57:09 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		ft_exit(t_simple_cmd *cmd, t_pipe *p)
 {
 	int i;
+	unsigned char c;
 
 	ft_putstr_fd("exit\n", p->fd_out_to_use);
 	if (cmd->ac > 1)
@@ -43,7 +44,8 @@ int		ft_exit(t_simple_cmd *cmd, t_pipe *p)
 			return (131);//a verifier, equivalent -1
 
 		}
-		return (ft_atoi(cmd->av[1]));
+		c = ft_atoi(cmd->av[1]);
+		return (c);
 	}
 	return (0); //cas par défaut : returned last exit code
 }

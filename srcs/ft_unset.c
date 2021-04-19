@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 11:47:43 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 22:04:06 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod)
 		printf("argv = %s\n", *argv);
 		if (is_name(*argv) == 0)
 		{
-			write(1, "NON\n", 4);
 			//Ecrire dans le stderr
 			printf("bash: unset: `%s': not a valid identifier\n", *argv);
 			res = 1;
