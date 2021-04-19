@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 15:30:25 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/19 21:42:35 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,29 @@ int		is_absolute_path(char *str)
 
 int		ft_make_dir_lst(t_list **dir, char *str)
 {
+	int		i;
 	int		start;
-	int		end;
+	int		len;
 	char	*tmp;
 	
 	start = 0;
-	end = 0;
-	while (str[end])
+	i = 0;
+	while (str[i])
 	{
-		if (end != 0 && (str[end] == '/' || str[end + 1] == '\0'))
+		len = 0;
+		if (str[i] == '/')
 		{
-			tmp = ft_strndup(str + start, end - start);
+			while (str[i + len] && str[i + len + 1] != '/')
+				len++;
+			if (str[i + len])
+				len++;
+			tmp = ft_strndup(str + start, len);
 			if (tmp == NULL)
 				return (-1);
 			ft_lstadd_back(dir, ft_lstnew(tmp));
-			//printf("tmp = %s\n", tmp);
-			start = end;
+			start = i + len;
 		}
-		end++;
+		i++;
 	}
 	return (0);
 }
@@ -142,15 +147,6 @@ char	*get_newpath(char *operand)
 	ft_edit_dir_lst(&dir_lst, operand);
 	ft_print_str_lst(dir_lst);
 	new_path = ft_get_absolute_path(dir_lst);
-	/*
-	if (chdir(cwd) == 0)
-	{
-		printf("chdir(0) = sucess\n");
-		//printf("new cwd = %s\n", cwd);
-		return (cwd);
-	}
-	printf("chdir(%d): errno = %s\n", chdir(cwd), strerror(errno));
-	*/
 	return (new_path);
 }
 
@@ -181,8 +177,8 @@ int		move_to_home_var(t_list **env)
 		printf("Bash(adrien): cd: errno = %s\n", strerror(errno));
 		return (1);
 	}
-	//ft_update_oldpwd(env);
-	//ft_update_pwd(env);
+	if (ft_update_pwd(v_tmp->value, env) == -1)
+		return (-1); // err malloc
 	return (0);
 }
 
@@ -237,7 +233,7 @@ int		ft_cd(char **argv, t_list **env)
 	else
 		new_path = get_newpath(operand);
 	if (new_path == NULL)
-		return (1); // Err malloc;
+		return (-1); // Err malloc;
 	printf("new_path = %s\n", new_path);
 	if (chdir(new_path) == -1)
 	{
@@ -248,7 +244,7 @@ int		ft_cd(char **argv, t_list **env)
 	if (ft_update_pwd(new_path, env) == -1)
 	{
 		free(new_path);
-		return (1);
+		return (-1);
 	}
 	free(new_path);
 	return (0);

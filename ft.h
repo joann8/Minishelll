@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 18:06:21 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/19 21:19:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_lst_env_copy(t_list **dest, t_list **src);
 void	ft_lst_env_sort(t_list **begin, int (*cmp)());
 t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
+int		ft_update_pwd(char *new_path, t_list **env);
 
 //Built in
 int		ft_unset(t_list **env, char **argv, int pipe_mod);
