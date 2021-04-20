@@ -9,6 +9,7 @@
 #Prompt:
 -> Multiligne chez Joann quand on remonte historique
 ->Pbm de double free si input est fait d'espace uniquement (Viens surement du getuserinput de ses mort);
+->Imprimer seulement le dossier courrent ou tout le chemin?
 
 #Built_in:
 
@@ -18,7 +19,14 @@
 		-Exit code built in /exceve
 
 ->EXPORT:
-	->supprimer le dernier noeud "_=./minishell" lors de ft_lst_env_copy ?
+	-supprimer le dernier noeud "_=./minishell" lors de ft_lst_env_copy ?
+	-coder proprement le print d'export
+
+->ENV
+	-coder proprement le print d'env
+
+-> CD
+	-Implementer cd - ?
 
 #Other:
 

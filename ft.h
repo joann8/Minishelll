@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 15:18:05 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 17:13:44 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		ft_is_only_space(char *str);
 char	*ft_strndup(char *src, int len);
 void	ft_swap_content(t_list *a, t_list *b);
 int		ft_lst_on_env_size(t_list **env);
-
+int		ft_is_file_executable(char *filepath);
 
 
 
