@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_userinput_utils.c                              :+:      :+:    :+:   */
+/*   userinput_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 16:13:00 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 14:35:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,25 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 	return (0);
 }
 
+int		ft_make_loglst(t_list **head, int fd)
+{
+	t_list	*new_node;
+	char	*line;
+	char	*log;
 
+	new_node = NULL;
+	while (get_next_line(fd, &line) > 0)
+	{
+		new_node = ft_lstnew(NULL);
+		if (new_node == NULL)
+			return (-1);
+		ft_lstadd_back(head, new_node);
+		log = ft_strdup(line);
+		free(line);
+		if (log == NULL)
+			return (-1);
+		new_node->content = log;
+	}
+	free(line);
+	return (0);
+}
