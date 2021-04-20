@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 12:02:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 13:53:59 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	*get_newpath(char *operand);
 void	print_str(char *str);
 int		print_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int errnum, char *error, int ret_wanted);
-void	ft_add_error_list(t_list **error, char *s1, char *s2, char *s3);
+int		ft_add_error_list(t_list **error, char *s1, char *s2, char *s3);
 int		print_cmd_error(int errnum, t_list *error);
 
 //print_help

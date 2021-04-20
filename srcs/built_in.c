@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 12:02:31 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 13:57:13 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,39 +33,36 @@ int		ft_env(t_list **env, int fd_out)
 	return (0);
 }
 
-int		find_built_in_2(t_simple_cmd *cmd, t_pipe *p, t_list **env, t_list **error)
+int		find_built_in_2(t_simple_cmd *cmd, t_pipe *p, t_list **env,
+			t_list **error)
 {
+	int res;
+
+	res = 1;
 	if (ft_strcmp(cmd->job, "echo") == 0)
-	{
 		g_process.exit_status = ft_echo(cmd, p, 0, 0);
-		return(1);
-	}
-	if (ft_strcmp(cmd->job, "pwd") == 0)
-	{
+	else if (ft_strcmp(cmd->job, "pwd") == 0)
 		g_process.exit_status = ft_pwd(p, error);
-		return (1);
-	}
-	if (ft_strcmp(cmd->job, "exit") == 0)
-	{
+	else if (ft_strcmp(cmd->job, "exit") == 0)
 		g_process.exit_status = ft_exit(cmd, p, error);
-		return (1);
-	}
-	if (ft_strcmp(cmd->job, "env") == 0)//ADRIEN
-	{
+	else if (ft_strcmp(cmd->job, "env") == 0)
 		g_process.exit_status = ft_env(env, p->fd_out_to_use);
-		return (1);
-	}
-	if (ft_strcmp(cmd->job, "unset") == 0)//ADRIEN
-	{
+	else if (ft_strcmp(cmd->job, "unset") == 0)
 		g_process.exit_status = ft_unset(env, cmd->av, cmd->pipe_mod, error);
-		return (1);
+	else
+		res = 0;
+	if (g_process.exit_status == -1)
+	{
+		g_process.exit_status = 1;
+			return (-1);
 	}
-	return (0);
+	return (res);
 }
 
-int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
+int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error,
+			t_list **env)
 {
-	if (ft_strcmp(cmd->job, "cd") == 0)//ADRIEN
+	if (ft_strcmp(cmd->job, "cd") == 0)
 	{
 		g_process.exit_status = ft_cd(cmd->av, env);
 		if (g_process.exit_status == -1)
@@ -75,9 +72,9 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error, t_list **env)
 		}
 		return (1);
 	}
-	if (ft_strcmp(cmd->job, "export") == 0)//ADRIEN
+	if (ft_strcmp(cmd->job, "export") == 0)
 	{
-		g_process.exit_status = ft_export(env, cmd, p->fd_out_to_use, error); 
+		g_process.exit_status = ft_export(env, cmd, p->fd_out_to_use, error);
 		if (g_process.exit_status == -1)
 		{
 			g_process.exit_status = 1;

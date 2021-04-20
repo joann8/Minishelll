@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 18:43:28 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 13:41:58 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 int		assign_redir(t_seq *tmp, t_list *lst_tok, t_token *tok)
 {
 	t_redir *redir;
+	t_list	*new;
 
 	redir = malloc(sizeof(t_redir));
 	if (redir == NULL)
-		return (print_error(0, "malloc error\n",-1));
+		return (print_error(0, "malloc error\n", -1));
 	redir->e_type = tok->e_type;
 	lst_tok = lst_tok->next;
 	redir->file_name = ft_strdup(((t_token*)(lst_tok->content))->tok_str);
-	ft_lstadd_back(&tmp->redir, ft_lstnew((void *)(redir)));
+	new = ft_lstnew((void *)(redir));
+	if (new == NULL)
+	{
+		free(redir);
+		return (print_error(0, "malloc error\n", -1));
+	}
+	ft_lstadd_back(&tmp->redir, new);
 	return (0);
 }
 
@@ -44,6 +51,7 @@ int		assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos)
 {
 	t_token		*tok;
 	char		*tmp_c;
+	t_list		*new;
 
 	tok = (t_token*)(*lst_tok)->content;
 	if (tok->e_type == WORD)
@@ -51,7 +59,13 @@ int		assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos)
 		tmp_c = ft_strdup(tok->tok_str);
 		if (tmp_c == NULL)
 			return (print_error(0, "malloc error\n", -1));
-		ft_lstadd_back(&(*tmp)->word, ft_lstnew(tmp_c));
+		new = ft_lstnew(tmp_c);
+		if (new == NULL)
+		{
+			free(tmp_c);
+			return (print_error(0, "malloc error\n", -1));
+		}
+		ft_lstadd_back(&(*tmp)->word, new);
 	}
 	else if (tok->e_type == IN || tok->e_type == OUT || tok->e_type == APPEND)
 	{

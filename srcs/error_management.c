@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_and_error.c                                 :+:      :+:    :+:   */
+/*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:40 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 11:56:12 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 13:53:28 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	print_str(char *str)
-{
-	// pour le prompt : "$ " ou "> "
-	write(1, str, ft_strlen(str));
-}
-
 int		print_error(int errnum, char *error, int ret_wanted)//errno?
 {
 	(void)errnum;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(error, STDERR_FILENO);//affiche l'erreur dans le std err
+	ft_putstr_fd(error, STDERR_FILENO);
 	return (ret_wanted);
 }
 
@@ -30,24 +24,44 @@ int		print_syntax_error(int errnum, char *error, int ret_wanted)//errno?
 {
 	(void)errnum;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd("erreur de syntaxe près du symbole inattendu « ", STDERR_FILENO);
+	ft_putstr_fd("erreur de syntaxe près du symbole inattendu « ",
+		STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
 	ft_putstr_fd(" »\n", STDERR_FILENO);
 	return (ret_wanted);
 }
 
-void	ft_add_error_list(t_list **error, char *s1, char *s2, char *s3)
+int		ft_add_error_list(t_list **error, char *str1, char *str2, char *str3)
 {
-	if (s1)
-		ft_lstadd_back(error, ft_lstnew(ft_strdup(s1)));
-	if (s2)
-		ft_lstadd_back(error, ft_lstnew(ft_strdup(s2)));
-	if (s3)
-		ft_lstadd_back(error, ft_lstnew(ft_strdup(s3)));
-}
+	t_list *s1;
+	t_list *s2;
+	t_list *s3;
 	
+	if (str1)
+	{
+		s1 = ft_lstnew(ft_strdup(str1));
+		if (s1 == NULL)
+			return (-1);
+		ft_lstadd_back(error, s1);
+	}
+	if (str2)
+	{	
+		s2 = ft_lstnew(ft_strdup(str2));
+		if (s2 == NULL)
+			return (-1);
+		ft_lstadd_back(error, s2);
+	}
+	if (str3)
+	{
+		s3 = ft_lstnew(ft_strdup(str3));
+		if (s3 == NULL)
+			return (-1);
+		ft_lstadd_back(error, s3);
+	}
+	return (0);
+}
 
-int		print_cmd_error(int errnum, t_list *l)//erno?
+int		print_cmd_error(int errnum, t_list *l)
 {
 	t_list *tmp;
 
@@ -55,29 +69,8 @@ int		print_cmd_error(int errnum, t_list *l)//erno?
 	tmp = l;
 	while (tmp)
 	{
-		ft_putstr_fd((char*)(tmp->content), STDERR_FILENO);//affiche l'erreur dans le std err
-	//	ft_putstr_fd(" : commande introuvable\n", STDERR_FILENO);
-		tmp = tmp->next;	
+		ft_putstr_fd((char*)(tmp->content), STDERR_FILENO);
+		tmp = tmp->next;
 	}
 	return (-1);
 }
-
-/*
-int		print_arg_error(int errnum, t_list *l)//erno?
-{
-	t_list *tmp;
-
-	(void)errnum;
-	tmp = l;
-	while (tmp)
-	{
-		ft_putstr_fd((char*)(tmp->content), STDERR_FILENO);//affiche l'erreur dans le std err
-		//ft_putstr_fd(" : commande introuvable\n", STDERR_FILENO);
-		ft_putstr_fd(" : ", STDERR_FILENO);
-		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		tmp = tmp->next;	
-	}
-	return (-1);
-}*/
-
