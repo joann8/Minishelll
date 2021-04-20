@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 21:19:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 10:42:20 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	ft_print_envlst_fd(t_list *env_head, int fd);
 void	ft_print_exportlst_fd(t_list *env_head, int fd);
 
 //Other
-int		ft_find_cmd_path(char **job, char *exec, t_list **env);
-char	*ft_my_getcwd(void);
 int		ft_path_is_relative(char *str);
-char	*ft_relative_to_absolute(char *exec);
+int		ft_search_job_path(char **job_output, char *exec_input, t_list **env);
+char	*get_newpath(char *operand);
+
 
 
 

@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_find_cmd_path.c                                 :+:      :+:    :+:   */
+/*   search_exec_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 14:50:58 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 11:23:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
 
 
-int		ft_is_file_executable(char *filename, char *filepath)
+int		ft_is_file_executable(char *filepath)
 {
-	char tmp[ft_strlen(filepath) + ft_strlen(filename) + 1];
 	struct stat sb;
 
-
-	ft_strcpy(tmp, filepath);
-	ft_strcpy(tmp + ft_strlen(filepath), filename);
-	if (stat(tmp, &sb) == 0)
+	if (stat(filepath, &sb) == 0)
 	{
 		if (S_ISREG(sb.st_mode))
 		{
@@ -35,25 +31,31 @@ int		ft_search_dir(char *exec, char *dir_path)
 {
 	struct dirent	*s_dir;
 	DIR				*d_stream;
+	char			*filepath;
 
 	d_stream = opendir(dir_path);
 	if (!d_stream)
-		return (0);// error d'ouverture du dossier
+		return (1);// error d'ouverture du dossier
 	while (1)
 	{
 		s_dir = readdir(d_stream);
 		if (!s_dir)
 		{
-			if (closedir(d_stream))
-				return (-1); // err fermeture
-			return (0); // Pas trouver
+			closedir(d_stream);
+			return (1);
 		}
-		if (ft_strcmp(exec, s_dir->d_name) == 0 && s_dir->d_type == DT_REG
-				&& ft_is_file_executable(s_dir->d_name, dir_path))
+		if (ft_strcmp(exec, s_dir->d_name) == 0 && s_dir->d_type == DT_REG)
 		{
-			if (closedir(d_stream))
+			filepath = ft_strjoin(dir_path, s_dir->d_name);
+			if (filepath == NULL)
 				return (-1);
-			return (1); // trouver
+			if (ft_is_file_executable(filepath) == 1)
+			{
+				free(filepath);
+				closedir(d_stream);
+				return (0);	
+			}
+			free(filepath);
 		}
 	}
 }
@@ -74,7 +76,7 @@ int	ft_init_path(char **env_path, t_list **env)
 }
 
 
-int		ft_find_cmd_path(char **job, char *exec, t_list **env)
+int		search_env_path_var(char **job, char *exec, t_list **env)
 {
 
 	//INT A ENVOYER POUR DIFFERENCIER -2 pbm ouverture de dossier
@@ -98,16 +100,16 @@ int		ft_find_cmd_path(char **job, char *exec, t_list **env)
 		if (dir_path == NULL)
 			return (-1); //Err malloc
 		ret = ft_search_dir(exec, dir_path);
-		if (ret == -1)
-			return (-2);
-		else if (ret == 1)
+		if (ret == -1) //erreur de malloc
+			return (-1);
+		else if (ret == 0) //Fichier trouve et fermetue reussi
 		{
 			tmp = dir_path;
 			dir_path = ft_strjoin(dir_path, exec);
 			free(tmp);
 			free_double_tab(dir_tab);
 			if (dir_path == NULL)
-				return (-1);
+				return (-1);//Err malloc
 			*job = dir_path;
 			return (1);
 		}
@@ -116,4 +118,35 @@ int		ft_find_cmd_path(char **job, char *exec, t_list **env)
 	}
 	free_double_tab(dir_tab);
 	return (0); //no file corresponding to criteria was found
+	//add last resort search with getcwd as path + operand ?
+}
+
+//Renvoie res et initialise JOB.
+//Res = 1. Job trouve et executable. Job = chemin absolu vers job
+//Res = 0. Job non trouve ou non exectuable. Job = NULL;
+//Res = -1. Err de malloc
+int		search_relative_path(char *exec_relative_path)
+{
+	char *job_abs_path;
+
+	job_abs_path = get_newpath(exec_relative_path);
+	if (job_abs_path == NULL)
+		return (-1); //err malloc
+	if (ft_is_file_executable(job_abs_path) == 1) // safe to send to execve
+	{
+		free(job_abs_path);
+		return (1);
+	}
+	free(job_abs_path);
+	return (0);
+}
+
+int		ft_search_job_path(char **job_output, char *exec_input, t_list **env)
+{
+	if (exec_input[0] == '/')
+		return (ft_is_file_executable(exec_input));
+	else if (exec_input[0] == '.')
+		return (search_relative_path(exec_input));
+	else
+		return (search_env_path_var(job_output, exec_input, env));
 }
