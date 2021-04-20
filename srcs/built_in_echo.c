@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:26:35 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 11:38:08 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:54:45 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,17 @@ int		is_arg_n(char *str)
 			i++;
 		else if (str[i] == 'n')
 			i++;
-		else 	
+		else
 			return (0);
 	}
 	return (1);
 }
 
-int		ft_echo(t_simple_cmd *cmd, t_pipe *p)
+int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word)
 {
-	int		mod_n;
-	int		word;
 	int		i;
 
-// Y'a t'il des erreurs a gérer?? 
-	mod_n = 0;
-	word = 0;
-	i = 1;
+	i = 1;// Y'a t'il des erreurs a gérer?
 	while (cmd->av[i])
 	{
 		if (word == 0)
@@ -48,17 +43,17 @@ int		ft_echo(t_simple_cmd *cmd, t_pipe *p)
 			else
 			{
 				word = 1;
-				write(p->fd_out_to_use, cmd->av[i], ft_strlen(cmd->av[i]));
+				ft_putstr_fd(cmd->av[i], p->fd_out_to_use);
 			}
 		}
 		else
 		{
-			write(p->fd_out_to_use, " ", 1);
-			write(p->fd_out_to_use, cmd->av[i], ft_strlen(cmd->av[i]));
+			ft_putstr_fd(" ", p->fd_out_to_use);
+			ft_putstr_fd(cmd->av[i], p->fd_out_to_use);
 		}
 		i++;
 	}
 	if (mod_n == 0)
-		write(p->fd_out_to_use, "\n", 1);
+		ft_putstr_fd("\n", p->fd_out_to_use);
 	return (0);
 }

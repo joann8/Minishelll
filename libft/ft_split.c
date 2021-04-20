@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 17:34:34 by louise            #+#    #+#             */
-/*   Updated: 2020/12/31 05:42:57 by lsoulier         ###   ########.fr       */
+/*   Updated: 2021/04/20 10:35:54 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*set_wd(const char *s, char c, int start_index)
 	return (wd);
 }
 
-char	**ft_split(const char *s, char c)
+char		**ft_split(const char *s, char c)
 {
 	char	**wd_tab;
 	char	p_char;

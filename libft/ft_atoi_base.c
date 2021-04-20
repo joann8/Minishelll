@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 13:57:47 by louise            #+#    #+#             */
-/*   Updated: 2020/09/28 14:13:06 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:37:04 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	base_index(char *base, char c)
 	return (-1);
 }
 
-int	ft_atoi_base(char *str, char *base)
+int			ft_atoi_base(char *str, char *base)
 {
 	long	r_nb;
 	int		sign;

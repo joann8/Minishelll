@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 21:19:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 11:06:17 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,9 @@ void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p);
 int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p);
 
 //built in
-int		ft_echo(t_simple_cmd *cmd, t_pipe *p);
+int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word);
 int		ft_pwd(t_pipe *pipe, t_list **error);
-int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe);
+int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe, t_list **error);
 int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p);
 
 //built in

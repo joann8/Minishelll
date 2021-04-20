@@ -6,13 +6,13 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 15:04:18 by louise            #+#    #+#             */
-/*   Updated: 2020/09/28 15:06:13 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:34:06 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_charset(char c, char *charset)
+static int		is_charset(char c, char *charset)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	is_charset(char c, char *charset)
 	return (0);
 }
 
-static int	ft_nb_words(char *str, char *charset)
+static int		ft_nb_words(char *str, char *charset)
 {
 	int		nb_words;
 	char	p_char;
@@ -46,7 +46,7 @@ static int	ft_nb_words(char *str, char *charset)
 	return (nb_words);
 }
 
-static int	ft_word_len(char *str, char *charset)
+static int		ft_word_len(char *str, char *charset)
 {
 	int	i;
 
@@ -56,7 +56,7 @@ static int	ft_word_len(char *str, char *charset)
 	return (i);
 }
 
-static char	*set_new_word(char *str, char *charset, int word_len)
+static char		*set_new_word(char *str, char *charset, int word_len)
 {
 	int		i;
 	char	*word;
@@ -74,7 +74,7 @@ static char	*set_new_word(char *str, char *charset, int word_len)
 	return (word);
 }
 
-char	**ft_split_charset(char *str, char *charset)
+char			**ft_split_charset(char *str, char *charset)
 {
 	int		p_char;
 	char	**words_tab;

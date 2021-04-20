@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 14:36:34 by louise            #+#    #+#             */
-/*   Updated: 2020/09/28 14:43:27 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:39:15 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	count_char(int size, char **strs, char *sep)
 	return (nb_char);
 }
 
-char	*ft_joinstrs(int size, char **strs, char *sep)
+char		*ft_joinstrs(int size, char **strs, char *sep)
 {
 	int		i;
 	char	*concat_str;

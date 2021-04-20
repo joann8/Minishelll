@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 13:37:31 by louise            #+#    #+#             */
-/*   Updated: 2020/09/29 20:42:53 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:36:16 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	putnbr_rec(unsigned long nb, char *base, int base_len)
 	write(1, &digit, 1);
 }
 
-void	ft_putnbr_base(long nbr, char *base)
+void		ft_putnbr_base(long nbr, char *base)
 {
 	int				base_len;
 	unsigned long	nb;
@@ -33,7 +33,7 @@ void	ft_putnbr_base(long nbr, char *base)
 		if (nbr < 0)
 		{
 			write(1, "-", 1);
-			nb = - (unsigned long) nbr;
+			nb = -(unsigned long)nbr;
 		}
 		else
 			nb = nbr;

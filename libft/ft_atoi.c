@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 22:40:54 by louise            #+#    #+#             */
-/*   Updated: 2020/09/28 16:45:14 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:37:13 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	is_whitespace(int c)
 		|| c == '\f' || c == '\r' || c == ' ');
 }
 
-int	ft_atoi(const char *str)
+int			ft_atoi(const char *str)
 {
 	int	i;
 	int	sign;
