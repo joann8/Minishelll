@@ -96,7 +96,7 @@ t_list	*ft_env_node_copy(t_var *v_src);
 //Built in
 int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error);
 int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error);
-int		ft_cd(char **argv, t_list **env);
+int		ft_cd(t_simple_cmd *cmd, t_list **env);
 t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_update_pwd(char *new_path, t_list **env);
 
@@ -117,7 +117,7 @@ int		ft_is_only_space(char *str);
 char	*ft_strndup(char *src, int len);
 void	ft_swap_content(t_list *a, t_list *b);
 int		ft_lst_on_env_size(t_list **env);
-
+int		ft_is_file_executable(char *filepath);
 
 
 

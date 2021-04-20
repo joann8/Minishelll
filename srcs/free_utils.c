@@ -6,11 +6,17 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:35:35 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 20:06:11 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+int		ft_free(void *content, int wished_return)
+{
+	free(content);
+	return (wished_return):
+}
 
 void ft_free_token(t_list *token_list)
 {

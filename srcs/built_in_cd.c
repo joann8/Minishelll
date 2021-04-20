@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 13:46:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 20:25:02 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,17 +163,7 @@ char	*get_newpath(char *operand)
 	return (new_path);
 }
 
-int		ft_tablen(char **argv)
-{
-	int i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
-
-int		move_to_home_var(t_list **env)
+int		chdir_to_home_var(t_list **env, t_list **error)
 {
 	t_list *home_node;
 	t_var	*v_tmp;
@@ -181,12 +171,13 @@ int		move_to_home_var(t_list **env)
 	home_node = ft_lstfind_env(env, "HOME", ft_strcmp);
 	if (home_node == NULL)
 	{
-		printf("Bash(adrien): cd: HOME is not set\n");
+		add_err_lst(error, "Bash: cd: $HOME is not set\n", NULL, NULL, error);
 		return (1);
 	}
 	v_tmp = (t_var *)home_node->content;
 	if (chdir(v_tmp->value) == -1)
 	{
+
 		printf("Bash(adrien): cd: errno = %s\n", strerror(errno));
 		return (1);
 	}
@@ -224,41 +215,39 @@ int		ft_update_pwd(char *new_path, t_list **env)
 	return (0);
 }
 		
-
-		
-	
-int		ft_cd(char **argv, t_list **env)
+int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 {
 	char	*new_path;
-	char	*operand;
+	char	*op;
 
-	if (ft_tablen(argv) > 2)
+	if (cmd->ac > 2)
 	{
-		printf("bash: cd: too many arguments\n");
+		if (add_err_lst(error, "bash: cd: too many arguments", NULL, NULL) < 0)
+			return (-1);
 		return (1);
 	}
-	operand = *(argv + 1);
-	// Ici add gestion (cd | cd ~) et (cd -) ? 
-	if (operand == NULL || ft_strcmp(operand, "") == 0)
-		return (move_to_home_var(env));
-	if (is_absolute_path(operand))
-		new_path = ft_strdup(operand);
-	else
-		new_path = get_newpath(operand);
-	if (new_path == NULL)
+	op = *(cmd->av + 1);
+	if (op == NULL || ft_strcmp(op, "") == 0)
+		return (chdir_to_home_var(env));
+	// to change if send after v2
+	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
+		if (new_path == NULL)
 		return (-1); // Err malloc;
-	printf("new_path = %s\n", new_path);
 	if (chdir(new_path) == -1)
 	{
-		printf("Bash(adrien): cd: [%s] is not a directory(errno : %s)\n", new_path, strerror(errno));
-		free(new_path);
-		return (1);
+		if (add_err_lst(error, "bash(adrien): cd: ", 
+					new_path, strerror(errno), error) < 0)
+			return(ft_free(new_path, -1);
+		return (ft_free(new_path, 1));
 	}
 	if (ft_update_pwd(new_path, env) == -1)
-	{
-		free(new_path);
-		return (-1);
-	}
+		return (ft_free(new_path, -1);
 	free(new_path);
 	return (0);
 }
+/*
+if (is_absolute_path(operand))
+		new_path = ft_strdup(operand);
+	else
+		new_path = get_newpath(operand);
+*/
