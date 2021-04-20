@@ -6,23 +6,25 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:40 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:23:51 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 19:01:59 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		p_error(int errnum, char *error, int ret_wanted)//errno?
+int		p_error(int errnum, char *error, int ret_wanted)
 {
 	(void)errnum;
+
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
 	return (ret_wanted);
 }
 
-int		print_syntax_error(int errnum, char *error, int ret_wanted)//errno?
+int		print_syntax_error(int errnum, char *error, int ret_wanted)
 {
 	(void)errnum;
+
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd("erreur de syntaxe près du symbole inattendu « ",
 		STDERR_FILENO);
@@ -31,30 +33,27 @@ int		print_syntax_error(int errnum, char *error, int ret_wanted)//errno?
 	return (ret_wanted);
 }
 
-int		ft_add_error_list(t_list **error, char *str1, char *str2, char *str3)
+int		add_err_lst(t_list **error, char *str1, char *str2, char *str3)
 {
 	t_list *s1;
 	t_list *s2;
 	t_list *s3;
-	
+
 	if (str1)
 	{
-		s1 = ft_lstnew(ft_strdup(str1));
-		if (s1 == NULL)
+		if ((s1 = ft_lstnew(ft_strdup(str1))) == NULL)
 			return (-1);
 		ft_lstadd_back(error, s1);
 	}
 	if (str2)
-	{	
-		s2 = ft_lstnew(ft_strdup(str2));
-		if (s2 == NULL)
+	{
+		if ((s2 = ft_lstnew(ft_strdup(str2))) == NULL)
 			return (-1);
 		ft_lstadd_back(error, s2);
 	}
 	if (str3)
 	{
-		s3 = ft_lstnew(ft_strdup(str3));
-		if (s3 == NULL)
+		if ((s3 = ft_lstnew(ft_strdup(str3))) == NULL)
 			return (-1);
 		ft_lstadd_back(error, s3);
 	}
