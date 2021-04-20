@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 15:01:41 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:16:56 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,31 @@ char	*ft_make_prompt(t_list **env_lst)
 	if (prompt == NULL)
 		return (NULL);
 	return (prompt);
+}
+
+
+void	ft_print_prompt(t_term *term, char *prompt)
+{
+	int i;
+	int color;
+
+	i = 0;
+	color = 1;
+	while (prompt[i])
+	{
+		if (prompt[i] == '$' && prompt[i + 2] == '\0')
+			tputs(ANSI_WHITE, 1, ft_termcap_on);
+		else if (color == 1 && prompt[i] == ':')
+		{
+			tputs(ANSI_WHITE, 1, ft_termcap_on);
+			color = 2;
+		}
+		else if (color == 1)
+			tputs(ANSI_BOLD_RED, 1, ft_termcap_on);
+		else if (color == 2)
+			tputs(ANSI_BOLD_YELLOW, 1, ft_termcap_on);
+		ft_putchar(prompt[i]);
+		i++;
+		tputs(term->me, 1, ft_termcap_on);
+	}
 }
