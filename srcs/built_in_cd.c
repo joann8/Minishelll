@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_path.c                                          :+:      :+:    :+:   */
+/*   built_in_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 21:42:35 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 10:35:47 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,13 @@ char	*get_newpath(char *operand)
 	dir_lst = NULL;
 	cur_path = getcwd(NULL, 0);
 	if (cur_path == NULL)
-		return (NULL);
+		return (NULL); //err malloc
 	printf("cur_path = %s\n", cur_path);
 	printf("operand = %s\n", operand);
 	if (ft_make_dir_lst(&dir_lst, cur_path) == -1)
 	{
 		free(cur_path);
-		return (NULL);
+		return (NULL); //err malloc
 	}
 	free(cur_path);
 	ft_print_str_lst(dir_lst);

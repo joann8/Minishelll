@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 19:01:54 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 11:24:04 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,26 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p)
 	if (built_in_found == 0)//if different 0, execute build in in built in
 	{
 		job = NULL;
+		res = ft_search_job_path(&job, tmp_c->job, env);
+		if (res == -1)
+			return (-1);//erreur malloc
+		else if (res == 0)
+		{
+			job = ft_strdup(tmp_c->job);
+			if (job == NULL)
+				return (-1);
+			ft_lstadd_back(error, ft_lstnew((void*)(job)));
+			ft_lstadd_back(error, ft_lstnew((void*)(ft_strdup(" : commande introuvable\n"))));
+		}
+		else
+			look_for_command_and_path(job, tmp_c, env, *p);
+	}
+
+
+
+	/*if (built_in_found == 0)//if different 0, execute build in in built in
+	{
+		job = NULL;
 		res = 1;
 		if (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')// a verifier pour les points
 			res = ft_find_cmd_path(&job, tmp_c->job, env);
@@ -140,6 +160,6 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p)
 		}
 		else
 			look_for_command_and_path(job, tmp_c, env, *p);
-		}
+	} */
 	return (0);
 }
