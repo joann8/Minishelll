@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:01:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:51:10 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 	cmd->ac = ft_lstsize(seq->word);
 	cmd->av = malloc(sizeof(char*) * (cmd->ac + 1));
 	if (cmd->av == NULL)
-		return (print_error(0, "malloc error\n", -1));
+		return (p_error(0, "malloc error\n", -1));
 	tmp = seq->word;
 	i = 0;
 	while (tmp)
@@ -74,11 +74,11 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 		{
 			cmd->job = ft_strdup((char *)tmp->content);
 			if (cmd->job == NULL)
-				return (print_error(0, "malloc error\n", -1));
+				return (p_error(0, "malloc error\n", -1));
 		}
 		cmd->av[i] = ft_strdup(tmp->content);
 		if (cmd->job == NULL)//erreur malloc
-			return (print_error(0, "malloc error\n", -1));
+			return (p_error(0, "malloc error\n", -1));
 		tmp = tmp->next;
 		i++;
 	}
@@ -115,7 +115,8 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 	while (i < seq_nb)
 	{
 		tmp_s = &tab_seq[i];
-		make_expansion(tmp_s, env);
+		if (make_expansion(tmp_s, env) == -1)
+			return (NULL);//erreur malloc
 		error = NULL;
 		//prepare pipes?
 		p.fd_in_next = -1;
@@ -124,7 +125,7 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 			tmp_c = malloc(sizeof(t_simple_cmd));
 			if (tmp_c == NULL)
 			{
-				print_error(0, "malloc error\n", -1);
+				p_error(0, "malloc error\n", -1);
 				return (NULL);
 			}
 			if (assign_list_word(tmp_s, tmp_c) == -1)//erreur de malloc slmt
