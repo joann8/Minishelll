@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 17:12:52 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 13:34:09 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,21 @@ int		ft_create_token(t_list **token_list, char *input, int start, int end)
 	token = (t_token *)malloc(sizeof(t_token));
 	if (token == NULL)
 		return (print_error(0, "malloc error\n", -1));
-		//return (-1); //erreur malloc >> quoi afficher?
 	token->tok_str = (char *)malloc(sizeof(char) * (end - start + 2));
 	if (token->tok_str == NULL)
 	{
 		free(token);
 		return (print_error(0, "malloc error\n", -1));
 	}
-		//return (-1); //erreur malloci >> quoi afficher?
 	ft_strlcpy(token->tok_str, input + start, end - start + 2);
-	new = ft_lstnew((void *)token);//protection malloc de ft_lst new?
+	new = ft_lstnew((void *)token);
 	if (new == NULL)
 	{
 		free(token->tok_str);
 		free(token);
 		return (print_error(0, "malloc error\n", -1));
 	}
-	ft_lstadd_back(token_list, new);//protection malloc de ft_lst new?
-	//free(new);
+	ft_lstadd_back(token_list, new);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 12:00:16 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:00:01 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p)
 			job = ft_strdup(tmp_c->job);
 			if (job == NULL)
 				return (-1);
-			ft_add_error_list(error, job, " : commande introuvable\n", NULL);
+			if (ft_add_error_list(error, job, " : commande introuvable\n", NULL) == -1)
+				return (-1);
 		}
 		else
 			look_for_command_and_path(job, tmp_c, env, *p);

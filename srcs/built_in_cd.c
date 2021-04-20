@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 10:35:47 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 13:46:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		ft_make_dir_lst(t_list **dir, char *str)
 	int		start;
 	int		len;
 	char	*tmp;
+	t_list	*new;
 	
 	start = 0;
 	i = 0;
@@ -42,7 +43,13 @@ int		ft_make_dir_lst(t_list **dir, char *str)
 			tmp = ft_strndup(str + start, len);
 			if (tmp == NULL)
 				return (-1);
-			ft_lstadd_back(dir, ft_lstnew(tmp));
+			new = ft_lstnew(tmp);
+			if (new == NULL)
+			{
+				free (tmp);
+				return (-1);
+			}
+			ft_lstadd_back(dir, new);
 			start = i + len;
 		}
 		i++;
@@ -82,9 +89,9 @@ void	ft_lstdel_last(t_list **head)
 
 int		ft_edit_dir_lst(t_list **dir, char *r_path)
 {
-	char **tmp;
-	char *str;
-
+	char	**tmp;
+	char	*str;
+	t_list	*new;
 
 	tmp = ft_split(r_path, '/');
 	while (*tmp)
@@ -96,7 +103,13 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path)
 			str = ft_strjoin("/", *tmp);
 			if (str == NULL)
 				return (-1);
-			ft_lstadd_back(dir, ft_lstnew(str));
+			new = ft_lstnew(str);
+			if (new == NULL)
+			{
+				free(str);
+				return (-1);
+			}
+			ft_lstadd_back(dir, new);
 		}
 		tmp++;
 	}

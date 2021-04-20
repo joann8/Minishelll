@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:26:23 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 11:54:23 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:07:12 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ int		ft_exit_help(t_simple_cmd *cmd, t_list **error, int i)
 			i++;
 		else
 		{
-			ft_add_error_list(error, "msh: exit: ", cmd->av[1],
-				" : argument numérique nécessaire\n");
+			if (ft_add_error_list(error, "msh: exit: ", cmd->av[1],
+				" : argument numérique nécessaire\n") == -1)
+				return (-1);
 			return (2);//error code
 		}
 	}
 	if (cmd->ac > 2)
 	{
-		ft_lstadd_back(error,
-			ft_lstnew(ft_strdup("msh : exit: trop d'arguments.\n")));
+		if (ft_add_error_list(error, "msh : exit: trop d'arguments.\n",
+			NULL, NULL) == -1)
+			return (-1);
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 19:00:36 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:01:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 	t_simple_cmd	*tmp_c;
 	t_list 			*error;
 	t_pipe			p;
+	t_list			*new;
 
 	i = 0;
 	while (i < seq_nb)
@@ -137,8 +138,13 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 				free(tmp_c);
 				return (NULL); //erreur des files openings  A FAIRE
 			}
-			ft_lstadd_back(&cmd_list, ft_lstnew((void*)tmp_c));
-			
+			new =  ft_lstnew((void*)tmp_c);
+			if (new == NULL)
+			{
+				free(tmp_c);
+				return (NULL);
+			}
+			ft_lstadd_back(&cmd_list, new);
 			
 			//printf("EXECUTE %d.%s\n", i, tmp_c->job);
 			p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir	
@@ -146,7 +152,12 @@ t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **e
 			if (tmp_c->pipe_mod == 1)// si je suis piped
 				if (prepare_pipes(tmp_c, &p) == -1)
 					return (NULL);//plutot -1 erreur systeme
-			execute_cmd(tmp_c, env, &error, &p);
+			if (execute_cmd(tmp_c, env, &error, &p) == -1)
+			{
+				ft_lstclear(&error, free);
+				return (NULL);//plutot -1 erreur systeme
+				//clean pipes?
+			}
 			update_fd_pipes(tmp_c, &p);
 
 
