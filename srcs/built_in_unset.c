@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   built_in_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 22:04:06 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 12:04:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_unset_node(t_list **env, t_list *tmp)
 	free(tmp);
 }
 
-int		ft_unset(t_list **env, char **argv, int pipe_mod)
+int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error)
 {
 	t_list *tmp;
 	int		res;
@@ -42,11 +42,10 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod)
 	res = 0;
 	while (*argv)
 	{
-		printf("argv = %s\n", *argv);
+		//printf("argv = %s\n", *argv);
 		if (is_name(*argv) == 0)
 		{
-			//Ecrire dans le stderr
-			printf("bash: unset: `%s': not a valid identifier\n", *argv);
+			ft_add_error_list(error, "bash: unset: « ", *argv, " » : not a valid identifier\n");
 			res = 1;
 		}
 		else

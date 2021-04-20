@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   built_in_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 22:13:47 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 11:50:20 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,15 @@ int		ft_export_print(t_list **env, int fd_out)
 }
 
 
-int		ft_export(t_list **env, char **argv, int fd_out, int pipe_mod)
+int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error)
 {
 	t_list	*exist;
 	char	*key;
 	int		ret;
 	int		res;
+	char 	**argv;
 
+	argv = cmd->av; //A REVOIR
 	argv++;
 	res = 0;
 	if (*argv == NULL)
@@ -162,10 +164,10 @@ int		ft_export(t_list **env, char **argv, int fd_out, int pipe_mod)
 		ret = 0;
 		if (ft_check_export_name(*argv) == 0)
 		{
-			printf("bash: unset: `%s': not a valid identifier\n", *argv);
+			ft_add_error_list(error,"bash: unset: « ", *argv, " »: not a valid identifier\n");
 			res = 1;
 		}
-		else if (pipe_mod == 0)
+		else if (cmd->pipe_mod == 0)
 		{
 			if ((key = ft_getenv_name(*argv)) == NULL)
 				return (-1);//err malloc

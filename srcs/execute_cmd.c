@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 11:24:04 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 12:00:16 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,34 +132,10 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p)
 			job = ft_strdup(tmp_c->job);
 			if (job == NULL)
 				return (-1);
-			ft_lstadd_back(error, ft_lstnew((void*)(job)));
-			ft_lstadd_back(error, ft_lstnew((void*)(ft_strdup(" : commande introuvable\n"))));
+			ft_add_error_list(error, job, " : commande introuvable\n", NULL);
 		}
 		else
 			look_for_command_and_path(job, tmp_c, env, *p);
 	}
-
-
-
-	/*if (built_in_found == 0)//if different 0, execute build in in built in
-	{
-		job = NULL;
-		res = 1;
-		if (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')// a verifier pour les points
-			res = ft_find_cmd_path(&job, tmp_c->job, env);
-		else
-			job = ft_strdup(tmp_c->job);//a verifier erreur malloc
-		if (res == -1 || (job == NULL && res != 0))
-			return (-1);//erreur malloc
-		else if (res == 0)
-		{
-			job = ft_strdup(tmp_c->job);
-			if (job == NULL)
-				return (-1);//erreur malloc
-			ft_lstadd_back(error, ft_lstnew((void*)(job)));
-		}
-		else
-			look_for_command_and_path(job, tmp_c, env, *p);
-	} */
 	return (0);
 }

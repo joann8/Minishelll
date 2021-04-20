@@ -23,7 +23,7 @@ SRCS =							\
 		srcs/print_help.c		\
 		srcs/print_utils.c		\
 		srcs/prompt.c			\
-		srcs/prompt_and_error.c	\
+		srcs/error_management.c	\
 		srcs/sequence.c			\
 		srcs/sequence_utils.c	\
 		srcs/termcap_utils.c	\

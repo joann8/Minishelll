@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 10:42:20 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 12:02:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_update_pwd(char *new_path, t_list **env);
 
 //Built in
-int		ft_unset(t_list **env, char **argv, int pipe_mod);
-int		ft_export(t_list **env, char **argv, int fd_out, int pipe_mod);
+int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error);
+int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error);
 int		ft_cd(char **argv, t_list **env);
 
 // Print
@@ -106,6 +106,7 @@ char	*get_newpath(char *operand);
 void	print_str(char *str);
 int		print_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int errnum, char *error, int ret_wanted);
+void	ft_add_error_list(t_list **error, char *s1, char *s2, char *s3);
 int		print_cmd_error(int errnum, t_list *error);
 
 //print_help
