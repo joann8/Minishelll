@@ -1,36 +1,37 @@
 
-SRCS =	srcs/built_in.c			\
+SRCS =							\
+		srcs/built_in.c			\
+		srcs/built_in_cd.c		\
 		srcs/built_in_echo.c	\
 		srcs/built_in_exit.c	\
+		srcs/built_in_export.c	\
 		srcs/built_in_pwd.c		\
+		srcs/built_in_unset.c	\
 		srcs/command.c			\
+		srcs/env_lst.c 			\
+		srcs/env_utils.c		\
 		srcs/execute_cmd.c		\
-		srcs/execution_main.c					\
+		srcs/execution_main.c	\
 		srcs/expansion.c 		\
-		srcs/expansion_find.c 		\
-		srcs/expansion_manage.c 	\
-		srcs/expansion_utils.c 		\
-		srcs/ft_env_utils.c			\
-		srcs/ft_export.c			\
-		srcs/ft_find_cmd_path.c		\
-		srcs/ft_free.c 				\
-		srcs/ft_get_userinput.c 	\
-		srcs/ft_make_envlst.c 		\
-		srcs/ft_other_utils.c		\
-		srcs/ft_path.c				\
-		srcs/ft_unset.c				\
-		srcs/get_userinput_utils.c 	\
-		srcs/main.c			\
-		srcs/print_help.c			\
-		srcs/print_utils.c			\
-		srcs/prompt.c		\
-		srcs/prompt_and_error.c		\
-		srcs/sequence.c				\
-		srcs/sequence_utils.c		\
-		srcs/termcap_utils.c		\
-		srcs/tokenize_assign.c		\
-		srcs/tokenize.c				\
-		srcs/tokenize_utils.c		
+		srcs/expansion_find.c 	\
+		srcs/expansion_manage.c \
+		srcs/expansion_utils.c 	\
+		srcs/search_exec_path.c	\
+		srcs/free_utils.c 			\
+		srcs/main.c				\
+		srcs/other_utils.c		\
+		srcs/print_help.c		\
+		srcs/print_utils.c		\
+		srcs/prompt.c			\
+		srcs/prompt_and_error.c	\
+		srcs/sequence.c			\
+		srcs/sequence_utils.c	\
+		srcs/termcap_utils.c	\
+		srcs/tokenize.c			\
+		srcs/tokenize_assign.c	\
+		srcs/tokenize_utils.c	\
+		srcs/userinput.c 		\
+		srcs/userinput_utils.c 	
 
 OBJ = $(SRCS:.c=.o)
 
