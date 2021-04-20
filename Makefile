@@ -15,9 +15,10 @@ SRCS =							\
 		srcs/expansion.c 		\
 		srcs/expansion_find.c 	\
 		srcs/expansion_manage.c \
+		srcs/expansion_manage_utils.c \
 		srcs/expansion_utils.c 	\
 		srcs/search_exec_path.c	\
-		srcs/free_utils.c 			\
+		srcs/free_utils.c 		\
 		srcs/main.c				\
 		srcs/other_utils.c		\
 		srcs/print_help.c		\
@@ -25,6 +26,7 @@ SRCS =							\
 		srcs/prompt.c			\
 		srcs/error_management.c	\
 		srcs/sequence.c			\
+		srcs/sequence_assign.c	\
 		srcs/sequence_utils.c	\
 		srcs/termcap_utils.c	\
 		srcs/tokenize.c			\

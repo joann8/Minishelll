@@ -6,33 +6,46 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/17 17:02:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 15:23:58 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-//a metachar is a char that separates words when unquoted
-int 	is_metachar(char c)
+void	ft_copy_loc_expansion(char *tofind, char *str, int start, int end)
 {
-	if (c == '|' || c == '>' || c == '<' || c ==  ';')
-		return (1); //operator
+	int i;
+
+	i = 0;
+	while (start + i <= end)
+	{
+		tofind[i] = str[start + i];
+		i++;
+	}
+	tofind[i] = '\0';
+}
+
+int		is_metachar(char c)
+{
+	//a metachar is a char that separates words when unquoted
+	if (c == '|' || c == '>' || c == '<' || c == ';')
+		return (1);//operator
 	if (is_whitespace(c) == 1)
-		return (2); //white space
+		return (2);//white space
 	if (c == ',' || c == '&')//addtional op, not sure
 		return (3);
 	return (0);
 }
 
-//a word is a sequence of char treated as a unit, without any metachar
 int		is_word(char *str)
 {
 	int i;
 
+	//a word is a sequence of char treated as a unit, without any metachar
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) == 1 && is_metachar(str[i]) == 0)//a verifier ce qui constitue un mot)
+		if (ft_isprint(str[i]) == 1 && is_metachar(str[i]) == 0)
 			i++;
 		else
 			return (0);
@@ -40,11 +53,12 @@ int		is_word(char *str)
 	return (1);
 }
 
-//a name is a word consisting solely of letters, numbers and underscores, starting woth letter or underscore
 int		is_name(char *str)
 {
 	int i;
 
+	//a name is a word consisting solely of letters, numbers and underscores
+	//starting woth letter or underscore
 	i = 0;
 	while (str[i])
 	{

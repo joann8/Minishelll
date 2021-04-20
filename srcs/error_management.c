@@ -6,13 +6,13 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:40 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 13:53:28 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:23:51 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		print_error(int errnum, char *error, int ret_wanted)//errno?
+int		p_error(int errnum, char *error, int ret_wanted)//errno?
 {
 	(void)errnum;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
