@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/28 15:55:19 by louise            #+#    #+#             */
-/*   Updated: 2020/09/28 16:48:40 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:36:40 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_swap_content(t_list *a, t_list *b)
 	b->content = tmp;
 }
 
-void	ft_lstsort(t_list **begin, int (*cmp)())
+void		ft_lstsort(t_list **begin, int (*cmp)())
 {
 	t_list	*current;
 	t_list	*next;

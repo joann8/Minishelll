@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 15:08:02 by louise            #+#    #+#             */
-/*   Updated: 2020/10/09 22:00:01 by louise           ###   ########.fr       */
+/*   Updated: 2021/04/20 10:35:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 			def_len = 0;
 		else if ((int)start + def_len > s_len)
 			def_len = s_len - (int)start;
-		new = (char *) malloc(sizeof(char) * (def_len + 1));
+		new = (char *)malloc(sizeof(char) * (def_len + 1));
 		if (!new)
 			return (NULL);
 		while (++i < def_len)
