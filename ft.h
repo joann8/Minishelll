@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 15:18:05 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 19:58:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int		ft_lst_on_env_size(t_list **env);
 void	print_str(char *str);
 int		p_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int errnum, char *error, int ret_wanted);
-int		ft_add_error_list(t_list **error, char *s1, char *s2, char *s3);
+int		add_err_lst(t_list **error, char *s1, char *s2, char *s3);
 int		print_cmd_error(int errnum, t_list *error);
 
 //print_help
@@ -190,12 +190,18 @@ void	manage_escape(t_expansion *exp);
 void	escape_within_doubles(t_expansion *exp);
 int		make_expansion(t_seq *tab_seq, t_list **var);
 
-//command
+//command_pipe_exec
+int		prepare_pipe_execution(t_simple_cmd *tmp_c, t_pipe *p);
+void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p);
+
+//command_pipe_utils
+void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
+int		assign_list_word(t_seq *seq, t_simple_cmd *cmd);
+int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error);
+
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
 
 //execute
-void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p);
-int		prepare_pipes(t_simple_cmd *tmp_c, t_pipe *p);
 
 //built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word);

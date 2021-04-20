@@ -6,10 +6,12 @@ SRCS =										\
 		srcs/built_in_export.c				\
 		srcs/built_in_pwd.c					\
 		srcs/built_in_unset.c				\
-		srcs/command.c						\
+		srcs/command_pipe.c					\
+		srcs/command_pipe_assign.c			\
+		srcs/command_pipe_exec.c			\
+		srcs/command_simple.c				\
 		srcs/env_lst_builder.c				\
 		srcs/env_lst_utils.c				\
-		srcs/execute_cmd.c					\
 		srcs/execution_main.c				\
 		srcs/expansion.c					\
 		srcs/expansion_find.c				\
