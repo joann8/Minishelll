@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 13:58:49 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 16:34:26 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,4 +183,23 @@ int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error)
 		argv++;
 	}
 	return (res);
+}
+
+t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)())
+{
+	t_var *tmp;
+	t_list *cur;
+
+	if (!begin || !*begin)
+		return (NULL);
+
+	cur = *begin;
+	while (cur)
+	{
+		tmp = (t_var *)(cur->content);
+		if (!((*cmp)(tmp->name, content_ref)))
+			return (cur);
+		cur = cur->next;
+	}
+	return (NULL);
 }

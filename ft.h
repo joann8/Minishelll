@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:36:14 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 16:39:56 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int		execution_main(char *user_input, t_list **env_lst);
 #define ANSI_BOLD_RED		"\E[1;31m"
 #define ANSI_BOLD_YELLOW	"\E[1;33m"
 
-char	*ft_strndup(char *src, int len);
 
 // Prompt
 void	ft_print_prompt(t_term *term, char *prompt);
@@ -79,21 +78,27 @@ void	ft_move_cursor_home(t_term *term, char *prompt);
 int		ft_getcursorxy(int *row, int *col);
 
 
-// ENV
+// ENV 
 int		ft_make_envlst(t_list **head, char **envp);
-char	**ft_make_ourenvp(t_list **env);
-void	ft_lstclear_envlst(t_list **head);
 char	*ft_getenv_name(char *env_str);
+char	*ft_fuse_var(t_var *var);
+char	**ft_make_ourenvp(t_list **env);
+
+	//env_lst_utils
 t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_lst_env_copy(t_list **dest, t_list **src);
 void	ft_lst_env_sort(t_list **begin, int (*cmp)());
-t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
-int		ft_update_pwd(char *new_path, t_list **env);
+void	ft_lstclear_envlst(t_list **head);
+t_list	*ft_env_node_copy(t_var *v_src);
+
+
 
 //Built in
 int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error);
 int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error);
 int		ft_cd(char **argv, t_list **env);
+t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
+int		ft_update_pwd(char *new_path, t_list **env);
 
 // Print
 void	ft_print_str_table(char **av);
@@ -106,7 +111,12 @@ void	ft_print_exportlst_fd(t_list *env_head, int fd);
 int		ft_path_is_relative(char *str);
 int		ft_search_job_path(char **job_output, char *exec_input, t_list **env);
 char	*get_newpath(char *operand);
+
+	//other_utils
 int		ft_is_only_space(char *str);
+char	*ft_strndup(char *src, int len);
+void	ft_swap_content(t_list *a, t_list *b);
+int		ft_lst_on_env_size(t_list **env);
 
 
 

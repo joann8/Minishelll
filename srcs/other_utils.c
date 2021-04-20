@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_other_utils.c                                   :+:      :+:    :+:   */
+/*   other_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 10:01:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/12 10:01:33 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 16:39:59 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+int		ft_lst_on_env_size(t_list **env)
+{
+	t_list	*node;
+	t_var	*var;
+	int		i;
+
+	i = 0;
+	node = *env;
+	while (node)
+	{
+		var = (t_var *)(node->content);
+		if (var->on)
+			i++;
+		node = node->next;
+	}
+	return (i);
+}
+
+void	ft_swap_content(t_list *a, t_list *b)
+{
+	void	*tmp;
+
+	tmp = a->content;
+	a->content = b->content;
+	b->content = tmp;
+}
 
 int		ft_is_only_space(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:52:37 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 15:02:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,21 @@ int		ft_handle_input(t_input *user, t_term *term, char *prompt, t_list *log)
 		{
 			if (user->i < user->log_size && user->input)
 				free(user->input);
-			return (1);
+			return (0);
 		}
 		else if (user->buf[0] == 12)
 			ft_move_cursor_home(term, prompt);
 		else
-			ft_screen_wrapper(user, log);
+		{
+			if (ft_screen_wrapper(user, log) == -1)
+				return (-1);
+		}
 		if (ft_is_endofscreen(term, prompt) == -1)
 			return (-1);
 		tputs(term->rc, 1, ft_termcap_on);
 		tputs(term->cd, 1, ft_termcap_on);
 		write(1, user->screen, ft_strlen(user->screen)); // calculer si endofscreen ?
-		return (0);
+		return (1);
 }
 
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
@@ -81,7 +84,7 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 		ret = ft_handle_input(&user, term, prompt, log);
 		if (ret == -1) //err malloc
 			break;
-		else if (ret == 1)
+		else if (ret == 0)
 			return (user.screen);
 	}
 	free(user.screen);
