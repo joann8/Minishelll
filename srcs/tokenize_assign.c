@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 17:27:49 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:28:53 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		assign_type_2_help(t_list **head, t_list **tmp,
 	{
 		if (*tmp == *head || (t3 != NULL && (t3->e_type == PIPE ||
 			t3->e_type == SEPARATOR)))
-			return (print_syntax_error(0, ";", 1)); //a verifier
+			return (print_syntax_error(0, ";", 1));//a verifier
 	}
 	else if (t2->e_type == OUT || t2->e_type == IN || t2->e_type == APPEND)
 	{

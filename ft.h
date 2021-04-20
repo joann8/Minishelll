@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 16:39:56 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 15:18:05 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int		ft_lst_on_env_size(t_list **env);
 //	JO.H
 //promp et erreurs
 void	print_str(char *str);
-int		print_error(int errnum, char *error, int ret_wanted);
+int		p_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int errnum, char *error, int ret_wanted);
 int		ft_add_error_list(t_list **error, char *s1, char *s2, char *s3);
 int		print_cmd_error(int errnum, t_list *error);
@@ -163,12 +163,14 @@ void	set_up_pipe_number(t_seq *tab_seq, int cmd_nb, int pipe_pos);
 void	init_setup(t_seq *tab_seq, t_seq **tmp, int *pipe_pos, int cmd_nb);
 
 //sequence
+int		seq_assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos);
 t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
 
 //expansion utils
 int		is_word(char *str);
 int		is_var_name(char c, int mod);
 int		is_name(char *str);
+void	ft_copy_loc_expansion(char *tofind, char *str, int start, int end);
 
 //expansion manage
 void	manage_quotes(t_expansion *exp, char c);
@@ -183,8 +185,10 @@ char 	*find_variable_str(char *str, int start, int end, t_list *var);
 char 	*assign_final_str(t_expansion *exp, t_list *var);
 
 //expansion
+void	manage_quotes(t_expansion *exp, char c);
+void	manage_escape(t_expansion *exp);
 void	escape_within_doubles(t_expansion *exp);
-t_seq	*make_expansion(t_seq *tab_seq, t_list **var);
+int		make_expansion(t_seq *tab_seq, t_list **var);
 
 //command
 t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);

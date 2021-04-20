@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 18:02:32 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:55:47 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ char	*modify_str(char *str, t_list **var)
 	exp.tmp = NULL;
 	exp.var_str = NULL;
 	size = count_final_str(&exp, *var);
-//	printf("size = %d\n", size);
-	if (size == -1)//erreur malloc
+	if (size == -1)
 		return (NULL);
 	if (size == 0 || size == -2)//-2 == cas variable name commencant par chiffre apr ex
 		return (ft_strdup(""));
@@ -35,7 +34,7 @@ char	*modify_str(char *str, t_list **var)
 	return (tmp);
 }
 
-t_seq	*make_expansion(t_seq *tab_seq, t_list **var)
+int		make_expansion(t_seq *tab_seq, t_list **var)
 {
 	t_seq	*tmp_s;
 	t_list	*tmp_w;
@@ -51,10 +50,13 @@ t_seq	*make_expansion(t_seq *tab_seq, t_list **var)
 			tmp_w->content = modify_str(delete, var);
 			free(delete);
 			if (tmp_w->content == NULL)
-				return (NULL);
+			{
+				p_error(0, "malloc error\n", -1);
+				return (-1);
+			}
 			tmp_w = tmp_w->next;
 		}
-		tmp_s = tmp_s->next_pipe;	
+		tmp_s = tmp_s->next_pipe;
 	}
-	return (tab_seq);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/19 18:44:32 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:27:19 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int manage_tokenize(t_list **token_list, char *line)
 		g_process.exit_status = 2;
 		ft_free_token(*token_list);
 		ft_lstclear(token_list, free);
-	//	printf("pbm tokenize\n");
 		return (res);
 	}
 	assign_type_1(*token_list);
@@ -32,7 +31,6 @@ int manage_tokenize(t_list **token_list, char *line)
 		ft_free_token(*token_list);
 		ft_lstclear(token_list, free);
 		g_process.exit_status = 2;
-	//	printf("wrong inputs\n");
 		return(1);
 	}
 	printf("\n****RESUlT TOKEN******\n");
