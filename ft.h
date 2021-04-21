@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 11:15:26 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 13:05:44 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char	*get_newpath(char *operand);
 int		ft_cd_error(t_list **error, char *s1, char *s2, int w_return);
 int		ft_make_dir_lst(t_list **dir, char *str);
 int		ft_edit_dir_lst(t_list **dir, char *r_path);
+int		fake_cd(char	*new_path, t_list **error, int mode);
 
 
 			//export
