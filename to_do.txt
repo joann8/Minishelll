@@ -27,6 +27,7 @@
 
 -> CD
 	-Implementer cd - ?
+	-Gerer le retour de cd dans PIPE
 
 #Other:
 

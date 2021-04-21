@@ -6,27 +6,34 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 20:25:02 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 13:12:43 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
-
-int		is_absolute_path(char *str)
+	
+int		fake_cd(char *new_path, t_list **error, int mode)
 {
-	if (*str == '/')
-		return (1);
-	else
-		return (0);
-}
+	DIR	*fd_dir;
 
+	fd_dir = opendir(new_path);
+	if (mode == 1)
+		free(new_path);
+	if (fd_dir == NULL)
+	{
+		if (add_err_lst(error, "bash: cd: ", strerror(errno), NULL) == -1)
+			return (-1);
+		return (1);
+	}
+	closedir(fd_dir);
+	return (0);
+}
 
 int		ft_make_dir_lst(t_list **dir, char *str)
 {
 	int		i;
 	int		start;
 	int		len;
-	char	*tmp;
 	t_list	*new;
 	
 	start = 0;
@@ -40,51 +47,15 @@ int		ft_make_dir_lst(t_list **dir, char *str)
 				len++;
 			if (str[i + len])
 				len++;
-			tmp = ft_strndup(str + start, len);
-			if (tmp == NULL)
+			new = ft_lstnew(NULL);
+			if (new == NULL || !(new->content = ft_strndup(str + start, len)))
 				return (-1);
-			new = ft_lstnew(tmp);
-			if (new == NULL)
-			{
-				free (tmp);
-				return (-1);
-			}
 			ft_lstadd_back(dir, new);
 			start = i + len;
 		}
 		i++;
 	}
 	return (0);
-}
-
-void	ft_lstdel_last(t_list **head)
-{
-	int		size;
-	t_list	*last;
-	t_list	*previous_to_last;
-
-	size = ft_lstsize(*head);
-	if (size == 0 || *head == NULL)
-	{
-		if (size == 0)
-			printf("size == 0\n");
-		if (*head == NULL)	
-			printf("*head == NULL\n");
-		return ; // Rien a supprimer la liste est vide
-	}
-	else if (size == 1)
-	{
-		last = ft_lstat(*head, 0);
-		ft_lstdelone(last, free);
-		*head = NULL;
-	}
-	else
-	{
-		last = ft_lstat(*head, size - 1);
-		previous_to_last = ft_lstat(*head, size - 2);
-		previous_to_last->next = NULL;
-		ft_lstdelone(last, free);
-	}
 }
 
 int		ft_edit_dir_lst(t_list **dir, char *r_path)
@@ -114,76 +85,27 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path)
 		tmp++;
 	}
 	return (0);
-
 }
 
-char	*ft_get_absolute_path(t_list *dir)
-{
-	char *final_path;
-	char *tmp;
-
-	final_path = NULL;
-	if (dir == NULL)
-		return (ft_strdup("/"));
-	while (dir)
-	{
-		tmp = final_path;
-		final_path = ft_strjoin(final_path, (char *)dir->content);
-		free(tmp);
-		if (final_path == NULL)
-			return (NULL);
-		dir = dir->next;
-	}
-	return (final_path);
-}
-
-//cur_path = cwd //operand = r_path
-char	*get_newpath(char *operand)
-{
-	t_list	*dir_lst;
-	char	*cur_path;
-	char	*new_path;
-
-	dir_lst = NULL;
-	cur_path = getcwd(NULL, 0);
-	if (cur_path == NULL)
-		return (NULL); //err malloc
-	printf("cur_path = %s\n", cur_path);
-	printf("operand = %s\n", operand);
-	if (ft_make_dir_lst(&dir_lst, cur_path) == -1)
-	{
-		free(cur_path);
-		return (NULL); //err malloc
-	}
-	free(cur_path);
-	ft_print_str_lst(dir_lst);
-	ft_edit_dir_lst(&dir_lst, operand);
-	ft_print_str_lst(dir_lst);
-	new_path = ft_get_absolute_path(dir_lst);
-	return (new_path);
-}
-
-int		chdir_to_home_var(t_list **env, t_list **error)
+int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env, t_list **error)
 {
 	t_list *home_node;
 	t_var	*v_tmp;
 
 	home_node = ft_lstfind_env(env, "HOME", ft_strcmp);
 	if (home_node == NULL)
-	{
-		add_err_lst(error, "Bash: cd: $HOME is not set\n", NULL, NULL, error);
-		return (1);
-	}
+		return (ft_cd_error(error, "Bash: cd: $HOME is not set\n", NULL, 1));
 	v_tmp = (t_var *)home_node->content;
-	if (chdir(v_tmp->value) == -1)
+	if (cmd->pipe_mod == 0)
 	{
-
-		printf("Bash(adrien): cd: errno = %s\n", strerror(errno));
-		return (1);
+		if (chdir(v_tmp->value) == -1)
+			return (ft_cd_error(error, "Bash: cd: ", strerror(errno), 1));
+		if (ft_update_pwd(v_tmp->value, env) == -1)
+			return (-1); // err malloc
+		return (0);
 	}
-	if (ft_update_pwd(v_tmp->value, env) == -1)
-		return (-1); // err malloc
-	return (0);
+	else
+		return (fake_cd(v_tmp->value, error, 0)); 
 }
 
 int		ft_update_pwd(char *new_path, t_list **env)
@@ -214,40 +136,40 @@ int		ft_update_pwd(char *new_path, t_list **env)
 	}
 	return (0);
 }
-		
+
 int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 {
 	char	*new_path;
 	char	*op;
 
 	if (cmd->ac > 2)
-	{
-		if (add_err_lst(error, "bash: cd: too many arguments", NULL, NULL) < 0)
-			return (-1);
-		return (1);
-	}
+		return(ft_cd_error(error, "bash: cd: ", "too many arguments", 1));
 	op = *(cmd->av + 1);
 	if (op == NULL || ft_strcmp(op, "") == 0)
-		return (chdir_to_home_var(env));
-	// to change if send after v2
+		return (chdir_to_home_var(cmd,env, error));
 	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
-		if (new_path == NULL)
+	if (new_path == NULL)
 		return (-1); // Err malloc;
-	if (chdir(new_path) == -1)
+	if (cmd->pipe_mod == 0)
 	{
-		if (add_err_lst(error, "bash(adrien): cd: ", 
-					new_path, strerror(errno), error) < 0)
-			return(ft_free(new_path, -1);
-		return (ft_free(new_path, 1));
+		if (chdir(new_path) == -1)
+		{
+			if (add_err_lst(error, "bash: cd: ", NULL, NULL) == -1 ||
+					add_err_lst(error, new_path, " : ", strerror(errno)) == -1)
+				return(ft_free(new_path, -1));
+			return (ft_free(new_path, 1));
+		}
+		if (ft_update_pwd(new_path, env) == -1)
+			return (ft_free(new_path, -1));
+		return (ft_free(new_path, 0));
 	}
-	if (ft_update_pwd(new_path, env) == -1)
-		return (ft_free(new_path, -1);
-	free(new_path);
-	return (0);
-}
-/*
-if (is_absolute_path(operand))
-		new_path = ft_strdup(operand);
 	else
-		new_path = get_newpath(operand);
-*/
+		return (fake_cd(new_path, error, 1));
+}
+
+/*
+	if (is_absolute_path(op))
+		new_path = ft_strdup(op);
+	else
+		new_path = get_newpath(op);
+		*/
