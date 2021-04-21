@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 18:40:48 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 18:38:26 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,10 @@ typedef struct	s_expansion
 typedef struct	s_pipe
 {
 	int			fd_tab[2];
+	int			fd_tab_err[2];
 	int			fd_in_to_use;
 	int			fd_out_to_use;
+	int			fd_err_to_use;
 	int			fd_in_next;
 }				t_pipe;
 #endif
