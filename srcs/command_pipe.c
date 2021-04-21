@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 11:02:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 19:14:32 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 int			execute_pipe(t_simple_cmd *tmp_c, t_list **env, t_pipe *p,
 				t_list **error)
 {
+	int res;
+
 	p->fd_in_to_use = tmp_c->fd_in;//deja avec les redir
 	p->fd_out_to_use = tmp_c->fd_out;//deja avec les redir
+	p->fd_err_to_use = STDERR_FILENO;
 	if (tmp_c->pipe_mod == 1)// si je suis piped
 	{
 		if (prepare_pipe_execution(tmp_c, p) == -1)//erreur fonction pipe
@@ -25,15 +28,15 @@ int			execute_pipe(t_simple_cmd *tmp_c, t_list **env, t_pipe *p,
 			return (-1);//erreur pipe (fd_tab)
 		}
 	}
+	//printf("tmp_c->on == %d\n", tmp_c->on);
 	if (tmp_c->on == 1)
 	{
-		if (execute_cmd(tmp_c, env, error, p) == 1) //0 on continue, 1 on arrete tout
-		{
-		//on ne renvoie plus -1 en cas de malloc, cela fait partie de la commande
+	//	printf("here\n");
+		res = execute_cmd(tmp_c, env, error, p);//COMMAND EXECUTION
+		if (res == -1) //erreur malloc
 			ft_putstr_fd("Error command execution\n", 2);//pas sure
-			return (1);
-		//clean pipes?
-		}
+		update_fd_pipes(tmp_c, p);
+		return (res);
 	}
 	update_fd_pipes(tmp_c, p);
 	return (0);
@@ -86,10 +89,12 @@ int			prepare_and_execute_pipe(t_list **cmd_list, t_list **env,
 			ft_lstclear(&error, free);
 			return (-1);
 		}
-		res = execute_pipe(tmp_c, env, &p, &error);
-		if (res != 0)//erreur fonction pipe -1 ou exec command 1
+		res = execute_pipe(tmp_c, env, &p, &error);//0 OK, 19 exit, -1 malloc
+		if (res != 0)		
 		{
 			//on veut aller au next input;
+			if (res != 19)//si exit
+				print_cmd_error(0, error);
 			ft_lstclear(&error, free);
 			return (res);
 		}
@@ -98,7 +103,7 @@ int			prepare_and_execute_pipe(t_list **cmd_list, t_list **env,
 	print_cmd_error(0, error);
 	ft_lstclear(&error, free);
 	//clean pipes?
-	return (0);
+	return (0);//pour continuer
 }
 
 int		create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb,
@@ -115,7 +120,7 @@ int		create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb,
 		if (make_expansion(tmp_s, env) == -1)
 			return (-1);//erreur malloc
 		res = prepare_and_execute_pipe(&cmd_list, env, tmp_s);
-		if (res != 0)//-1 pbm focntion pipe , 1 pbl exec
+		if (res != 0)//-1 pbm fonction pipe , 1 pbl exec
 			return (res);
 		i++;
 	}

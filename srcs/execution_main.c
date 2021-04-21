@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 10:37:40 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 17:41:06 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int execution_main(char *line, t_list **var_list)
 	//res = 0 tout est ok
 	//res = 1 : erreur exec command mais on prend le next input
 	//res = -1 : erreur malloc ou autre hors exe (pipe), on arrete le pgm
+	// 19 exit
 	ft_clear_before_quit(&token_list, &tab_seq, NULL, seq_nb);
 	printf("\n**********\n");
 	return(res);
