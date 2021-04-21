@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 19:17:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 19:59:59 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error,
 			job = ft_strdup(tmp_c->job);
 			if (job == NULL)
 				return (-1);//A VERFIER AVEC ADRIEN
-			if (errno == 2)//permisiion denieed
+			if (errno == 2)//COMMAND introuvable
 			{
 				g_process.exit_status = 127;
 				if (add_err_lst(error, job,	" : commande introuvable\n", NULL) == -1)
@@ -119,10 +119,15 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error,
 			{
 				char *line;
 				line = NULL;
-				get_next_line(p->fd_tab_err[0], &line);
+				close(p->fd_tab_err[1]);
+				while (get_next_line(p->fd_tab_err[0], &line) > 0)
+				{
+					if ((add_err_lst(error, line, "\n", NULL)) == -1)
+						break;
+				}
+				close(p->fd_tab_err[0]);
 				//printf("line = %s\n", line); 
-				if ((add_err_lst(error, line, "\n", NULL)) == -1)
-					return (-1);
+
 			}
 		//	printf("return 0 here\n");
 			return (0);

@@ -8,7 +8,7 @@
 
 #Prompt:
 -> Multiligne chez Joann quand on remonte historique
-->Pbm de double free si input est fait d'espace uniquement (Viens surement du getuserinput de ses mort);
+->Pbm si input est fait d'espace uniquement (Viens surement du getuserinput de ses mort);
 ->Imprimer seulement le dossier courrent ou tout le chemin?
 
 #Built_in:
@@ -30,4 +30,6 @@
 	-Gerer le retour de cd dans PIPE
 
 #Other:
-
+	Permission denied versus commande introuvable
+	SHLVL
+	
