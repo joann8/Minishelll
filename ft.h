@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 18:42:21 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 21:37:30 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_init_term_struct(t_term *term);
 int		ft_termcap_on(int c);
 
 	// Curseur
-int		ft_is_endofscreen(t_term *term, char *prompt);
+int		ft_is_endofscreen(t_term *term, char *prompt, t_input *user);
 void	ft_move_cursor_home(t_term *term, char *prompt);
 int		ft_getcursorxy(int *row, int *col);
 

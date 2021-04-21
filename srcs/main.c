@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 19:39:01 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 22:03:43 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		main(int ac, char **av, char **envp)
 	if (log_path == NULL)
 	{
 		ft_lstclear_envlst(&env_lst);
-		return (-1);
+		return (1);
 	}
 	tmp = log_path;
 	log_path = ft_strjoin(log_path, "minishell.log");
@@ -67,7 +67,9 @@ int		main(int ac, char **av, char **envp)
 			free(log_path);
 			return (1);
 		}
-		if (ret != -227 && ft_strcmp(user_input, "") != 0)
+		if (ret != -227 
+				&& ft_strcmp(user_input, "") != 0
+				&& !ft_is_only_space(user_input))
 		{
 			if (execution_main(user_input, &env_lst) == 19)
 				ret = -227;

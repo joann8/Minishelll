@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 19:07:32 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 21:35:46 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		ft_handle_key_catching(t_input *user, t_term *term, char *prompt, t_list *l
 		if (ft_screen_wrapper(user, log) == -1)
 			return (-1);
 	}
-	if (ft_is_endofscreen(term, prompt) == -1)
+	if (ft_is_endofscreen(term, prompt, user) == -1)
 		return (-1);
 	tputs(term->rc, 1, ft_termcap_on);
 	tputs(term->cd, 1, ft_termcap_on);

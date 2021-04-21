@@ -6,28 +6,27 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 15:50:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 22:11:05 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		ft_is_endofscreen(t_term *term, char *prompt)
+int		ft_is_endofscreen(t_term *term, char *prompt, t_input *user)
 {
 	int		cur_row;
 	int		cur_col;
+	int		len_left;
 
 	if (ft_getcursorxy(&cur_row, &cur_col))
-	{
-		printf("Error while reading cursors position\n");
 		return (-1);
-	}
-	if (cur_row == term->line && cur_col == term->col)
+	len_left = term->col - (int)ft_strlen(prompt);
+	if ((cur_row == term->line && cur_col == term->col)
+			|| (cur_row == term->line 
+				&& len_left < (int)ft_strlen(user->screen)))
 		ft_move_cursor_home(term, prompt);
 	return (0);
 }
-
-
 
 void	ft_move_cursor_home(t_term *term, char *prompt)
 {
