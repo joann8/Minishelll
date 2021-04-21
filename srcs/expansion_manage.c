@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 15:16:02 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 10:57:56 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		manage_special_exit_help(t_expansion *exp)
 		exp->j += 1;
 		k++;
 	}
+	free(exp->var_str);
 	return (0);
 }
 

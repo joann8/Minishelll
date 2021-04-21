@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 18:56:07 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 10:48:45 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error)
 		ret = 0;
 		if (ft_check_export_name(*argv) == 0)
 		{
-			if (add_err_lst(error,"bash: unset: « ", *argv, " »: not a valid identifier\n") == -1)
+			if (add_err_lst(error,"bash: export: « ", *argv, " »: not a valid identifier\n") == -1)
 				return (-1);
 			res = 1;
 		}

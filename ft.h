@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 19:58:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 10:20:24 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,9 +199,8 @@ void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
 int		assign_list_word(t_seq *seq, t_simple_cmd *cmd);
 int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error);
 
-t_list	*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
-
-//execute
+//command_simple
+int		create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
 
 //built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word);

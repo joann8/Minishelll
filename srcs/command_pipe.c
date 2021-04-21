@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 20:05:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 11:02:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			execute_pipe(t_simple_cmd *tmp_c, t_list **env, t_pipe *p,
 	p->fd_out_to_use = tmp_c->fd_out;//deja avec les redir
 	if (tmp_c->pipe_mod == 1)// si je suis piped
 	{
-		if (prepare_pipe_execution(tmp_c, p) == -1)
+		if (prepare_pipe_execution(tmp_c, p) == -1)//erreur fonction pipe
 		{
 			add_err_lst(error, strerror(errno), NULL, NULL);
 			return (-1);//erreur pipe (fd_tab)
@@ -27,11 +27,11 @@ int			execute_pipe(t_simple_cmd *tmp_c, t_list **env, t_pipe *p,
 	}
 	if (tmp_c->on == 1)
 	{
-		if (execute_cmd(tmp_c, env, error, p) == 1)
+		if (execute_cmd(tmp_c, env, error, p) == 1) //0 on continue, 1 on arrete tout
 		{
 		//on ne renvoie plus -1 en cas de malloc, cela fait partie de la commande
 			ft_putstr_fd("Error command execution\n", 2);//pas sure
-		//return (-1);//plutot -1 erreur systeme
+			return (1);
 		//clean pipes?
 		}
 	}
@@ -45,6 +45,13 @@ int			prepare_pipe(t_list **cmd_list, t_simple_cmd *tmp_c, t_seq *tmp_s,
 	t_list	*new;
 	t_list	*tmp_l;
 
+	new = ft_lstnew((void*)tmp_c);
+	if (new == NULL)
+	{
+		free(tmp_c);
+		return (p_error(0, "malloc error\n", -1));
+	}
+	ft_lstadd_back(cmd_list, new);//tmp_c géré avec la liste maintenant
 	tmp_c->on = 1;
 	tmp_c->ac = ft_lstsize(tmp_s->word);
 	tmp_c->av = malloc(sizeof(char*) * (tmp_c->ac + 1));
@@ -56,10 +63,6 @@ int			prepare_pipe(t_list **cmd_list, t_simple_cmd *tmp_c, t_seq *tmp_s,
 	tmp_l = tmp_s->redir;
 	if (assign_list_redir(tmp_l, tmp_c, error) == -1)
 		return (-1);
-	new = ft_lstnew((void*)tmp_c);
-	if (new == NULL)
-		return (p_error(0, "malloc error\n", -1));
-	ft_lstadd_back(cmd_list, new);
 	return (0);
 }
 
@@ -69,6 +72,7 @@ int			prepare_and_execute_pipe(t_list **cmd_list, t_list **env,
 	t_pipe			p;
 	t_simple_cmd	*tmp_c;
 	t_list			*error;
+	int				res;
 
 	error = NULL;
 	//prepare pipe?
@@ -79,11 +83,16 @@ int			prepare_and_execute_pipe(t_list **cmd_list, t_list **env,
 			return (p_error(0, "malloc error\n", -1));
 		if (prepare_pipe(cmd_list, tmp_c, tmp_s, &error) == -1)
 		{
-			free(tmp_c);//pas sure
+			ft_lstclear(&error, free);
 			return (-1);
 		}
-		if (execute_pipe(tmp_c, env, &p, &error) == -1)
-			return (-1);//erreurs syst non gérées
+		res = execute_pipe(tmp_c, env, &p, &error);
+		if (res != 0)//erreur fonction pipe -1 ou exec command 1
+		{
+			//on veut aller au next input;
+			ft_lstclear(&error, free);
+			return (res);
+		}
 		tmp_s = tmp_s->next_pipe;
 	}
 	print_cmd_error(0, error);
@@ -92,21 +101,23 @@ int			prepare_and_execute_pipe(t_list **cmd_list, t_list **env,
 	return (0);
 }
 
-t_list		*create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb,
+int		create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb,
 				t_list **env)
 {
 	int				i;
 	t_seq			*tmp_s;
+	int				res;
 
 	i = 0;
 	while (i < seq_nb)
 	{
 		tmp_s = &tab_seq[i];
 		if (make_expansion(tmp_s, env) == -1)
-			return (NULL);//erreur malloc
-		if (prepare_and_execute_pipe(&cmd_list, env, tmp_s) == -1)
-			return (NULL);
+			return (-1);//erreur malloc
+		res = prepare_and_execute_pipe(&cmd_list, env, tmp_s);
+		if (res != 0)//-1 pbm focntion pipe , 1 pbl exec
+			return (res);
 		i++;
 	}
-	return (cmd_list);
+	return (0);
 }
