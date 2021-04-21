@@ -1,6 +1,7 @@
 SRCS =										\
 		srcs/built_in.c						\
 		srcs/built_in_cd.c					\
+		srcs/built_in_cd_utils.c			\
 		srcs/built_in_echo.c				\
 		srcs/built_in_exit.c				\
 		srcs/built_in_export.c				\
