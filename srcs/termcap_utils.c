@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 21:39:20 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 22:11:05 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@ int		ft_is_endofscreen(t_term *term, char *prompt, t_input *user)
 {
 	int		cur_row;
 	int		cur_col;
+	int		len_left;
 
 	if (ft_getcursorxy(&cur_row, &cur_col))
 		return (-1);
+	len_left = term->col - (int)ft_strlen(prompt);
 	if ((cur_row == term->line && cur_col == term->col)
-			|| (term->col - cur_col) < (int)ft_strlen(user->screen))
+			|| (cur_row == term->line 
+				&& len_left < (int)ft_strlen(user->screen)))
 		ft_move_cursor_home(term, prompt);
 	return (0);
 }
-
-
 
 void	ft_move_cursor_home(t_term *term, char *prompt)
 {
