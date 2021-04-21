@@ -6,11 +6,26 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 10:01:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 16:39:59 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 17:13:21 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+int		ft_is_file_executable(char *filepath)
+{
+	struct stat sb;
+
+	if (stat(filepath, &sb) == 0)
+	{
+		if (S_ISREG(sb.st_mode))
+		{
+			if (sb.st_mode & S_IXUSR)
+				return (1);
+		}
+	}
+	return (0);
+}
 
 int		ft_lst_on_env_size(t_list **env)
 {

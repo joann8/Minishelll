@@ -6,13 +6,13 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 18:56:28 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 11:37:43 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	ft_unset_node(t_list **env, t_list *tmp)
+void	ft_unset_node(t_list **env, t_list *tmp, char *node_name)
 {
 	t_list	*previous;
 	t_var	*v_tmp;
@@ -22,7 +22,7 @@ void	ft_unset_node(t_list **env, t_list *tmp)
 		previous = previous->next;
 	if (!previous)
 	{
-		printf("err in unset node\n");
+		printf("bash: unset: error while unsetting «%s» node\n", node_name);
 		return;
 	}
 	previous->next = tmp->next;
@@ -56,7 +56,7 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error)
 			{
 				tmp = ft_lstfind_env(env, *argv, ft_strcmp);
 				if (tmp)
-					ft_unset_node(env, tmp);
+					ft_unset_node(env, tmp, *argv);
 			}
 		}
 		argv++;

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 14:16:56 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/20 17:04:37 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*ft_make_prompt(t_list **env_lst)
 	char *tmp;
 	char *pwd;
 	char *prompt;
-
 
 	pwd_node = (ft_lstfind_env(env_lst, "PWD", ft_strcmp));
 	if (pwd_node == NULL)

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 10:20:24 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 13:05:44 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,25 @@ t_list	*ft_env_node_copy(t_var *v_src);
 
 //Built in
 int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error);
+			//cd
+int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error);
+int		is_absolute_path(char *str);
+void	ft_lstdel_last(t_list **head);
+char	*ft_get_absolute_path(t_list *dir);
+char	*get_newpath(char *operand);
+int		ft_cd_error(t_list **error, char *s1, char *s2, int w_return);
+int		ft_make_dir_lst(t_list **dir, char *str);
+int		ft_edit_dir_lst(t_list **dir, char *r_path);
+int		fake_cd(char	*new_path, t_list **error, int mode);
+
+
+			//export
 int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error);
-int		ft_cd(char **argv, t_list **env);
 t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_update_pwd(char *new_path, t_list **env);
+int		ft_lst_env_addback(t_list **env, char *argv);
+t_list	*ft_allocate_env_node(char *argv, int i, int j, int mode);
+t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode);
 
 // Print
 void	ft_print_str_table(char **av);
@@ -117,7 +132,9 @@ int		ft_is_only_space(char *str);
 char	*ft_strndup(char *src, int len);
 void	ft_swap_content(t_list *a, t_list *b);
 int		ft_lst_on_env_size(t_list **env);
+int		ft_is_file_executable(char *filepath);
 
+//
 
 
 
@@ -140,6 +157,7 @@ void	ft_free_token(t_list *token_list);
 void	ft_free_redir(t_list *redir_list);
 void	ft_free_tab_seq(t_seq *tab_seq, int seq_nb);
 void	ft_free_command(t_list *cmd_list);
+int		ft_free(void *str, int wanted_return);
 
 
 //tokenize_utils
