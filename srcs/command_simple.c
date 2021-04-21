@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 11:00:44 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 14:15:26 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 			t_pipe p)
 {
-	pid_t	pid;
+	int		pid;
 	int		wstatus;
-	int		err;
 
 	pid = fork();
 	if (pid == -1)
@@ -32,21 +31,15 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 		if (dup2(p.fd_out_to_use, STDOUT_FILENO) == -1)
 			return (-1);
 	//	close(fd_out_to_use);
-		err = execve(job, tmp_c->av, our_envp);
-		if (err == -1)
-		{
-			printf("pbm execve %d - %s\n", errno, strerror(errno));
-			kill(0, SIGKILL);
-			return (-1); //erreur execution
-		}
+		exit(execve(job, tmp_c->av, our_envp));
 	}
 	else
 	{
-		wait(&wstatus);
-		printf("hello from parent\n");
-		g_process.exit_status = WEXITSTATUS(wstatus);
+		if (wait(&wstatus) == -1)
+			return (-1);
+		g_process.exit_status = WEXITSTATUS(wstatus);//return the status code
 	}
-	return (0);
+	return (g_process.exit_status);//return the status code
 }
 
 int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
@@ -59,7 +52,7 @@ int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
 		return (-1);//malloc err
 	if (ft_split_process(job, tmp_c, our_envp, p) == -1)
 	{
-		g_process.exit_status = 1;//pas sure
+	//	g_process.exit_status = 1;//pas sure
 		free_double_tab(our_envp);
 		return (-1);
 	}
