@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 20:13:02 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 11:00:44 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,11 @@ int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error,
 				return ((g_process.exit_status = 1));//A VERFIER AVEC ADRIEN
 			else if (add_err_lst(error, job,
 						" : commande introuvable\n", NULL) == -1)
+			{
+				free(job);
 				return ((g_process.exit_status = 1));//A VERFIER AVEC ADRIEN
+			}
+			free(job);
 		}
 		else
 		{

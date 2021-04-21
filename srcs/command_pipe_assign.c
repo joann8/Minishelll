@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 19:18:16 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 10:28:25 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,15 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 	i = 0;
 	while (tmp)
 	{
-		if (i == 0)//error opening with wrong rights
+		if (i == 0)
 		{
 			cmd->job = ft_strdup((char *)tmp->content);
 			if (cmd->job == NULL)
 				return (p_error(0, "malloc error\n", -1));
 		}
 		cmd->av[i] = ft_strdup(tmp->content);//recheker ce qu'il faut free ou pas
-		if (cmd->av[i] == NULL)//erreur malloc
-		{
-			free(cmd->job);
+		if (cmd->av[i] == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
 			return (p_error(0, "malloc error\n", -1));
-		}
 		tmp = tmp->next;
 		i++;
 	}

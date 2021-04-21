@@ -6,40 +6,65 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 18:39:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 18:50:38 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 11:36:15 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	manage_c
+void	reading_sigint(int sig)
 {
-	if (jjjjj)
+	ft_putstr_fd("\n", 1);
+	g_process.exit_status = 130;
+	//print prompt	
+	
+	/*else if (g_process.shell_level == 0)
 	{
-		kill(0, sig);//kill child process;
-		//kill parent?
-		g_gnl.exit_status = 130;
-		ft_putstr_fd(2, "\n");
-	}
-	else if (g_gnl.shell_level == 0)
-	{
-		g_gnl.exit_status = 1;
+		g_process.exit_status = 1;
 		ft_putstr_fd("chelou", 1);
-	}
+	}*/
+	return;
 }
 
-
-
-void	manage_slash(int sig)
+void	reading_sigquit(int sig)
 {
-	kill(0, sig);//kill child process;
-	//kill parent?
+	ft_putstr_fd(1, "\b\b \b\b");
+}
+
+void	exec_sigint(int sig)
+{
+	kill(0 , sig);//kill child;
+	//kill(g_process.pid[0], sig);//kill child 
+	//kill(g_process.pid[1], sig);//kill parent
+	g_process.exit_status = 130;
+	ft_putstr_fd("\n", 1);
+
+	/*else if (g_process.shell_level == 0)
+	{
+		g_process.exit_status = 1;
+		ft_putstr_fd("chelou", 1);
+	}*/
+}
+
+void	exec_sigquit(int sig)
+{
+	kill(0 , sig);//kill child parent;
+	//kill(g_process.pid[0], sig);//kill child process;
+	//kill(g_process.pid[1], sig);//kill child process;
 	g_gnl.exit_status = 131;
-	ft_putstr_fd(2, "Quit: 3\n");
+	ft_putstr_fd(1, "Quit (core dumped)\n");
 }
 	
-void	listen_signal(void)
+void	reading_listen_signal(void)
 {
-	signal(SIGINT, manage_c);
-	signal(SIGQUIT, manage_slash);
+	signal(SIGINT, reading_sigint);//quand on tape clc c (SIGINT), lance manage c 
+	signal(SIGQUIT, reading_sigquit);//quand on tape clt \, SIG QUIT on lance manage slash >> pgm terminates anc cor dump core
+//	Quit (core dumped)
+}
+
+void	exec_listen_signal(void)
+{
+	signal(SIGINT, exec_sigint);//quand on tape clc c (SIGINT), lance manage c 
+	signal(SIGQUIT, exec_sigquit);//quand on tape clt \, SIG QUIT on lance manage slash >> pgm terminates anc cor dump core
+//	Quit (core dumped)
 }

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/19 17:04:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 10:38:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		main(int ac, char **av, char **envp)
 		}
 		if (ft_strcmp(user_input, "") != 0)
 		{
-			if (execution_main(user_input, &env_lst) == -1)
+			if (execution_main(user_input, &env_lst) == -1)// 1 on va au next input, -1 on arrete tout, 0 on continue normalement
 			{
 				free(prompt);
 				free(user_input);
