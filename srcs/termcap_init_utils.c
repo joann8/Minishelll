@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 15:56:51 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 17:34:24 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	ft_init_term_struct(t_term *term)
 int		ft_init_termcap(t_term *term)
 {
 	int		ret;
+	char	buf[2048];
+
 
 	term->name = getenv("TERM");
 	if (term->name == NULL)
@@ -53,7 +55,7 @@ int		ft_init_termcap(t_term *term)
 		printf("env '$TERM' not found\n"); // virer
 		return (-1);
 	}
-	ret = tgetent(NULL, term->name);
+	ret = tgetent(buf, term->name);
 	if (ret == 0)
 	{
 		printf("tgetent == 0\n"); // virer

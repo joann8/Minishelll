@@ -78,6 +78,7 @@ typedef	struct	s_term
 
 	int		col;
 	int		line;
+	int		*t_ret;
 	char	*name; // trouve le nom du terminal
 	char	*cm; // bouge curseur
 	char	*me; //reset les params

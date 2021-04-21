@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 13:05:44 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 18:42:21 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_print_prompt(t_term *term, char *prompt);
 char	*ft_make_prompt(t_list **env_lst);
 
 //Userinput
-int		ft_get_userinput(char **line, char *prompt, char *log_path);
+int		ft_get_userinput(char **line, char *prompt, char *log_path, int *ret);
 char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt);
 void	ft_enable_raw_mode(struct termios *origin);
 void	ft_disable_raw_mode(struct termios *origin);
