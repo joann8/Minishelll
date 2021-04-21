@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 10:38:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 19:31:47 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ int		main(int ac, char **av, char **envp)
 	char *prompt;
 	char *tmp;
 	char *log_path;
+	int	 ret;
 
 	g_process.exit_status = 0;
+	ret = 0;
 
 	//Creation de la lst de env_var;	
 	env_lst = NULL;
@@ -48,7 +50,7 @@ int		main(int ac, char **av, char **envp)
 		return (1);
 	}
 	// existence d'un boleen pour free et gagner des lignes?
-	while (1)
+	while (ret != -227)
 	{
 		prompt = ft_make_prompt(&env_lst);
 		if (prompt == NULL)
@@ -58,21 +60,17 @@ int		main(int ac, char **av, char **envp)
 			return (1);
 		}
 		if (ft_get_userinput(&user_input,
-					prompt, log_path) == -1)
-		{	
+					prompt, log_path, &ret) == -1)
+		{
 			free(prompt);
 			ft_lstclear_envlst(&env_lst);
 			free(log_path);
 			return (1);
 		}
-		if (ft_strcmp(user_input, "") != 0)
+		if (ret != -227 && ft_strcmp(user_input, "") != 0)
 		{
-			if (execution_main(user_input, &env_lst) == -1)// 1 on va au next input, -1 on arrete tout, 0 on continue normalement
-			{
-				free(prompt);
-				free(user_input);
-				break;
-			}
+			if (execution_main(user_input, &env_lst) == 227)
+				ret == -227;
 		}	
 		free(prompt);
 		free(user_input);

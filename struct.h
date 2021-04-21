@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 17:42:18 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/21 18:40:48 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef	struct	s_term
 
 	int		col;
 	int		line;
+	int		*t_ret;
 	char	*name; // trouve le nom du terminal
 	char	*cm; // bouge curseur
 	char	*me; //reset les params
