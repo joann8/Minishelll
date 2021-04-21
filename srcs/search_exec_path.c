@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 19:27:53 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 14:24:52 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -99,13 +99,13 @@ int		search_env_path_var(char **job, char *exec, t_list **env)
 	i = 0;
 	while (dir_tab[i])
 	{
-		ret = ft_search_env_path_two(exec, dir_tab[i], job);
+		ret = ft_search_env_path_two(dir_tab[i], exec, job);
 		if (ret == 1 || ret == -1)
 		{
 			free_double_tab(dir_tab);
 			return (ret); //1 j'ai trouve // -1 erreur malloc
 		}	
-			i++;
+		i++;
 	}
 	free_double_tab(dir_tab);
 	return (0); //no file corresponding to criteria was found
