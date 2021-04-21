@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 10:18:47 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 11:15:26 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,9 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path);
 int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error);
 t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_update_pwd(char *new_path, t_list **env);
+int		ft_lst_env_addback(t_list **env, char *argv);
+t_list	*ft_allocate_env_node(char *argv, int i, int j, int mode);
+t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode);
 
 // Print
 void	ft_print_str_table(char **av);

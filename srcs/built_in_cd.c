@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 10:14:50 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/21 11:16:47 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,22 +122,26 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 
 	if (cmd->ac > 2)
 		return(ft_cd_error(error, "bash: cd: ", strerror(errno), 1));
-	op = *(cmd->av + 1);
-	if (op == NULL || ft_strcmp(op, "") == 0)
-		return (chdir_to_home_var(env, error));
-	if (is_absolute_path(op))
-		new_path = ft_strdup(op);
-	else
-		new_path = get_newpath(op);
-	if (new_path == NULL)
-		return (-1); // Err malloc;
-	if (chdir(new_path) == -1)
+	if (cmd->pipe_mod == 1)
 	{
-		if (add_err_lst(error, "bash: cd: ", new_path, strerror(errno)) == -1)
-			return(ft_free(new_path, -1));
-		return (ft_free(new_path, 1));
+		op = *(cmd->av + 1);
+		if (op == NULL || ft_strcmp(op, "") == 0)
+			return (chdir_to_home_var(env, error));
+		if (is_absolute_path(op))
+			new_path = ft_strdup(op);
+		else
+			new_path = get_newpath(op);
+		if (new_path == NULL)
+			return (-1); // Err malloc;
+		if (chdir(new_path) == -1)
+		{
+			if (add_err_lst(error, "bash: cd: ", new_path, strerror(errno)) == -1)
+				return(ft_free(new_path, -1));
+			return (ft_free(new_path, 1));
+		}
+		if (ft_update_pwd(new_path, env) == -1)
+			return (ft_free(new_path, -1));
+		free(new_path);
 	}
-	if (ft_update_pwd(new_path, env) == -1)
-		return (ft_free(new_path, -1));
-	return (ft_free(new_path, 0));
+	return (0);
 }

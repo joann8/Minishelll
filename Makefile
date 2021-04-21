@@ -5,6 +5,7 @@ SRCS =										\
 		srcs/built_in_echo.c				\
 		srcs/built_in_exit.c				\
 		srcs/built_in_export.c				\
+		srcs/built_in_export_utils.c		\
 		srcs/built_in_pwd.c					\
 		srcs/built_in_unset.c				\
 		srcs/command_pipe.c					\
