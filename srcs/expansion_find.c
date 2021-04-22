@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 15:21:12 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 12:14:57 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int			find_variable_length(char *str, int start, int end, t_list *var)
 	t_list	*tmp;
 	char	*tofind;
 
-	tofind = malloc(sizeof(start - end + 1));
+	tofind = malloc(sizeof(char) * (end - start + 2));
 	if (tofind == NULL)
-		return (-1);
+		return (p_error(0, "malloc erroc\n", -1));
 	ft_copy_loc_expansion(tofind, str, start, end);
 	tmp = var;
 	while (tmp)
@@ -73,7 +73,7 @@ char		*find_variable_str(char *str, int start, int end, t_list *var)
 	char	*tofind;
 	char	*toreturn;
 
-	tofind = malloc(sizeof(start - end + 1));
+	tofind = malloc(sizeof(char) * (end - start + 2));
 	if (tofind == NULL)
 		return (NULL);
 	ft_copy_loc_expansion(tofind, str, start, end);
@@ -84,10 +84,12 @@ char		*find_variable_str(char *str, int start, int end, t_list *var)
 		if (ft_strcmp(tofind, var_tmp->name) == 0)
 		{
 			toreturn = ft_strdup(var_tmp->value);
+			free(tofind);
 			return (toreturn);
 		}
 		tmp = tmp->next;
 	}
+	free(tofind);
 	return (ft_strdup(""));
 }
 

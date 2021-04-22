@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 22:03:43 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 10:41:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		main(int ac, char **av, char **envp)
 				&& ft_strcmp(user_input, "") != 0
 				&& !ft_is_only_space(user_input))
 		{
-			if (execution_main(user_input, &env_lst) == 19)
+			if (execution_main(user_input, &env_lst) == 227)
 				ret = -227;
 		}	
 		free(prompt);

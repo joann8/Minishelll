@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 15:23:58 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 12:16:07 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ void	ft_copy_loc_expansion(char *tofind, char *str, int start, int end)
 
 int		is_metachar(char c)
 {
-	//a metachar is a char that separates words when unquoted
 	if (c == '|' || c == '>' || c == '<' || c == ';')
-		return (1);//operator
+		return (1);
 	if (is_whitespace(c) == 1)
-		return (2);//white space
+		return (2);
 	if (c == ',' || c == '&')//addtional op, not sure
 		return (3);
 	return (0);
@@ -41,7 +40,6 @@ int		is_word(char *str)
 {
 	int i;
 
-	//a word is a sequence of char treated as a unit, without any metachar
 	i = 0;
 	while (str[i])
 	{
@@ -57,8 +55,6 @@ int		is_name(char *str)
 {
 	int i;
 
-	//a name is a word consisting solely of letters, numbers and underscores
-	//starting woth letter or underscore
 	i = 0;
 	while (str[i])
 	{
@@ -74,12 +70,12 @@ int		is_name(char *str)
 
 int		is_var_name(char c, int mod)
 {
-	if (mod == 0)//checker 1re lettre
+	if (mod == 0)
 	{
 		if (ft_isalpha(c) == 1 || c == '_')
 			return (1);
 	}
-	if (mod == 1)//checker milieu
+	if (mod == 1)
 	{
 		if (ft_isalnum(c) == 1 || c == '_')
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 10:57:56 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 10:10:54 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		manage_special_exit_help(t_expansion *exp)
 
 	exp->var_str = ft_itoa(g_process.exit_status);
 	if (exp->var_str == NULL)
-		return (-1);
+		return (p_error(0, "malloc error\n", -1));
 	exp->i += 2;
 	k = 0;
 	while (exp->var_str[k])
@@ -40,7 +40,7 @@ int		manage_special_exit(t_expansion *exp)
 	{
 		tmp = ft_itoa(g_process.exit_status);
 		if (tmp == NULL)
-			return (-1);
+			return (p_error(0, "malloc error\n", -1));
 		res = ft_strlen(tmp);
 		free(tmp);
 		exp->j += res;
@@ -94,7 +94,7 @@ int		manage_variable_help(t_expansion *exp, t_list *var, int k)
 	{
 		exp->var_str = find_variable_str(exp->str, exp->i + 1, k - 1, var);
 		if (exp->var_str == NULL)
-			return (-1);
+			return (p_error(0, "malloc error\n", -1));
 		exp->i = k;
 		k = 0;
 		while (exp->var_str[k])

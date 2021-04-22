@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:24:31 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 09:58:24 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int		ft_get_token_list(t_list **token_list, char *s)
 	i = 0;
 	while (s[i])
 	{
-		while (s[i] && is_whitespace(s[i]))// > 0)
+		while (s[i] && is_whitespace(s[i]))
 			i++;
-		start = i;//avec la suite pour le moment <> ne fonctionne pas
+		start = i;
 		if (s[i] == '|' || s[i] == ';' || s[i] == '<' || s[i] == '>')
 		{
 			i++;
@@ -82,11 +82,11 @@ int		ft_get_token_list(t_list **token_list, char *s)
 		else
 		{
 			if (analyze_inputs(s, &i) == 1)
-				return (1);//erreur manage dans analyze inputs
+				return (1);
 		}
 		if (i != start)
 			if (ft_create_token(token_list, s, start, i - 1) == -1)
-				return (-1);///erreur manage dans create token
+				return (-1);
 	}
 	return (0);
 }
