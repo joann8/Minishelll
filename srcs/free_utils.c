@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 10:15:33 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 18:20:31 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void ft_free_tab_seq(t_seq *tab_seq, int seq_nb)
 	{
 		tmp_s = &tab_seq[i];
 		if (tmp_s == NULL)
-			break; 
+			break;
 		while (tmp_s)
 		{
 			if (tmp_s->redir)
@@ -69,15 +69,28 @@ void ft_free_tab_seq(t_seq *tab_seq, int seq_nb)
 				ft_lstclear(&tmp_s->word, free);
 			to_delete = tmp_s;
 			tmp_s = tmp_s->next_pipe;
-		//	free(to_delete);//pas sure >> pbm de leak quand pas la, pbm de invalid free quand la 
+			//free(to_delete);//pas sure >> pbm de leak quand pas la, pbm de invalid free quand la 
 		}
 		i++;
 	}
 	free(tab_seq); //pas sure
 }
 
+void ft_free_cmd_av_tab(char **cmd)
+{
+	int i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
+}
+
 void ft_free_command(t_list *cmd_list)
-{	
+{
 	t_list			*tmp;
 	t_simple_cmd	*cmd;
 
@@ -88,7 +101,8 @@ void ft_free_command(t_list *cmd_list)
 		if (cmd->job)
 			free(cmd->job);
 		if (cmd->av)
-			free_double_tab(cmd->av);
+			ft_free_cmd_av_tab(cmd->av);
+	//		free_double_tab(cmd->av);
 		tmp = tmp->next;
 	}
 }

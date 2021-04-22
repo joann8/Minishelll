@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 15:32:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 13:28:55 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -112,7 +112,7 @@ int		search_env_path_var(char **job, char *exec, t_list **env)
 	//add last resort search with getcwd as path + operand ?
 }
 
-int		search_relative_path(char *exec_relative_path)
+int		search_relative_path(char **job, char *exec_relative_path)
 {
 	char *job_abs_path;
 
@@ -121,7 +121,7 @@ int		search_relative_path(char *exec_relative_path)
 		return (-1); //err malloc
 	if (ft_is_file_executable(job_abs_path) == 1) // safe to send to execve
 	{
-		free(job_abs_path);
+		*job = job_abs_path;
 		return (1);
 	}
 	free(job_abs_path);
@@ -131,9 +131,18 @@ int		search_relative_path(char *exec_relative_path)
 int		ft_search_job_path(char **job_output, char *exec_input, t_list **env)
 {
 	if (exec_input[0] == '/')
-		return (ft_is_file_executable(exec_input));
+	{
+		if (ft_is_file_executable(exec_input))
+		{
+			*job_output = ft_strdup(exec_input);
+			if (job_output == NULL)
+				return (-1);
+			return (1);
+		}
+		return (0);
+	}
 	else if (exec_input[0] == '.')
-		return (search_relative_path(exec_input));
+		return (search_relative_path(job_output, exec_input));
 	else
 		return (search_env_path_var(job_output, exec_input, env));
 }

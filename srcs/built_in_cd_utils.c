@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 10:18:58 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 16:48:03 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ char	*get_newpath(char *operand)
 	cur_path = getcwd(NULL, 0);
 	if (cur_path == NULL)
 		return (NULL); //err malloc
-	printf("cur_path = %s\n", cur_path);
-	printf("operand = %s\n", operand);
 	if (ft_make_dir_lst(&dir_lst, cur_path) == -1)
 	{
 		ft_lstclear(&dir_lst, free);
@@ -84,9 +82,7 @@ char	*get_newpath(char *operand)
 		return (NULL); //err malloc
 	}
 	free(cur_path);
-	ft_print_str_lst(dir_lst);
 	ft_edit_dir_lst(&dir_lst, operand);
-	ft_print_str_lst(dir_lst);
 	new_path = ft_get_absolute_path(dir_lst);
 	ft_lstclear(&dir_lst, free);
 	return (new_path);

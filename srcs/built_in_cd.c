@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 13:12:43 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 16:46:25 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		fake_cd(char *new_path, t_list **error, int mode)
 		free(new_path);
 	if (fd_dir == NULL)
 	{
-		if (add_err_lst(error, "bash: cd: ", strerror(errno), NULL) == -1)
+		if (add_err_lst(error, "bash: cd: ", strerror(errno), "\n") == -1)
 			return (-1);
 		return (1);
 	}
@@ -99,7 +99,11 @@ int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env, t_list **error)
 	if (cmd->pipe_mod == 0)
 	{
 		if (chdir(v_tmp->value) == -1)
-			return (ft_cd_error(error, "Bash: cd: ", strerror(errno), 1));
+		{
+			if (add_err_lst(error, "Bash: cd: ", strerror(errno), "\n") == -1)
+				return (-1);
+			return (1);
+		}
 		if (ft_update_pwd(v_tmp->value, env) == -1)
 			return (-1); // err malloc
 		return (0);
@@ -143,7 +147,7 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 	char	*op;
 
 	if (cmd->ac > 2)
-		return(ft_cd_error(error, "bash: cd: ", "too many arguments", 1));
+		return(ft_cd_error(error, "bash: cd: ", "too many arguments\n", 1));
 	op = *(cmd->av + 1);
 	if (op == NULL || ft_strcmp(op, "") == 0)
 		return (chdir_to_home_var(cmd,env, error));
@@ -154,8 +158,8 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 	{
 		if (chdir(new_path) == -1)
 		{
-			if (add_err_lst(error, "bash: cd: ", NULL, NULL) == -1 ||
-					add_err_lst(error, new_path, " : ", strerror(errno)) == -1)
+			if (add_err_lst(error, "bash: cd: ", new_path, NULL) == -1 ||
+					add_err_lst(error, " : ", strerror(errno), "\n") == -1)
 				return(ft_free(new_path, -1));
 			return (ft_free(new_path, 1));
 		}

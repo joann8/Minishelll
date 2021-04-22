@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:28:53 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 09:57:10 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		assign_type_2(t_list *head)
 		if (tmp->next)
 			t3 = (t_token *)(tmp->next->content);
 		if (assign_type_2_help(&head, &tmp, t2, t3) == 1)
-			return (1);//gérer dans assign 2
+			return (1);
 		tmp = tmp->next;
 	}
 	return (0);

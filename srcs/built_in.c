@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 17:58:31 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 10:40:39 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		find_built_in_2(t_simple_cmd *cmd, t_pipe *p, t_list **env,
 	{
 		g_process.exit_status = ft_exit(cmd, p, error);
 		if (cmd->pipe_mod == 0)
-			return (19);
+			return (227);
 	}
 	else if (ft_strcmp(cmd->job, "env") == 0)
 		g_process.exit_status = ft_env(env, p->fd_out_to_use);
