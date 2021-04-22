@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 16:00:48 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 18:22:19 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		execution_main(char *line, t_list **var_list)
 	tab_seq = create_sequence(tab_seq, token_list, seq_nb);
 	if (tab_seq == NULL)//seules erreurs possibles == malloc
 	{
-		ft_clear_before_quit(&token_list, NULL, NULL, seq_nb);
+		ft_clear_before_quit(&token_list, &tab_seq, NULL, seq_nb);
 		return (-1);
 	}
 	///gestion erreur ok jusque ici

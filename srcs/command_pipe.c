@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 16:07:17 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 19:03:44 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			prepare_pipe(t_list **cmd_list, t_simple_cmd *tmp_c, t_seq *tmp_s,
 	t_list	*new;
 	t_list	*tmp_l;
 
-	new = ft_lstnew(tmp_c);
+	new = ft_lstnew((void *)tmp_c);
 	if (new == NULL)
 	{
 		free(tmp_c);
