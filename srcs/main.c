@@ -6,11 +6,23 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 22:03:43 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 23:29:10 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+void	block_sigint(int signum)
+{
+	char c;
+
+	c = 4;
+	if (signum == SIGINT)
+	{
+		g_signal = signum;
+	}
+	write(1, "^C\n", 3);
+}
 
 int		main(int ac, char **av, char **envp)
 {
@@ -22,7 +34,8 @@ int		main(int ac, char **av, char **envp)
 	char *tmp;
 	char *log_path;
 	int	 ret;
-
+	
+	g_signal = 0;
 	g_process.exit_status = 0;
 	ret = 0;
 
@@ -59,6 +72,7 @@ int		main(int ac, char **av, char **envp)
 			free(log_path);
 			return (1);
 		}
+		signal(SIGINT, block_sigint);
 		if (ft_get_userinput(&user_input,
 					prompt, log_path, &ret) == -1)
 		{

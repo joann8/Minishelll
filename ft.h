@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 21:37:30 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 23:25:07 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #include "struct.h"
 
 t_process	g_process;
+int			g_signal;
 
 int		execution_main(char *user_input, t_list **env_lst);
 

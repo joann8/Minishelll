@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 21:35:46 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 23:28:53 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		ft_handle_key_catching(t_input *user, t_term *term, char *prompt, t_list *l
 		if (ft_screen_wrapper(user, log) == -1)
 			return (-1);
 	}
-	if (ft_is_endofscreen(term, prompt, user) == -1)
+	if (g_signal == 0 || ft_is_endofscreen(term, prompt, user) == -1)
 		return (-1);
 	tputs(term->rc, 1, ft_termcap_on);
 	tputs(term->cd, 1, ft_termcap_on);
@@ -85,6 +85,11 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	while ((user.bytes = read(fd, user.buf, 4)) > 0)
 	{
 		user.buf[user.bytes] = '\0';
+		if (g_signal == 0)
+		{
+			write(1, "s=0\n", 4);
+			break;
+		}
 		*term->t_ret = ft_handle_key_catching(&user, term, prompt, log);
 		if (*term->t_ret < 0) //err malloc ou  CTRL D
 			break;
