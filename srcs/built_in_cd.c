@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/22 16:46:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/23 14:18:56 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 	if (cmd->ac > 2)
 		return(ft_cd_error(error, "bash: cd: ", "too many arguments\n", 1));
 	op = *(cmd->av + 1);
-	if (op == NULL || ft_strcmp(op, "") == 0)
+	if (op == NULL || ft_strcmp(op, "") == 0 || ft_strcmp(op, "~") == 0)
 		return (chdir_to_home_var(cmd,env, error));
 	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
 	if (new_path == NULL)

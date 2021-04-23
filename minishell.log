@@ -1,3 +1,71 @@
-echo hello
+cd /
+ cd /
+cd no_file
+cd 
+cd boom
+cd /bin
+cd /bin/boom
+cd a b c d
+pwd a
+cd
+cd ..
+pwd a
+owd
+pwd
+pwd a
+pwd a bc 
+/bin/ls
+echo $?
+ahahah
+echo $?
+ahahah
+echo $?
+echo |
+| echo
+sort | ls
+cat < >
+cat < <
+cat > >
+rm a b
+> a ls > b < Makefile
 ls
+cat a
+cat b
+cat Makefile
+rm a b
+ls
+echo > a hello world
+cat a
+rm a
+cat < Makefile | grep gcc > output
+ls
+cat output
+cat < Makefile | grep clang > input
+cat input
+./minishell
+exit 0 | exit 1
+echo $?
+exit
+./minishell
+exit 1 | exit 0
+echo $?
+cd
+cat | cat | cat | ls
+cat | cat
+cat | echo hello
+cat | cat | cat | ls
+cleqr
+exit
+cqt
 cat
+cat | ls
+cat
+cat | ls
+export lol=lol
+env
+export var; export var=5
+env
+export var=5
+export trou;
+export trou=5
+env
