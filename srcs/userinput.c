@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/23 11:38:47 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 12:18:58 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,22 +103,24 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path, int *ret)
 	
 	log = NULL;
 	term.t_ret = ret;
-	printf("log_path = %s\n", log_path);
-	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
+	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0777);
 	if (ft_first_init_userinput(fd_log, &term, &log, &origin) == -1)
-		return ((*ret = -1));
+		return (-1);
 	g.fd = dup(STDIN_FILENO);
 	*line = ft_read_input(g.fd, &term, log, prompt);
-	if (close(fd_log) < 0)
-		return (-1);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	if (*ret == -227 || *line == NULL 
 			|| ft_update_log(line, log, fd_log) == -1)
 	{
+		if (close(fd_log) < 0)
+			*ret = -1;
 		ft_lstclear(&log, free);
 		return (*ret);
 	}
+	*ret = 0;
+	if (close(fd_log) < 0)
+		*ret = -1;
 	ft_lstclear(&log, free);
-	return ((*ret = 0));
+	return (*ret);
 }

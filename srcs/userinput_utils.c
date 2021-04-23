@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/23 11:05:12 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 11:42:55 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 			if (user->i == user->log_size)
 			   user->input = user->screen;// verifier pertinence ou leaks
 		}
-	else if (user->buf[0] == 27 && user->buf[1] == '[' && user->buf[2] == 'B')
+	else if (user->log_size > 0 
+			&& user->buf[0] == 27 && user->buf[1] == '[' && user->buf[2] == 'B')
 		ret = ft_down_arrow(&(user->screen), &(user->input), log, &(user->i));
-	else if (user->buf[0] == 27 && user->buf[1] == '[' && user->buf[2] == 'A')
+	else if (user->log_size > 0 
+			&& user->buf[0] == 27 && user->buf[1] == '[' && user->buf[2] == 'A')
 		ret = ft_up_arrow(&(user->screen), &(user->input), log, &(user->i));
 	return (0);
 }
