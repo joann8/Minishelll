@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 16:16:53 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/23 13:51:28 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 			g.exit_status = 126;//return the status code
 			return (-1);
 		}
-		g.exit_status = WEXITSTATUS(wstatus);//return the status code
+		//printf("r = %d\n", g.exit_status);
+		if (g.exit_status != 130 && g.exit_status != 131)
+			g.exit_status = WEXITSTATUS(wstatus);//return the status code
+		//printf("r = %d\n", g.exit_status);
 	}
 	return (0);//return the status code
 }

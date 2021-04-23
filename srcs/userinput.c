@@ -103,7 +103,7 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path, int *ret)
 	
 	log = NULL;
 	term.t_ret = ret;
-	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0777);
+	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
 	if (ft_first_init_userinput(fd_log, &term, &log, &origin) == -1)
 		return (-1);
 	g.fd = dup(STDIN_FILENO);
