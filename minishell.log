@@ -49,3 +49,23 @@ exit
 ./minishell
 exit 1 | exit 0
 echo $?
+cd
+cat | cat | cat | ls
+cat | cat
+cat | echo hello
+cat | cat | cat | ls
+cleqr
+exit
+cqt
+cat
+cat | ls
+cat
+cat | ls
+export lol=lol
+env
+export var; export var=5
+env
+export var=5
+export trou;
+export trou=5
+env

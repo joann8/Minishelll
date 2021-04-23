@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/22 16:35:59 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/23 15:25:46 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		ft_export_replace_value(t_list *exist, char *str)
 	if (new == NULL)
 		return (-1);
 	v_tmp = (t_var *)exist->content;
+	v_tmp->on = 1;
 	free(v_tmp->value);
 	v_tmp->value = new;
 	return (1);
