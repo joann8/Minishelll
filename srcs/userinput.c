@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 23:28:53 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 12:18:58 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ int	ft_first_init_userinput(int fd_log, t_term *term, t_list **log
 								, struct termios *origin)
 {
 	if (fd_log < 0)
-	{
-		printf("fd_log return == -1, errno = %s\n", strerror(errno));
 		return (-1); // Err opening
-	}
 	if (ft_make_loglst(log, fd_log) < 0)
 	{
 		ft_lstclear(log, free);
@@ -29,7 +26,6 @@ int	ft_first_init_userinput(int fd_log, t_term *term, t_list **log
 	if (ft_init_termcap(term))
 	{
 		ft_lstclear(log, free);
-		printf("termcap init failed\n");
 		return (-1);
 	}
 	return (0);
@@ -52,7 +48,8 @@ int		ft_handle_key_catching(t_input *user, t_term *term, char *prompt, t_list *l
 {
 	if (user->buf[0] == 4 && ft_strlen(user->screen) == 0)
 	{
-		write(1, "exit MOFO\n", 10);
+		g.exit_status = 0;
+		ft_putstr_fd("exit\n", 1);
 		return (-227);
 	}	
 	else if (user->buf[0] == '\n')
@@ -68,7 +65,7 @@ int		ft_handle_key_catching(t_input *user, t_term *term, char *prompt, t_list *l
 		if (ft_screen_wrapper(user, log) == -1)
 			return (-1);
 	}
-	if (g_signal == 0 || ft_is_endofscreen(term, prompt, user) == -1)
+	if (ft_is_endofscreen(term, prompt, user) == -1)
 		return (-1);
 	tputs(term->rc, 1, ft_termcap_on);
 	tputs(term->cd, 1, ft_termcap_on);
@@ -85,11 +82,6 @@ char	*ft_read_input(int fd, t_term *term, t_list *log, char *prompt)
 	while ((user.bytes = read(fd, user.buf, 4)) > 0)
 	{
 		user.buf[user.bytes] = '\0';
-		if (g_signal == 0)
-		{
-			write(1, "s=0\n", 4);
-			break;
-		}
 		*term->t_ret = ft_handle_key_catching(&user, term, prompt, log);
 		if (*term->t_ret < 0) //err malloc ou  CTRL D
 			break;
@@ -111,20 +103,24 @@ int	ft_get_userinput(char **line, char *prompt, char *log_path, int *ret)
 	
 	log = NULL;
 	term.t_ret = ret;
-	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
+	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0777);
 	if (ft_first_init_userinput(fd_log, &term, &log, &origin) == -1)
-		return ((*ret = -1));
-	*line = ft_read_input(STDIN_FILENO, &term, log, prompt);
+		return (-1);
+	g.fd = dup(STDIN_FILENO);
+	*line = ft_read_input(g.fd, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	if (*ret == -227 || *line == NULL 
-			|| ft_update_log(line, log, fd_log) == -1
-			|| close(fd_log) < 0)
+			|| ft_update_log(line, log, fd_log) == -1)
 	{
+		if (close(fd_log) < 0)
+			*ret = -1;
 		ft_lstclear(&log, free);
 		return (*ret);
 	}
+	*ret = 0;
+	if (close(fd_log) < 0)
+		*ret = -1;
 	ft_lstclear(&log, free);
-	return ((*ret = 0));
+	return (*ret);
 }
-
