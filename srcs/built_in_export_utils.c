@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 11:30:28 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 16:33:05 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,17 @@ t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode)
 		free(v_tmp);
 		return (NULL);
 	}
-	if (mode == 2)
+	if (mode == 1)
+	{
+		v_tmp->value = ft_strdup("");
+		if (v_tmp->value == NULL)
+		{
+			free(v_tmp->name);
+			free(v_tmp);
+			return (NULL);
+		}
+	}
+	else
 		return (ft_allocate_env_var_struct_2(argv, i, j, v_tmp));
 	return (v_tmp);
 }

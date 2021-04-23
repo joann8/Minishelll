@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:46:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 18:24:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb)
 		return (NULL);
 	}
 	if (create_sequence_help(tab_seq, token_list, seq_nb, 0) == -1)
+	{
+		ft_free_tab_seq(tab_seq, seq_nb);
 		return (NULL);
+	}
 	return (tab_seq);
 }

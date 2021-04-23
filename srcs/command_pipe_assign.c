@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 10:28:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 17:12:20 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd, t_list **error)
 		{
 			if (add_err_lst(error, strerror(errno), NULL, NULL) == -1)
 				return (-1);
-			return (1);//inutile?
+			return (0);
 		}
 	}
 	else if (r->e_type == APPEND)
@@ -35,7 +35,7 @@ int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd, t_list **error)
 		{
 			if (add_err_lst(error, strerror(errno), NULL, NULL) == -1)
 				return (-1);
-			return (1);//inutile?
+			return (0);
 		}
 	}
 	return (0);
@@ -60,6 +60,7 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error)
 					return (p_error(0, "malloc error\n", -1));
 				cmd->on = 0;//pipe ne s'executera pas
 				g_process.exit_status = 1;
+				return (0);
 			}
 		}
 		else if (assign_list_redir_2(r, cmd, error) == -1)

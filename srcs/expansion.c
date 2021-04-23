@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 14:55:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 18:55:15 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,18 @@ char	*modify_str(char *str, t_list **var)
 	size = count_final_str(&exp, *var);
 	if (size == -1)
 		return (NULL);
-	if (size == 0 || size == -2)//-2 == cas variable name commencant par chiffre apr ex
-		return (ft_strdup(""));
-	tmp = malloc(sizeof(char) * (size + 1));
-	if (tmp == NULL)
+	if (size == 0)
+	{
+		if ((tmp = ft_strdup("")) == NULL)
+			p_error(0, "malloc error\n", -1);
+		return (tmp);
+	}
+	exp.tmp = malloc(sizeof(char) * (size + 1));
+	if (exp.tmp == NULL)
+	{
+		p_error(0, "malloc error\n", -1);
 		return (NULL);
-	exp.tmp = tmp;
+	}
 	tmp = assign_final_str(&exp, *var);
 	return (tmp);
 }
@@ -38,7 +44,8 @@ int		make_expansion(t_seq *tab_seq, t_list **var)
 {
 	t_seq	*tmp_s;
 	t_list	*tmp_w;
-	char	*delete;
+	char	*new;
+	//char	*delete;
 
 	tmp_s = tab_seq;
 	while (tmp_s)
@@ -46,14 +53,12 @@ int		make_expansion(t_seq *tab_seq, t_list **var)
 		tmp_w = tmp_s->word;
 		while (tmp_w)
 		{
-			delete = (char *)(tmp_w->content);
-			tmp_w->content = modify_str(delete, var);
-			free(delete);
+			new = modify_str(tmp_w->content, var);
+			free((char*)(tmp_w->content));
+			tmp_w->content = ft_strdup(new); 
+			free(new);
 			if (tmp_w->content == NULL)
-			{
-				p_error(0, "malloc error\n", -1);
 				return (-1);
-			}
 			tmp_w = tmp_w->next;
 		}
 		tmp_s = tmp_s->next_pipe;

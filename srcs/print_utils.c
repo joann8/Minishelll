@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:56:23 by calao             #+#    #+#             */
-/*   Updated: 2021/04/17 18:38:52 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/22 14:06:07 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_print_exportlst_fd(t_list *env_head, int fd)
 	while (tmp)
 	{
 		var = (t_var*)(tmp->content);
-		write(1, "declare -x ", 11); 
+		write(fd, "declare -x ", 11); 
 		write(fd, var->name, ft_strlen(var->name));
 		write(fd, "=\"", 2);
 		write(fd, var->value, ft_strlen(var->value));

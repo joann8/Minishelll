@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/20 15:11:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/22 09:59:07 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	escape_within_doubles(t_expansion *exp)
 	i = exp->i + 1;
 	if (exp->str[i] == '$' || exp->str[i] == 34 || exp->str[i] == 39
 		|| exp->str[i] == '\\')
-		exp->i += 1;//special character also : !
+		exp->i += 1;
 	else
 	{
 		if (exp->mod == 2)//a verifier si vrai ou pas
