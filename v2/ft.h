@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/23 11:08:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 20:29:02 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ int		ft_is_file_executable(char *filepath);
 
 //	JO.H
 //promp et erreurs
-void	print_str(char *str);
 int		p_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int errnum, char *error, int ret_wanted);
 int		add_err_lst(t_list **error, char *s1, char *s2, char *s3);
@@ -150,6 +149,7 @@ int		print_cmd_error(int errnum, t_list *error);
 void	print_list(t_list *list);
 void	print_token(t_list *token);
 void	print_cmd(t_list *cmd);
+void	print_cmd_piped(t_simple_cmd *cmd);
 void	print_seq(t_seq *tab_seq, int seq_nb);
 
 //ft free
@@ -224,10 +224,12 @@ int		create_command(t_list *cmd_list, t_seq *tab_seq, int seq_nb, t_list **env);
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word);
 int		ft_pwd(t_pipe *pipe, t_list **error);
 int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe, t_list **error);
-int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error, t_pipe *p);
+int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
+int		execute_cmd_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
+int		execute_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error, int size);
 
 //built in
-int		find_built_in(t_simple_cmd *cmd, t_pipe *pipe, t_list **error, t_list **env);
+int		find_built_in(t_simple_cmd *cmd, t_list **error, t_list **env);
 
 
 

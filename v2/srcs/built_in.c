@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 10:40:39 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/23 18:57:39 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,23 @@ int		ft_env(t_list **env, int fd_out)
 	return (0);
 }
 
-int		find_built_in_2(t_simple_cmd *cmd, t_pipe *p, t_list **env,
-			t_list **error)
+int		find_built_in_2(t_simple_cmd *cmd, t_list **env, t_list **error)
 {
 	int res;
 
 	res = 0;
 	if (ft_strcmp(cmd->job, "echo") == 0)
-		g.exit_status = ft_echo(cmd, p, 0, 0);
+		g.exit_status = ft_echo(cmd, &(cmd->p), 0, 0);
 	else if (ft_strcmp(cmd->job, "pwd") == 0)
-		g.exit_status = ft_pwd(p, error);
+		g.exit_status = ft_pwd(&(cmd->p), error);
 	else if (ft_strcmp(cmd->job, "exit") == 0)
 	{
-		g.exit_status = ft_exit(cmd, p, error);
+		g.exit_status = ft_exit(cmd, &(cmd->p), error);
 		if (cmd->pipe_mod == 0)
 			return (227);
 	}
 	else if (ft_strcmp(cmd->job, "env") == 0)
-		g.exit_status = ft_env(env, p->fd_out_to_use);
+		g.exit_status = ft_env(env, cmd->p.fd_out_to_use);
 	else if (ft_strcmp(cmd->job, "unset") == 0)
 		g.exit_status = ft_unset(env, cmd->av, cmd->pipe_mod, error);
 	else
@@ -63,8 +62,7 @@ int		find_built_in_2(t_simple_cmd *cmd, t_pipe *p, t_list **env,
 	return (res);
 }
 
-int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error,
-			t_list **env)
+int		find_built_in(t_simple_cmd *cmd, t_list **error, t_list **env)
 {
 	if (ft_strcmp(cmd->job, "cd") == 0)
 	{
@@ -78,7 +76,7 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error,
 	}
 	if (ft_strcmp(cmd->job, "export") == 0)
 	{
-		g.exit_status = ft_export(env, cmd, p->fd_out_to_use, error);
+		g.exit_status = ft_export(env, cmd, cmd->p.fd_out_to_use, error);
 		if (g.exit_status == -1)
 		{
 			g.exit_status = 1;
@@ -87,5 +85,5 @@ int		find_built_in(t_simple_cmd *cmd, t_pipe *p, t_list **error,
 		return (0);
 	}
 	else
-		return (find_built_in_2(cmd, p, env, error));
+		return (find_built_in_2(cmd, env, error));
 }

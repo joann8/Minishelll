@@ -8,10 +8,10 @@ SRCS =										\
 		srcs/built_in_export_utils.c		\
 		srcs/built_in_pwd.c					\
 		srcs/built_in_unset.c				\
-		srcs/command_pipe.c					\
-		srcs/command_pipe_assign.c			\
-		srcs/command_pipe_exec.c			\
-		srcs/command_simple.c				\
+		srcs/command_main.c					\
+		srcs/command_main_assign.c			\
+		srcs/command_non_piped.c				\
+		srcs/command_piped_prep.c				\
 		srcs/env_lst_builder.c				\
 		srcs/env_lst_utils.c				\
 		srcs/execution_main.c				\

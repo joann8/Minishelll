@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/16 10:17:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/23 20:51:58 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,42 @@ void	print_redir(t_list *redir)
 		printf("%d.redir->e_type = %d\n  redir->file_name=%s\n", tour, tmp2->e_type, tmp2->file_name);
 		tmp = tmp->next;
 		tour++;
+	}
+}
+
+void	print_cmd_piped(t_simple_cmd *cmd_list)
+{
+	t_simple_cmd	*tmp_c;
+	int				i;
+	int				j;
+
+	i = 0;
+	tmp_c = cmd_list;
+	while (tmp_c)
+	{
+		printf("**** CMD %d*****\n", i);
+		printf("job = %s\n", tmp_c->job);
+		j = 0;
+		while (j < tmp_c->ac)
+		{
+			if (tmp_c->av)
+			{
+				printf("av[%d] = %s\n", j, tmp_c->av[j]);
+				j++;
+			}
+			else
+				break;
+		}
+		printf("ac = %d\n", tmp_c->ac);
+		printf("fd_in = %d\n", tmp_c->fd_in);
+		printf("fd_out = %d\n", tmp_c->fd_out);
+		printf("pipe mod: %d\n", tmp_c->pipe_mod);
+		printf("pipe pos: %d\n", tmp_c->pipe_pos);
+		printf("on: %d\n", tmp_c->on);
+		printf("pipe p.fd_out_to_use : %d\n", tmp_c->p.fd_out_to_use);
+		printf("pipe p.fd_in_to_use : %d\n", tmp_c->p.fd_in_to_use);
+		tmp_c = tmp_c->next_pipe;
+		i++;
 	}
 }
 

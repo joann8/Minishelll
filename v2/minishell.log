@@ -69,3 +69,40 @@ export var=5
 export trou;
 export trou=5
 env
+echo hello; echo you >file1; cat file1
+exit
+echo $PATH
+exit
+echo $PATH
+exit
+echo hello; echo you >file1; cat file1
+echo $PATH
+exit
+echo hello; echo you >file1; cat file1
+echo $PATH
+echo hello; echo you >file1; cat file1
+exit
+echo hello; echo you >file1; cat file1
+echo $PATH
+echo hello; echo you >file1; cat file1
+exit
+echo hello; echo you >file1; cat file1
+echo $PATH
+exit
+echo hello; echo you >file1; cat file1
+echo hello | echo you
+exit
+echo hello | echo you | ls -l ; 
+exit
+echo hello | echo you | ls -l ; 
+echo hello | echo you >a | ls -l
+exit
+echo hello | echo you >a | ls -l
+echo hello | echo you >a 
+ls
+cat a
+echo hello >a
+cat a
+cat a | cat a
+cat a 
+hola | hola

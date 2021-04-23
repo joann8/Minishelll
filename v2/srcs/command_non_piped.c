@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_simple.c                                   :+:      :+:    :+:   */
+/*   command_non_piped.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/23 13:51:28 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 18:51:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 	if (pid == 0)
 	{
 		if (dup2(p.fd_in_to_use, STDIN_FILENO) == -1
-			|| dup2(p.fd_out_to_use, STDOUT_FILENO) == -1
-			|| dup2(p.fd_err_to_use, STDERR_FILENO) == -1)
+			|| dup2(p.fd_out_to_use, STDOUT_FILENO) == -1)
 			return (-1);
 		execve(job, tmp_c->av, our_envp);
 		exit(255);
@@ -58,27 +57,6 @@ int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
 		return (-1);
 	}
 	free_double_tab(our_envp);
-	return (0);
-}
-
-int		manage_error_exec_piped(t_list **error, t_pipe *p)
-{
-	char *line;
-
-	line = NULL;
-	close(p->fd_tab_err[1]);
-	while (get_next_line(p->fd_tab_err[0], &line) > 0)
-	{
-		if ((add_err_lst(error, line, "\n", NULL)) == -1)
-		{
-			close(p->fd_tab_err[0]);
-			free(line);
-			return (-1);
-		}
-		free(line);
-	}
-	close(p->fd_tab_err[0]);
-	free(line);
 	return (0);
 }
 
@@ -119,33 +97,30 @@ int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list **error)
 	return (ret);
 }
 
-int		execute_cmd(t_simple_cmd *tmp_c, t_list **env, t_list **error,
-			t_pipe *p)
+int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 {
 	int		built_in_found;
 	char	*job;
 	int		res;
 
-	built_in_found = find_built_in(tmp_c, p, error, env);
+	built_in_found = find_built_in(tmp_c, error, env);
 	if (built_in_found == 1)//if different 0, execute build in in built in
 	{
 		job = NULL;
 		res = ft_search_job_path(&job, tmp_c->job, env);
 		if (res == -1)
-			return (-1);//A VERFIER AVEC ADRIEN
+			return (-1);
 		else if (res == 0)//cmd not found or permission denied
 			return (execute_cmd_path_not_found(tmp_c, error));
 		else
 		{
-			if (look_for_command_and_path(job, tmp_c, env, *p) == -1)
+			if (look_for_command_and_path(job, tmp_c, env, tmp_c->p) == -1)
 			{
 				free(job);
 				if ((add_err_lst(error, strerror(errno), NULL, NULL)) == -1)
 					return (-1);
 			}
 			free(job);
-			if (tmp_c->pipe_mod == 1 && tmp_c->pipe_pos != 1)
-				return (manage_error_exec_piped(error, p));
 			return (0);
 		}
 	}
