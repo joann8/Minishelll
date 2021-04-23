@@ -33,10 +33,10 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 	{
 		if (wait(&wstatus) == -1)
 		{
-			g_process.exit_status = 126;//return the status code
+			g.exit_status = 126;//return the status code
 			return (-1);
 		}
-		g_process.exit_status = WEXITSTATUS(wstatus);//return the status code
+		g.exit_status = WEXITSTATUS(wstatus);//return the status code
 	}
 	return (0);//return the status code
 }
@@ -101,7 +101,7 @@ int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list **error)
 				path = 1;
 			i++;
 		}
-		g_process.exit_status = 127;
+		g.exit_status = 127;
 		if (path == 1)// || (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')
 			ret = add_err_lst(error, "msh: ", job, " : aucun fichier ou dossier de ce type\n");
 		else 
@@ -109,7 +109,7 @@ int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list **error)
 	}
 	else
 	{
-		g_process.exit_status = 126;
+		g.exit_status = 126;
 		ret = add_err_lst(error, "msh: ", job, " : permission denied\n");
 	}
 	free(job);

@@ -16,7 +16,7 @@ int		manage_special_exit_help(t_expansion *exp)
 {
 	int k;
 
-	exp->var_str = ft_itoa(g_process.exit_status);
+	exp->var_str = ft_itoa(g.exit_status);
 	if (exp->var_str == NULL)
 		return (p_error(0, "malloc error\n", -1));
 	exp->i += 2;
@@ -38,7 +38,7 @@ int		manage_special_exit(t_expansion *exp)
 
 	if (exp->mod == 1)
 	{
-		tmp = ft_itoa(g_process.exit_status);
+		tmp = ft_itoa(g.exit_status);
 		if (tmp == NULL)
 			return (p_error(0, "malloc error\n", -1));
 		res = ft_strlen(tmp);

@@ -19,7 +19,7 @@ int		manage_tokenize(t_list **token_list, char *line)
 	res = ft_get_token_list(token_list, line);
 	if (res != 0)
 	{
-		g_process.exit_status = 2;
+		g.exit_status = 2;
 		ft_free_token(*token_list);
 		ft_lstclear(token_list, free);
 		return (res);
@@ -29,7 +29,7 @@ int		manage_tokenize(t_list **token_list, char *line)
 	{
 		ft_free_token(*token_list);
 		ft_lstclear(token_list, free);
-		g_process.exit_status = 2;
+		g.exit_status = 2;
 		return (1);
 	}
 //	printf("\n****RESUlT TOKEN******\n");

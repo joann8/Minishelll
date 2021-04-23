@@ -6,11 +6,36 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/23 09:59:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 11:35:51 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+void	read_ctrl_c(int signum)
+{
+	(void)signum;
+	close(g.fd);
+	g.exit_status = 130;
+	write(1, "^C\n", 3);
+}
+
+void	read_ctrl_quit(int signum)
+{
+	(void)signum;
+}
+
+void	exec_ctrl_c(int signum)
+{
+	(void)signum;
+	write(1, "\n", 1);
+}
+
+void	exec_ctrl_quit(int signum)
+{
+	(void)signum;
+	ft_putstr_fd("Quit (core dumped)\n", 1);
+}
 
 int		main(int ac, char **av, char **envp)
 {
@@ -23,8 +48,7 @@ int		main(int ac, char **av, char **envp)
 	char *log_path;
 	int	 ret;
 	
-	g_signal = 0;
-	g_process.exit_status = 0;
+	g.exit_status = 0;
 	ret = 0;
 
 	//Creation de la lst de env_var;	
@@ -43,7 +67,7 @@ int		main(int ac, char **av, char **envp)
 		return (1);
 	}
 	tmp = log_path;
-	log_path = ft_strjoin(log_path, "minishell.log");
+	log_path = ft_strjoin(log_path, "/minishell.log");
 	free(tmp);
 	if (log_path == NULL)
 	{
@@ -60,18 +84,21 @@ int		main(int ac, char **av, char **envp)
 			free(log_path);
 			return (1);
 		}
+		signal(SIGINT, read_ctrl_c);
+		signal(SIGQUIT, read_ctrl_quit);
 		if (ft_get_userinput(&user_input,
-					prompt, log_path, &ret) == -1)
+					prompt, log_path, &ret) == -1) //diff du malloc vs ctrl-d
 		{
 			free(prompt);
 			ft_lstclear_envlst(&env_lst);
 			free(log_path);
 			return (1);
 		}
-		if (ret != -227 
-				&& ft_strcmp(user_input, "") != 0
+		if (user_input != NULL && ft_strcmp(user_input, "") != 0
 				&& !ft_is_only_space(user_input))
 		{
+			signal(SIGINT, exec_ctrl_c);
+			signal(SIGQUIT, exec_ctrl_quit);
 			if (execution_main(user_input, &env_lst) == 227)
 				ret = -227;
 		}	
@@ -80,5 +107,5 @@ int		main(int ac, char **av, char **envp)
 	}
 	ft_lstclear_envlst(&env_lst);
 	free(log_path);
-	return (g_process.exit_status);
+	return (g.exit_status);
 }

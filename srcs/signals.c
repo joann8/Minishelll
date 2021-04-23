@@ -15,12 +15,12 @@
 void	reading_sigint(int sig)
 {
 	ft_putstr_fd("\n", 1);
-	g_process.exit_status = 130;
+	g.exit_status = 130;
 	//print prompt	
 	
-	/*else if (g_process.shell_level == 0)
+	/*else if (g.shell_level == 0)
 	{
-		g_process.exit_status = 1;
+		g.exit_status = 1;
 		ft_putstr_fd("chelou", 1);
 	}*/
 	return;
@@ -34,14 +34,14 @@ void	reading_sigquit(int sig)
 void	exec_sigint(int sig)
 {
 	kill(0 , sig);//kill child;
-	//kill(g_process.pid[0], sig);//kill child 
-	//kill(g_process.pid[1], sig);//kill parent
-	g_process.exit_status = 130;
+	//kill(g.pid[0], sig);//kill child 
+	//kill(g.pid[1], sig);//kill parent
+	g.exit_status = 130;
 	ft_putstr_fd("\n", 1);
 
-	/*else if (g_process.shell_level == 0)
+	/*else if (g.shell_level == 0)
 	{
-		g_process.exit_status = 1;
+		g.exit_status = 1;
 		ft_putstr_fd("chelou", 1);
 	}*/
 }
@@ -49,8 +49,8 @@ void	exec_sigint(int sig)
 void	exec_sigquit(int sig)
 {
 	kill(0 , sig);//kill child parent;
-	//kill(g_process.pid[0], sig);//kill child process;
-	//kill(g_process.pid[1], sig);//kill child process;
+	//kill(g.pid[0], sig);//kill child process;
+	//kill(g.pid[1], sig);//kill child process;
 	g_gnl.exit_status = 131;
 	ft_putstr_fd(1, "Quit (core dumped)\n");
 }

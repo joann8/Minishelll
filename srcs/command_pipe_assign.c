@@ -59,7 +59,7 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error)
 					|| add_err_lst(error, strerror(errno), "\n", NULL) == -1)//checker pour le retour a la ligne
 					return (p_error(0, "malloc error\n", -1));
 				cmd->on = 0;//pipe ne s'executera pas
-				g_process.exit_status = 1;
+				g.exit_status = 1;
 				return (0);
 			}
 		}

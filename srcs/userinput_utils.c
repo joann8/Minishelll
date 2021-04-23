@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/22 11:35:14 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/23 11:05:12 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 		ret = ft_down_arrow(&(user->screen), &(user->input), log, &(user->i));
 	else if (user->buf[0] == 27 && user->buf[1] == '[' && user->buf[2] == 'A')
 		ret = ft_up_arrow(&(user->screen), &(user->input), log, &(user->i));
-	else
-	{
-		user->screen = ft_strdup("Ctrl-C or else, caught\n");
-	}
 	return (0);
 }
 

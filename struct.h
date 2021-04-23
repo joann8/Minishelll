@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 18:38:26 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/23 11:08:23 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 
 typedef	struct	s_process
 {
-	//int		index; 
-	pid_t		pid[2];
-	int			shell_level;
+	int			fd;
 	int			exit_status;
 }				t_process;
 
