@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/23 20:52:23 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/26 11:07:19 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int			prepare_and_execute_cmd(t_list **cmd_list, t_list **env,
 	(void)cmd_list;
 	error = NULL;
 	//p.fd_in_next = -1;
+	//si non piped
 	if (tmp_s->next_pipe == NULL)
 	{
 		if ((tmp_c = malloc(sizeof(t_simple_cmd))) == NULL)
@@ -92,7 +93,8 @@ int			prepare_and_execute_cmd(t_list **cmd_list, t_list **env,
 			if (prepare_cmd(tmp_c, tmp_s, &error) == -1)
 				return (-1);
 			tmp_c->p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir
-			tmp_c->p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
+			tmp_c->p.fd_out_to_use = tmp_c->fd_out;//deja avec les redi			
+			tmp_c->next_pipe = NULL;
 			count++;
 			if (tmp_s->next_pipe)
 			{
@@ -103,10 +105,12 @@ int			prepare_and_execute_cmd(t_list **cmd_list, t_list **env,
 			tmp_s = tmp_s->next_pipe;
 		}
 		print_cmd_piped(begin);
+		printf("\n****************\n");
 		res = execute_piped(begin, env, &error, count);//0 OK, 227 exit, -1 malloc
 		/*	if (res != 0)
 			return (res);*/
-		free(begin);
+		ft_free_command_list(begin);
+		//free(begin);
 		return(0);
 	}
 	print_cmd_error(0, error);

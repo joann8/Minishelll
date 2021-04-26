@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_piped_prep.c                               :+:      :+:    :+:   */
+/*   command_piped_test.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/26 13:24:58 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/26 22:45:08 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,17 +129,18 @@ int		execute_cmd_path_not_found_2(t_simple_cmd *tmp_c, t_list **error)
 	return (ret);
 }
 
-int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
+int		find_cmd_piped(char **job, t_simple_cmd *tmp_c, t_list **env, t_list **error)
 {
 	int		built_in_found;
-	char	*job;
+//	char	*job;
 	int		res;
 
 	built_in_found = find_built_in(tmp_c, error, env);
 	if (built_in_found == 1)//if different 0, execute build in in built in
 	{
-		job = NULL;
-		res = ft_search_job_path(&job, tmp_c->job, env);
+	//	job = NULL;
+		res = ft_search_job_path(job, tmp_c->job, env);
+		printf("res = %d | job = %s\n", res, *job);
 		if (res == -1)
 			return (-1);//A VERFIER AVEC ADRIEN
 		else if (res == 0)//cmd not found or permission denied
@@ -152,82 +153,148 @@ int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 
 int			execute_piped(t_simple_cmd *begin, t_list **env, t_list **error, int size)
 {
-	int res;
-	t_simple_cmd *tmp_c;
-	res = 0;
-	int	*pid_list;
-	int i;	
-	int wstatus;
-	char *job;
-	char	**our_envp;
-	int 	ret;
-	int 	prev;
+	t_simple_cmd	*tmp_c;
+	int				pid_list[size];
+	int				i;	
+	char			**our_envp;
+	int				fd_pipe[size + 1][2];
+	int 			j;
+	int				wstatus;
+	char 			*job;
 
 	our_envp = NULL;
 	if ((our_envp = ft_make_ourenvp(env)) == NULL)
-		return (-1);//malloc err
-	pid_list = malloc(sizeof(int) * size);
-	if (pid_list == NULL)
-		return(p_error(0, "error malloc\n", -1));
+		return (-1);//malloc err	
+//	ft_print_str_table(our_envp);
+	printf("size = %d\n", size);
+	
+	//prepare pipes (num of process + 1);
+	i = 0;
+	while (i < size + 1) 
+	{
+		if (pipe(fd_pipe[i]) == -1)
+			return (-1);
+		printf("fd_pipe[%d][0] = %d | fd_pipe[%d][1] = %d\n", i, fd_pipe[i][0], i , fd_pipe[i][1]);
+		i++;
+	}
+	printf("\n");
+
 	i = 0;
 	tmp_c = begin; 
-	tmp_c->p.fd_in_next = -1;
-	ret = -1;
-	while (tmp_c)
+	while (i < size && tmp_c)
 	{
-		prepare_pipe_execution(tmp_c, &(tmp_c->p), ret);
 		pid_list[i] = fork();
 
 		if (pid_list[i] == -1)
 			return (-1); //close other pipes?
 		if (pid_list[i] == 0)
 		{
-			printf("hello from child! %i\n", i);
-			printf("    tmp_c->job = %s\n", tmp_c->job);
-			if (find_cmd_piped(tmp_c, env, error) != 1080)
+			printf("\nChild %d. tmp_c->job = %s\n", i, tmp_c->job);
+			printf("INIT : fd in to use = %d | fd_out_to_use = %d\n", tmp_c->p.fd_in_to_use, tmp_c->p.fd_out_to_use);
+			if (i != 0)
 			{
-				printf("---->built in done %i\n", i);
+				printf("there\n");
+				if (tmp_c->p.fd_in_to_use == STDIN_FILENO)
+				{
+					printf("--1\n");
+					tmp_c->p.fd_in_to_use = fd_pipe[i - 1][0];
+					printf("p.fd_in_to_use = %d\n", fd_pipe[ i - 1][0]);
+				}
+				if (dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1)
+				{
+					printf("--2\n");
+					return (-1);
+				}
+			}
+			if (i + 1 != size)
+			{	
+				printf("here\n");
+				if (tmp_c->p.fd_out_to_use == STDOUT_FILENO)
+				{
+					printf("--3\n");
+					tmp_c->p.fd_out_to_use = fd_pipe[i][1];
+					printf("p.fd_out_to_use = %d\n", fd_pipe[i][1]);
+				}
+				if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1)
+				{
+						printf("--4\n");
+						return (-1);
+				}
+			}
+	//		printf("FINAL : fd in to use = %d | fd_out_to_use = %d\n", tmp_c->p.fd_in_to_use, tmp_c->p.fd_out_to_use);
+			j = 0;
+			while (j < size + 1)
+			{
+				close(fd_pipe[j][0]);
+				close(fd_pipe[j][1]);
+				j++;
+			}
+			job = NULL;
+			if (find_cmd_piped(&job, tmp_c, env, error) != 1080)
+			{
+				printf("---->built in done %i\n\n", i);
+			//	close(tmp_c->p.fd_in_to_use);
+			//	close(tmp_c->p.fd_out_to_use);
 				exit(g.exit_status);
 			}
 			else
-			{
-				printf("fd in to use = %d | i = %d\n", tmp_c->p.fd_in_to_use, i);
-				printf("fd out to use = %d | i = %d\n", tmp_c->p.fd_out_to_use, i);
-				if (dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1
-					|| dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1)
-					return (-1);
-			//	close(tmp_c->p.fd_tab[0]);
-			//	close(tmp_c->p.fd_tab[1]);
-				printf("---->exec done %d \n", i);
-				execve(job, tmp_c->av, our_envp);
+			{	
+				printf("---->exec done %d\n\n", i);
+			//	close(tmp_c->p.fd_in_to_use);
+			//	close(tmp_c->p.fd_out_to_use);
+			
+				if (execve(job, tmp_c->av, our_envp) == -1)
+					printf("---->exec -1 %d\n\n", i);
+				printf("sterror : %s\n", strerror(errno));
 				exit(255);
 			}
 		}
-		else
-		{
-			printf("hello from parent! %i\n", i);
-			printf("    tmp_c->job = %s\n", tmp_c->job);
-			prev = tmp_c->p.fd_tab[0];
-		//	update_fd_pipes(tmp_c, &(tmp_c->p), ret );
-			ret = prev;
-			tmp_c = tmp_c->next_pipe;
-			i++;
-		}
+		tmp_c = tmp_c->next_pipe;
+		i++;
 	}
 
-//protection commande non fermée
-	while (i)
+	j = 0;
+	while (j < size  + 1)
+	{
+		close(fd_pipe[j][0]);//we close all the read end except the last one
+		close(fd_pipe[j][1]);//we close all the write end except the first pipe
+		j++;
+	}
+
+	i = 0;
+	while (i < size)
 	{	
 		if (wait(&wstatus) == -1)
 		{
 			g.exit_status = 126;//return the status code
 			return (-1);
 		}
-		i--;
+		i++;
 	}
-	if (g.exit_status != 130 && g.exit_status != 131)
+	
+	//close tous le spipes dont on a pas besoin
+/*	
+	printf("fd in to use = %d | fd_out_to_use = %d\n", fd_pipe[size][0], fd_pipe[0][1]);
+	close(fd_pipe[0][1]);
+	char *line;
+	line = NULL;
+	while (get_next_line(fd_pipe[size][0], &line) > 0)
+	{
+		printf("line = %s\n", line);
+		ft_putstr_fd(line, 1);
+		if (line == NULL || ft_strcmp(line, "") == 0)
+			break; 
+		free(line);
+	}
+	close(fd_pipe[size][0]);*/
+
+
+
+
+/*	if (g.exit_status != 130 && g.exit_status != 131)
 		g.exit_status = WEXITSTATUS(wstatus);//return the status code
-	free_double_tab(our_envp);
+	free_double_tab(our_envp);*/
+	printf("\n *** END OF PIPE ***\n");
 	return (0);
 }
 
