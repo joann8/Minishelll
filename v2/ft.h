@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/23 20:29:02 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/26 12:22:29 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void	ft_free_token(t_list *token_list);
 void	ft_free_redir(t_list *redir_list);
 void	ft_free_tab_seq(t_seq *tab_seq, int seq_nb);
 void	ft_free_command(t_list *cmd_list);
+void	ft_free_command_list(t_simple_cmd *cmd_list);
 int		ft_free(void *str, int wanted_return);
 
 
@@ -209,8 +210,8 @@ void	escape_within_doubles(t_expansion *exp);
 int		make_expansion(t_seq *tab_seq, t_list **var);
 
 //command_pipe_exec
-int		prepare_pipe_execution(t_simple_cmd *tmp_c, t_pipe *p);
-void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p);
+int		prepare_pipe_execution(t_simple_cmd *tmp_c, t_pipe *p, int ret);
+void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p, int ret);
 
 //command_pipe_utils
 void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);

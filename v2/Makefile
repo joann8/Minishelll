@@ -11,7 +11,7 @@ SRCS =										\
 		srcs/command_main.c					\
 		srcs/command_main_assign.c			\
 		srcs/command_non_piped.c				\
-		srcs/command_piped_prep.c				\
+		srcs/command_piped_test.c				\
 		srcs/env_lst_builder.c				\
 		srcs/env_lst_utils.c				\
 		srcs/execution_main.c				\
