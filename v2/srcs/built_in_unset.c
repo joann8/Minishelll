@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 13:56:16 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 13:57:14 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error)
 	res = 0;
 	while (*argv)
 	{
-		//printf("argv = %s\n", *argv);
 		if (is_name(*argv) == 0)
 		{
 			if (add_err_lst(error, "bash: unset: `", *argv,

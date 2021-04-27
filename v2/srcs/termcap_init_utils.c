@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 17:34:24 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 14:05:29 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,12 @@ int		ft_init_termcap(t_term *term)
 
 	term->name = getenv("TERM");
 	if (term->name == NULL)
-	{
-		printf("env '$TERM' not found\n"); // virer
 		return (-1);
-	}
 	ret = tgetent(buf, term->name);
 	if (ret == 0)
-	{
-		printf("tgetent == 0\n"); // virer
 		return (-1);
-	}
 	else if (ret == -1)
-	{
-		printf("terminfo '%s' database not found\n", term->name); //virer
 		return (-1);
-	}
 	ft_init_term_struct(term); //doit on free le resultat de tgetstr ??
 	return (0);
 }
