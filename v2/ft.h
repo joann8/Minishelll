@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 12:23:58 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 14:35:40 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,12 +227,12 @@ int		ft_pwd(t_pipe *pipe, t_list **error);
 int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe, t_list **error);
 int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
 int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
-int		execute_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error, int size);
+int		execute_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
 
 //built in
 int		find_built_in(t_simple_cmd *cmd, t_list **error, t_list **env);
 
-int	execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list **error);
+int	execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list ***error);
 
 //command piped utils
 void 	close_fd_pipe(int ***fd_pipe, int size);

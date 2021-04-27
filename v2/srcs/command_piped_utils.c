@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 12:23:23 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 14:04:09 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			prepare_fd_pipe(int ***fd_pipe, int size)
 	int	i;
 
 	*fd_pipe = malloc(sizeof(int*) * (size + 1));
-	if (*fd_pipe ==  NULL)
+	if (*fd_pipe == NULL)
 		return (-1);
 	i = 0;
 	while (i <= size)
@@ -59,12 +59,13 @@ int			prepare_fd_pipe(int ***fd_pipe, int size)
 			clear_fd_pipe(fd_pipe, i + 1);
 			return (-1);
 		}
-		i++;	
+		i++;
 	}
 	return (0);
 }
 
-int			set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe, int i)
+int			set_up_child_pipes(t_simple_cmd *tmp_c, int size,
+				int ***fd_pipe, int i)
 {
 	if (i != 0)
 	{
@@ -77,7 +78,7 @@ int			set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe, int i)
 		}
 	}
 	if (i + 1 != size)
-	{	
+	{
 		if (tmp_c->p.fd_out_to_use == STDOUT_FILENO)
 			tmp_c->p.fd_out_to_use = (*fd_pipe)[i][1];
 		if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1)
@@ -88,4 +89,4 @@ int			set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe, int i)
 	}
 	close_fd_pipe(fd_pipe, size);
 	return (0);
-}	
+}

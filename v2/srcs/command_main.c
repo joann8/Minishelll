@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 11:08:05 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 14:57:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int			prepare_cmd(t_simple_cmd *tmp_c, t_seq *tmp_s, t_list **error)
 	tmp_l = tmp_s->redir;
 	if (assign_list_redir(tmp_l, tmp_c, error) == -1)
 		return (-1);
+	tmp_c->p.fd_in_to_use = tmp_c->fd_in;
+	tmp_c->p.fd_out_to_use = tmp_c->fd_out;
+	tmp_c->next_pipe = NULL;
 	return (0);
 }
 
@@ -52,20 +55,16 @@ int			prepare_and_execute_piped_cmd(t_list **env, t_seq *tmp_s)
 	t_list			*error;
 	int				res;
 	t_simple_cmd	*begin;
-	int				count;
 
-	count = 0;
 	if ((tmp_c = malloc(sizeof(t_simple_cmd))) == NULL)
 		return (p_error(0, "malloc error\n", -1));
 	begin = tmp_c;
+	begin->p.size = 0;
 	while (tmp_s)
 	{
 		if (prepare_cmd(tmp_c, tmp_s, &error) == -1)
 			return (-1);
-		tmp_c->p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir
-		tmp_c->p.fd_out_to_use = tmp_c->fd_out;//deja avec les redi			
-		tmp_c->next_pipe = NULL;
-		count++;
+		begin->p.size += 1;
 		if (tmp_s->next_pipe)
 		{
 			if ((tmp_c->next_pipe = malloc(sizeof(t_simple_cmd))) == NULL)
@@ -74,9 +73,9 @@ int			prepare_and_execute_piped_cmd(t_list **env, t_seq *tmp_s)
 		}
 		tmp_s = tmp_s->next_pipe;
 	}
-	res = execute_piped(begin, env, &error, count);//0 OK, 227 exit, -1 malloc
+	res = execute_piped(begin, env, &error);//0 OK, 227 exit, -1 malloc
 	ft_free_command_list(begin);
-	return(res);
+	return (res);
 }
 
 int			create_command(t_seq *tab_seq, int seq_nb, t_list **env)
