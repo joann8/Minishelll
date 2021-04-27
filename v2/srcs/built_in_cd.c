@@ -6,12 +6,13 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/23 14:18:56 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 13:48:05 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
-	
+
+// A supprimer ?
 int		fake_cd(char *new_path, t_list **error, int mode)
 {
 	DIR	*fd_dir;
@@ -94,13 +95,14 @@ int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env, t_list **error)
 
 	home_node = ft_lstfind_env(env, "HOME", ft_strcmp);
 	if (home_node == NULL)
-		return (ft_cd_error(error, "Bash: cd: $HOME is not set\n", NULL, 1));
+		return (ft_cd_error(error, "bash: cd: $HOME is not set\n", NULL, 1));
 	v_tmp = (t_var *)home_node->content;
 	if (cmd->pipe_mod == 0)
 	{
 		if (chdir(v_tmp->value) == -1)
 		{
-			if (add_err_lst(error, "Bash: cd: ", strerror(errno), "\n") == -1)
+			if (add_err_lst(error, "bash: cd: ", v_tmp->value, ": ") == -1
+					|| add_err_lst(error, strerror(errno), "\n", NULL) == -1)
 				return (-1);
 			return (1);
 		}
@@ -159,7 +161,7 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 		if (chdir(new_path) == -1)
 		{
 			if (add_err_lst(error, "bash: cd: ", new_path, NULL) == -1 ||
-					add_err_lst(error, " : ", strerror(errno), "\n") == -1)
+					add_err_lst(error, ": ", strerror(errno), "\n") == -1)
 				return(ft_free(new_path, -1));
 			return (ft_free(new_path, 1));
 		}

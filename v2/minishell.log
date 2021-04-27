@@ -356,3 +356,17 @@ cat | cat | ls
 exit
 cat | cat | ls
 exit
+cd ../bla
+cd /bla
+export HOME=/bla
+cd
+cd /bla | echo  b
+echo b | cd ./bla
+export HOME=/bla
+cd
+cd ../bla
+cd
+cd ../bla
+cd
+export 8
+export

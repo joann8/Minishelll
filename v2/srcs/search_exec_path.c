@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/22 13:28:55 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 14:04:40 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft.h"
@@ -89,10 +89,7 @@ int		search_env_path_var(char **job, char *exec, t_list **env)
 	int		ret;
 	
 	if (ft_init_path(&env_path_val, env) == -1)
-	{
-		printf("PATH is UNSET cannot look for [%s] command\n", exec); // Ecrire erreur proprement
 		return (0); // La variable PATH n'existe pas
-	}
 	dir_tab = ft_split(env_path_val, ':');
 	if (dir_tab == NULL)
 		return (-1); //Err malloc 
