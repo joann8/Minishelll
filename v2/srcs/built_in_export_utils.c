@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/23 15:24:46 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 13:55:13 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int		ft_lst_env_addback(t_list **env, char *argv)
 		while (argv[i + j])
 			j++;
 	}
-	printf("mode = %d\n", mode);
 	new_node = ft_allocate_env_node(argv, i, j, mode);
 	if (new_node == NULL)
 		return (-1);

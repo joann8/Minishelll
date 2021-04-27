@@ -367,3 +367,6 @@ cd
 cd ../bla
 cd
 cd ../bla
+cd
+export 8
+export
