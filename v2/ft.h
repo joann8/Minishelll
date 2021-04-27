@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 18:54:59 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 22:21:55 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int		ft_update_pwd(char *new_path, t_list **env);
 int		ft_lst_env_addback(t_list **env, char *argv);
 t_list	*ft_allocate_env_node(char *argv, int i, int j, int mode);
 t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode);
+int		ft_check_export_name(char *str);
+
 
 // Print
 void	ft_print_str_table(char **av);

@@ -24,3 +24,64 @@ cd ..
 cd minishell
 cd ../bla | ls | cat meuf
 bash
+echo bonjour ;|
+echo bonjour ||
+|
+echo bonjour |:
+echo bonjour |;
+echo bonjour; ls
+echo bonjour;ls
+echo bonjour > test\ 1
+ls
+cat test
+bash
+echo >
+bash
+cat /dev/random | head -n 1 | cat -e
+bash
+cat /dev/random | head -n 1 | cat -e
+export ""
+unset ""
+bash
+unset '"'
+unset \"
+cat srcs/built_in_export.c
+export ""
+unset ""
+exit
+$
+export
+env
+export var; export var=test
+env
+export
+env
+export
+export SALUT=BLEU
+env
+export
+export ZORO=100
+export
+env
+export
+env'
+env
+export
+export ZOO=BLUE
+export
+env
+bash
+env
+exit
+env
+env | sorrt
+env | sort
+export ZORO=150
+env
+export
+export encore=55
+export
+export abre=5
+export
+env
+exit

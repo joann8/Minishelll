@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 15:59:52 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 22:21:28 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod)
 	res = 0;
 	while (*argv)
 	{
-		if (is_name(*argv) == 0)
+		if (ft_check_export_name(*argv) == 0)
 		{
 			print_err("msh: unset: `", *argv
 					, "': not a valid identifier\n", 1);

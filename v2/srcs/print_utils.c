@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:56:23 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 13:53:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 22:30:42 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_print_exportlst_fd(t_list *env_head, int fd)
 	t_list	*tmp;
 
 	tmp = env_head;
-	while (tmp->next)
+	while (tmp)
 	{
 		var = (t_var*)(tmp->content);
 		write(fd, "declare -x ", 11); 

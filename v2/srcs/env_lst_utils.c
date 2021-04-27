@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 18:03:42 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 16:37:33 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 22:38:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ int		ft_lst_env_copy(t_list **dest, t_list **src)
 	while (tmp)
 	{
 		v_src = (t_var *)(tmp->content);
-		new = ft_env_node_copy(v_src);
-		if (new == NULL)
-			return (-1);
-		v_dst = (t_var *)new->content;
-		v_dst->on = v_src->on;
-		ft_lstadd_back(dest, new);
+		if (ft_strcmp(v_src->name, "_") != 0)
+		{
+			new = ft_env_node_copy(v_src);
+			if (new == NULL)
+				return (-1);
+			v_dst = (t_var *)new->content;
+			v_dst->on = v_src->on;
+			ft_lstadd_back(dest, new);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
