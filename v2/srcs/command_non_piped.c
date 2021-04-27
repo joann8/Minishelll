@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/23 18:51:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 11:11:00 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 			g.exit_status = 126;//return the status code
 			return (-1);
 		}
-		//printf("r = %d\n", g.exit_status);
 		if (g.exit_status != 130 && g.exit_status != 131)
 			g.exit_status = WEXITSTATUS(wstatus);//return the status code
-		//printf("r = %d\n", g.exit_status);
 	}
 	return (0);//return the status code
 }
@@ -58,43 +56,6 @@ int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
 	}
 	free_double_tab(our_envp);
 	return (0);
-}
-
-int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list **error)
-{
-	char	*job;
-	int		ret;
-	int		i;
-	int		path;
-
-	job = ft_strdup(tmp_c->job);
-	ret = 0;
-	if (job == NULL)
-		return (p_error(0, "malloc error\n", -1));
-	if (errno == 2 || ((tmp_c->job[0] != '/' && tmp_c->job[0] != '.')//a revoir
-			&& errno == 0))//COMMAND introuvable
-	{
-		i = 0;
-		path = 0;
-		while (job[i])
-		{
-			if (job[i] == '/')
-				path = 1;
-			i++;
-		}
-		g.exit_status = 127;
-		if (path == 1)// || (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')
-			ret = add_err_lst(error, "msh: ", job, " : aucun fichier ou dossier de ce type\n");
-		else 
-			ret = add_err_lst(error,  job, " : commande introuvable\n", NULL);
-	}
-	else
-	{
-		g.exit_status = 126;
-		ret = add_err_lst(error, "msh: ", job, " : permission denied\n");
-	}
-	free(job);
-	return (ret);
 }
 
 int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
@@ -126,3 +87,19 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 	}
 	return (built_in_found);//0 built in, -1 erreur built in, 227 exit
 }
+
+int			execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
+{
+	int res;
+
+	res = 0;
+	tmp_c->p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir
+	tmp_c->p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
+	res = execute_cmd_non_piped(tmp_c, env, error);//COMMAND EXECUTION//0 OK, 227 exit, -1 malloc
+	print_cmd_error(0, *error);
+	ft_lstclear(error, free);
+	if (res == -1)
+		ft_putstr_fd("Error command execution\n", 2);//pas sure
+	return (res);
+}
+

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 18:22:19 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 10:51:04 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int		execution_main(char *line, t_list **var_list)
 {
 	t_list			*token_list;
 	t_seq			*tab_seq;
-	t_list			*cmd_list;
+	//t_list			*cmd_list;
 	int				seq_nb;
 	int				res;
 
 	tab_seq = NULL;
-	cmd_list = NULL;
+//	cmd_list = NULL;
 	token_list = NULL;
 	//
 	/*
@@ -90,12 +90,12 @@ int		execution_main(char *line, t_list **var_list)
 	printf("\n**********\n");
 	*/
 	//
-	res = create_command(cmd_list, tab_seq, seq_nb, var_list);
+	res = create_command(tab_seq, seq_nb, var_list);
 	//res = 0 tout est ok
 	//res = 1 : erreur exec command mais on prend le next input
 	//res = -1 : erreur malloc ou autre hors exe (pipe), on arrete le pgm
 	// 19 exit
-	ft_clear_before_quit(&token_list, &tab_seq, &cmd_list, seq_nb); //pbm tab seq
+	ft_clear_before_quit(&token_list, &tab_seq, NULL, seq_nb); //pbm tab seq
 
 	//printf("\n**********\n");
 	return (res);

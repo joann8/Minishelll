@@ -10,8 +10,10 @@ SRCS =										\
 		srcs/built_in_unset.c				\
 		srcs/command_main.c					\
 		srcs/command_main_assign.c			\
-		srcs/command_non_piped.c				\
-		srcs/command_piped_test.c				\
+		srcs/command_non_piped.c			\
+		srcs/command_piped.c				\
+		srcs/command_piped_utils.c			\
+		srcs/command_utils.c				\
 		srcs/env_lst_builder.c				\
 		srcs/env_lst_utils.c				\
 		srcs/execution_main.c				\
