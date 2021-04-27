@@ -6,13 +6,13 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 13:57:14 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 15:59:52 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	ft_unset_node(t_list **env, t_list *tmp, char *node_name)
+void	ft_unset_node(t_list **env, t_list *tmp)
 {
 	t_list	*previous;
 	t_var	*v_tmp;
@@ -21,10 +21,7 @@ void	ft_unset_node(t_list **env, t_list *tmp, char *node_name)
 	while (previous && previous->next != tmp)
 		previous = previous->next;
 	if (!previous)
-	{
-		printf("bash: unset: error while unsetting «%s» node\n", node_name);
 		return;
-	}
 	previous->next = tmp->next;
 	v_tmp = (t_var *)(tmp->content);
 	free(v_tmp->name);
@@ -33,7 +30,7 @@ void	ft_unset_node(t_list **env, t_list *tmp, char *node_name)
 	free(tmp);
 }
 
-int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error)
+int		ft_unset(t_list **env, char **argv, int pipe_mod)
 {
 	t_list *tmp;
 	int		res;
@@ -44,9 +41,8 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error)
 	{
 		if (is_name(*argv) == 0)
 		{
-			if (add_err_lst(error, "bash: unset: `", *argv,
-					"': not a valid identifier\n") == -1)
-				return (-1);
+			print_err("msh: unset: `", *argv
+					, "': not a valid identifier\n", 1);
 			res = 1;
 		}
 		else
@@ -55,7 +51,7 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error)
 			{
 				tmp = ft_lstfind_env(env, *argv, ft_strcmp);
 				if (tmp)
-					ft_unset_node(env, tmp, *argv);
+					ft_unset_node(env, tmp);
 			}
 		}
 		argv++;

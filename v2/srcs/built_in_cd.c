@@ -6,24 +6,22 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 13:48:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 16:34:23 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
 // A supprimer ?
-int		fake_cd(char *new_path, t_list **error, int mode)
+int		fake_cd(char *new_path)
 {
 	DIR	*fd_dir;
 
 	fd_dir = opendir(new_path);
-	if (mode == 1)
-		free(new_path);
 	if (fd_dir == NULL)
 	{
-		if (add_err_lst(error, "bash: cd: ", strerror(errno), "\n") == -1)
-			return (-1);
+		print_err("msh: cd: ", new_path, ": ", 0);
+		print_err(strerror(errno), "\n", NULL, 1);
 		return (1);
 	}
 	closedir(fd_dir);
@@ -88,30 +86,28 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path)
 	return (0);
 }
 
-int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env, t_list **error)
+int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env)
 {
 	t_list *home_node;
 	t_var	*v_tmp;
 
 	home_node = ft_lstfind_env(env, "HOME", ft_strcmp);
 	if (home_node == NULL)
-		return (ft_cd_error(error, "bash: cd: $HOME is not set\n", NULL, 1));
+		return (print_err("msh: cd: $HOME is not set\n", "", "", 1));
 	v_tmp = (t_var *)home_node->content;
 	if (cmd->pipe_mod == 0)
 	{
 		if (chdir(v_tmp->value) == -1)
 		{
-			if (add_err_lst(error, "bash: cd: ", v_tmp->value, ": ") == -1
-					|| add_err_lst(error, strerror(errno), "\n", NULL) == -1)
-				return (-1);
-			return (1);
+			print_err("msh: cd: ", v_tmp->value, ": ", 0);
+			return (print_err(strerror(errno), "\n", NULL, 1));
 		}
 		if (ft_update_pwd(v_tmp->value, env) == -1)
 			return (-1); // err malloc
 		return (0);
 	}
 	else
-		return (fake_cd(v_tmp->value, error, 0)); 
+		return (fake_cd(v_tmp->value)); 
 }
 
 int		ft_update_pwd(char *new_path, t_list **env)
@@ -143,16 +139,16 @@ int		ft_update_pwd(char *new_path, t_list **env)
 	return (0);
 }
 
-int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
+int		ft_cd(t_simple_cmd *cmd, t_list **env)
 {
 	char	*new_path;
 	char	*op;
 
 	if (cmd->ac > 2)
-		return(ft_cd_error(error, "bash: cd: ", "too many arguments\n", 1));
+		return(print_err("msh: cd: ", "too many arguments\n", NULL, 1));
 	op = *(cmd->av + 1);
 	if (op == NULL || ft_strcmp(op, "") == 0 || ft_strcmp(op, "~") == 0)
-		return (chdir_to_home_var(cmd,env, error));
+		return (chdir_to_home_var(cmd,env));
 	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
 	if (new_path == NULL)
 		return (-1); // Err malloc;
@@ -160,22 +156,26 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error)
 	{
 		if (chdir(new_path) == -1)
 		{
-			if (add_err_lst(error, "bash: cd: ", new_path, NULL) == -1 ||
-					add_err_lst(error, ": ", strerror(errno), "\n") == -1)
-				return(ft_free(new_path, -1));
-			return (ft_free(new_path, 1));
+			print_err("msh: cd: ", new_path, "", 0);
+			print_err(": ", strerror(errno), "\n", 1);
+			free(new_path);
+			return (1);
 		}
 		if (ft_update_pwd(new_path, env) == -1)
 			return (ft_free(new_path, -1));
 		return (ft_free(new_path, 0));
 	}
 	else
-		return (fake_cd(new_path, error, 1));
+	{
+		if (fake_cd(new_path) == 0)
+		{
+			free(new_path);
+			return (0);
+		}
+		else
+		{
+			free(new_path);
+			return (1);
+		}
+	}
 }
-
-/*
-	if (is_absolute_path(op))
-		new_path = ft_strdup(op);
-	else
-		new_path = get_newpath(op);
-		*/

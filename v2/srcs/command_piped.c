@@ -6,31 +6,29 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 15:05:31 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 17:01:47 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, char **our_envp,
-			t_list ***error)
+int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, char **our_envp)
 {
 	int		built_in_found;
 	int		res;
 	char	*job;
 
-	if ((built_in_found = find_built_in(tmp_c, *error, env)) == 1)//if different 0, execute build in in built in
+	if ((built_in_found = find_built_in(tmp_c, env)) == 1)//if different 0, execute build in in built in
 	{
 		res = ft_search_job_path(&job, tmp_c->job, env);
 		if (res == -1)
 			return (-1);//A VERFIER AVEC ADRIEN
 		else if (res == 0)//cmd not found or permission denied
-			return (execute_cmd_path_not_found(tmp_c, error));
+			return (execute_cmd_path_not_found(tmp_c));
 		else
 		{
 			if (execve(job, tmp_c->av, our_envp) == -1)
-				if (add_err_lst(*error, strerror(errno), NULL, NULL) == -1)
-					return (-1);
+				print_err(strerror(errno), NULL, NULL, 0);
 			free(job);
 			exit(255);
 		}
@@ -60,8 +58,7 @@ int		execute_main_process(int ***fd_pipe, int size)
 	return (0);
 }
 
-int		execute_cmd_piped(t_simple_cmd *begin, char **our_envp, t_list **env,
-			t_list ***error)
+int		execute_cmd_piped(t_simple_cmd *begin, char **our_envp, t_list **env)
 {
 	t_simple_cmd	*tmp_c;
 	int				pid_list[begin->p.size];
@@ -81,17 +78,17 @@ int		execute_cmd_piped(t_simple_cmd *begin, char **our_envp, t_list **env,
 		{
 			if (set_up_child_pipes(tmp_c, begin->p.size, &fd_pipe, i) == -1)
 				return (-1);
-			exit(find_cmd_piped(tmp_c, env, our_envp, error));
+			exit(find_cmd_piped(tmp_c, env, our_envp));
 		}
 		tmp_c = tmp_c->next_pipe;
 		i++;
 	}
 //	print_cmd_error(0, **error);
-//	ft_lstclear(*error, free);
+//	ft_lstclear(*free);
 	return ((execute_main_process(&fd_pipe, begin->p.size)));
 }
 
-int		execute_piped(t_simple_cmd *begin, t_list **env, t_list **error)
+int		execute_piped(t_simple_cmd *begin, t_list **env)
 {
 	char	**our_envp;
 	int		res;
@@ -99,9 +96,9 @@ int		execute_piped(t_simple_cmd *begin, t_list **env, t_list **error)
 	our_envp = NULL;
 	if ((our_envp = ft_make_ourenvp(env)) == NULL)
 		return (-1);//malloc err
-	res = execute_cmd_piped(begin, our_envp, env, &error);
+	res = execute_cmd_piped(begin, our_envp, env);
 	free_double_tab(our_envp);
 	//print_cmd_error(0, *error);
-	//ft_lstclear(error, free);
+	//ft_lstclear(free);
 	return (res);
 }

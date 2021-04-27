@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_pipe_assign.c                              :+:      :+:    :+:   */
+/*   command_main_assign.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 17:12:20 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 16:05:16 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd, t_list **error)
+int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd)
 {
 	if (r->e_type == OUT)
 	{
@@ -20,11 +20,7 @@ int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd, t_list **error)
 			close(cmd->fd_out);//essayer READ ? QUID si c'est un dossier ?
 		cmd->fd_out = open(r->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);//664 a checker
 		if (cmd->fd_out < 0)
-		{
-			if (add_err_lst(error, strerror(errno), NULL, NULL) == -1)
-				return (-1);
-			return (0);
-		}
+			return (print_err(strerror(errno), NULL, NULL, 0));
 	}
 	else if (r->e_type == APPEND)
 	{
@@ -32,16 +28,12 @@ int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd, t_list **error)
 			close(cmd->fd_out);//essayer de READ ? QUID si c'est un dossier ?
 		cmd->fd_out = open(r->file_name, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (cmd->fd_out < 0)
-		{
-			if (add_err_lst(error, strerror(errno), NULL, NULL) == -1)
-				return (-1);
-			return (0);
-		}
+			return (print_err(strerror(errno), NULL, NULL, 0));
 	}
 	return (0);
 }
 
-int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error)
+int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd)
 {
 	t_redir	*r;
 
@@ -55,16 +47,17 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error)
 			cmd->fd_in = open(r->file_name, O_RDONLY);
 			if (cmd->fd_in < 0)
 			{
-				if (add_err_lst(error, "msh : ", r->file_name, ": ") == -1
-					|| add_err_lst(error, strerror(errno), "\n", NULL) == -1)//checker pour le retour a la ligne
-					return (p_error(0, "malloc error\n", -1));
-				cmd->on = 0;//pipe ne s'executera pas
+				print_err("msh : ", r->file_name, ": ", 0);
+				print_err(strerror(errno), "\n", NULL, 0);//checker pour 
+				//le retour a la ligne
+				cmd->on = 0; //????? (joann) pipe ne s'executera pas
 				g.exit_status = 1;
 				return (0);
 			}
 		}
-		else if (assign_list_redir_2(r, cmd, error) == -1)
-			return (p_error(0, "malloc error\n", -1));
+		else if (assign_list_redir_2(r, cmd) == -1)
+			return (p_error(0, "malloc error\n", -1));//(adrien) c'est 
+		//quoi p_error?
 		tmp_l = tmp_l->next;
 	}
 	return (0);

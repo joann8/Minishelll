@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 15:02:36 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 17:00:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
 	return (0);
 }
 
-int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
+int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env)
 {
 	int		built_in_found;
 	char	*job;
 	int		res;
 
-	built_in_found = find_built_in(tmp_c, error, env);
+	built_in_found = find_built_in(tmp_c, env);
 	if (built_in_found == 1)//if different 0, execute build in in built in
 	{
 		job = NULL;
@@ -72,30 +72,27 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 		if (res == -1)
 			return (-1);
 		else if (res == 0)//cmd not found or permission denied
-			return (execute_cmd_path_not_found(tmp_c, &error));
+			return (execute_cmd_path_not_found(tmp_c));
 		else
 		{
 			res = look_for_command_and_path(job, tmp_c, env, tmp_c->p);
 			free(job);
 			if (res == -1)
-				if ((add_err_lst(error, strerror(errno), NULL, NULL)) == -1)
-					return (-1);
+				print_err(strerror(errno), NULL, NULL, 0);
 			return (0);
 		}
 	}
 	return (built_in_found);//0 built in, -1 erreur built in, 227 exit
 }
 
-int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
+int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env)
 {
 	int res;
 
 	res = 0;
 	tmp_c->p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir
 	tmp_c->p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
-	res = execute_cmd_non_piped(tmp_c, env, error);//COMMAND EXECUTION//0 OK, 227 exit, -1 malloc
-	print_cmd_error(0, *error);
-	ft_lstclear(error, free);
+	res = execute_cmd_non_piped(tmp_c, env);//COMMAND EXECUTION//0 OK, 227 exit, -1 malloc
 	if (res == -1)
 		ft_putstr_fd("Error command execution\n", 2);//pas sure
 	return (res);

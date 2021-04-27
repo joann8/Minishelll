@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 14:35:40 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 16:31:49 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,21 @@ t_list	*ft_env_node_copy(t_var *v_src);
 
 
 //Built in
-int		ft_unset(t_list **env, char **argv, int pipe_mod, t_list **error);
+int		ft_unset(t_list **env, char **argv, int pipe_mod);
 			//cd
-int		ft_cd(t_simple_cmd *cmd, t_list **env, t_list **error);
+int		ft_cd(t_simple_cmd *cmd, t_list **env);
 int		is_absolute_path(char *str);
 void	ft_lstdel_last(t_list **head);
 char	*ft_get_absolute_path(t_list *dir);
 char	*get_newpath(char *operand);
-int		ft_cd_error(t_list **error, char *s1, char *s2, int w_return);
+int		ft_cd_error(char *s1, char *s2, int w_return);
 int		ft_make_dir_lst(t_list **dir, char *str);
 int		ft_edit_dir_lst(t_list **dir, char *r_path);
-int		fake_cd(char	*new_path, t_list **error, int mode);
+int		fake_cd(char *new_path);
 
 
 			//export
-int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out, t_list **error);
+int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out);
 t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)());
 int		ft_update_pwd(char *new_path, t_list **env);
 int		ft_lst_env_addback(t_list **env, char *argv);
@@ -121,6 +121,7 @@ void	ft_print_str_lst(t_list *head);
 void	ft_puttab(char **av);
 void	ft_print_envlst_fd(t_list *env_head, int fd);
 void	ft_print_exportlst_fd(t_list *env_head, int fd);
+int		print_err(char *str1, char *str2, char *str3, int ret_wanted);
 
 //Other
 int		ft_path_is_relative(char *str);
@@ -142,8 +143,6 @@ int		ft_is_file_executable(char *filepath);
 //promp et erreurs
 int		p_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int errnum, char *error, int ret_wanted);
-int		add_err_lst(t_list **error, char *s1, char *s2, char *s3);
-int		print_cmd_error(int errnum, t_list *error);
 
 //print_help
 void	print_list(t_list *list);
@@ -216,23 +215,23 @@ void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p, int ret);
 //command_pipe_utils
 void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
 int		assign_list_word(t_seq *seq, t_simple_cmd *cmd);
-int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **error);
+int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd);
 
 //command_simple
 int		create_command(t_seq *tab_seq, int seq_nb, t_list **env);
 
 //built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word);
-int		ft_pwd(t_pipe *pipe, t_list **error);
-int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe, t_list **error);
-int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
-int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
-int		execute_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error);
+int		ft_pwd(t_pipe *pipe);
+int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe);
+int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env);
+int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env);
+int		execute_piped(t_simple_cmd *tmp_c, t_list **env);
 
 //built in
-int		find_built_in(t_simple_cmd *cmd, t_list **error, t_list **env);
+int		find_built_in(t_simple_cmd *cmd, t_list **env);
 
-int	execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list ***error);
+int	execute_cmd_path_not_found(t_simple_cmd *tmp_c);
 
 //command piped utils
 void 	close_fd_pipe(int ***fd_pipe, int size);

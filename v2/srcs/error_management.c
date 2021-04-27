@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:27:40 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 15:13:38 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 16:27:53 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		p_error(int errnum, char *error, int ret_wanted)
 {
 	(void)errnum;
 
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("msh: ", STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
 	return (ret_wanted);
 }
@@ -25,7 +25,7 @@ int		print_syntax_error(int errnum, char *error, int ret_wanted)
 {
 	(void)errnum;
 
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("msh: ", STDERR_FILENO);
 	ft_putstr_fd("erreur de syntaxe près du symbole inattendu « ",
 		STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
@@ -33,7 +33,7 @@ int		print_syntax_error(int errnum, char *error, int ret_wanted)
 	return (ret_wanted);
 }
 
-int		print_exec_error(char *str1, char *str2, char *str3, int ret_wanted)
+int		print_err(char *str1, char *str2, char *str3, int ret_wanted)
 {
 	if (str1)
 		ft_putstr_fd(str1, STDERR_FILENO);
@@ -44,7 +44,8 @@ int		print_exec_error(char *str1, char *str2, char *str3, int ret_wanted)
 	return (ret_wanted);
 }
 
-int		add_err_lst(t_list **error, char *str1, char *str2, char *str3)
+/*
+int		add_err_lst(char *str1, char *str2, char *str3)
 {
 	t_list *s1;
 	t_list *s2;
@@ -54,23 +55,24 @@ int		add_err_lst(t_list **error, char *str1, char *str2, char *str3)
 	{
 		if ((s1 = ft_lstnew(ft_strdup(str1))) == NULL)
 			return (-1);
-		ft_lstadd_back(error, s1);
+		ft_lstadd_back(s1);
 	}
 	if (str2)
 	{
 		if ((s2 = ft_lstnew(ft_strdup(str2))) == NULL)
 			return (-1);
-		ft_lstadd_back(error, s2);
+		ft_lstadd_back(s2);
 	}
 	if (str3)
 	{
 		if ((s3 = ft_lstnew(ft_strdup(str3))) == NULL)
 			return (-1);
-		ft_lstadd_back(error, s3);
+		ft_lstadd_back(s3);
 	}
 	return (0);
 }
-
+*/
+/*
 int		print_cmd_error(int errnum, t_list *l)
 {
 	t_list *tmp;
@@ -84,3 +86,4 @@ int		print_cmd_error(int errnum, t_list *l)
 	}
 	return (-1);
 }
+*/

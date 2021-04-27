@@ -13,3 +13,14 @@ cd ../bla
 cd
 export 8
 export
+cd ../bla
+cd ../bla | ls | cat meuf
+make
+cd ../bla | ls | cat meuf
+export 8
+cd ..
+make
+cd ..
+cd minishell
+cd ../bla | ls | cat meuf
+bash

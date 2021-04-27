@@ -6,12 +6,21 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/20 17:04:37 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 16:56:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+char	*truncate_pwd(char *pwd)
+{
+	int i;
 
+	i = ft_strlen(pwd) - 1;
+	while (i > 0 && pwd[i] != '/')
+		i--;
+	return (ft_strdup(pwd + i + 1));
+}
+	
 char	*ft_make_prompt(t_list **env_lst)
 {
 	t_list	*pwd_node;
@@ -26,7 +35,12 @@ char	*ft_make_prompt(t_list **env_lst)
 		pwd = ft_strdup(((t_var *)(pwd_node->content))->value);
 	if (pwd == NULL)
 		return (NULL);
-	prompt = ft_strjoin("minishell@jacher-adconsta:", pwd);
+	tmp = pwd;
+	pwd = truncate_pwd(pwd);
+	free(tmp);
+	if (pwd == NULL)
+		return (NULL);
+	prompt = ft_strjoin("msh@jacher-adconsta:", pwd);
 	free(pwd);
 	if (prompt == NULL)
 		return (NULL);

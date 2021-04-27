@@ -6,17 +6,16 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 15:10:02 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 16:19:40 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		execute_cmd_path_not_found_bis(char *job, t_list ***error)
+int		execute_cmd_path_not_found_bis(char *job)
 {
 	int	i;
 	int	path;
-	int ret;
 
 	i = 0;
 	path = 0;
@@ -28,15 +27,13 @@ int		execute_cmd_path_not_found_bis(char *job, t_list ***error)
 	}
 	g.exit_status = 127;
 	if (path == 1)// || (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')
-		ret = add_err_lst(*error, "msh: ", job,
-			" : aucun fichier ou dossier de ce type\n");
+		return (print_err("msh: ", job,
+			" : aucun fichier ou dossier de ce type\n", 0));
 	else
-		ret = add_err_lst(*error, job, " : commande introuvable\n", NULL);
-	print_cmd_error(0, **error);
-	return (ret);
+		return (print_err(job, " : commande introuvable\n", NULL, 0));
 }
 
-int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list ***error)
+int		execute_cmd_path_not_found(t_simple_cmd *tmp_c)
 {
 	char	*job;
 	int		ret;
@@ -47,12 +44,11 @@ int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, t_list ***error)
 		return (p_error(0, "malloc error\n", -1));
 	if (errno == 2 || ((tmp_c->job[0] != '/' && tmp_c->job[0] != '.')//a revoir
 			&& errno == 0))//COMMAND introuvable
-		ret = execute_cmd_path_not_found_bis(job, error);
+		ret = execute_cmd_path_not_found_bis(job);
 	else
 	{
 		g.exit_status = 126;
-		ret = add_err_lst(*error, "msh: ", job, " : permission denied\n");
-		print_cmd_error(0, **error);
+		ret = print_err("msh: ", job, " : permission denied\n", 0);
 	}
 	free(job);
 	return (ret);
