@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 17:00:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 17:46:33 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 	{
 		if (dup2(p.fd_in_to_use, STDIN_FILENO) == -1
 			|| dup2(p.fd_out_to_use, STDOUT_FILENO) == -1)
-			return (-1);
-		execve(job, tmp_c->av, our_envp);
+			return (print_err(strerror(errno), "\n", NULL, -1));
+		if (execve(job, tmp_c->av, our_envp) == -1)
+			print_err(strerror(errno), "\n", NULL, -1);
 		exit(255);
 	}
 	else
@@ -48,7 +49,7 @@ int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
 
 	our_envp = NULL;
 	if ((our_envp = ft_make_ourenvp(env)) == NULL)
-		return (-1);//malloc err
+		return (p_error(0, "malloc error\n", -1));
 	if (ft_split_process(job, tmp_c, our_envp, p) == -1)//-1 pbm dup ou exec retourne -1
 	{
 		free_double_tab(our_envp);
@@ -77,8 +78,6 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env)
 		{
 			res = look_for_command_and_path(job, tmp_c, env, tmp_c->p);
 			free(job);
-			if (res == -1)
-				print_err(strerror(errno), NULL, NULL, 0);
 			return (0);
 		}
 	}

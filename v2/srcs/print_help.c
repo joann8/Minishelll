@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/26 10:53:04 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 18:30:25 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	print_cmd_piped(t_simple_cmd *cmd_list)
 		printf("fd_out = %d\n", tmp_c->fd_out);
 		printf("pipe mod: %d\n", tmp_c->pipe_mod);
 		printf("pipe pos: %d\n", tmp_c->pipe_pos);
-		printf("on: %d\n", tmp_c->on);
 		printf("pipe p.fd_out_to_use : %d\n", tmp_c->p.fd_out_to_use);
 		printf("pipe p.fd_in_to_use : %d\n", tmp_c->p.fd_in_to_use);
 		tmp_c = tmp_c->next_pipe;

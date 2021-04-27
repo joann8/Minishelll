@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 14:04:09 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 19:21:25 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			prepare_fd_pipe(int ***fd_pipe, int size)
 
 	*fd_pipe = malloc(sizeof(int*) * (size + 1));
 	if (*fd_pipe == NULL)
-		return (-1);
+		return (p_error(0, "malloc error\n", -1));
 	i = 0;
 	while (i <= size)
 	{
@@ -52,12 +52,12 @@ int			prepare_fd_pipe(int ***fd_pipe, int size)
 		if ((*fd_pipe)[i] == NULL)
 		{
 			clear_fd_pipe(fd_pipe, i);
-			return (-1);
+			return (p_error(0, "malloc error\n", -1));
 		}
 		if (pipe((*fd_pipe)[i]) == -1)
 		{
 			clear_fd_pipe(fd_pipe, i + 1);
-			return (-1);
+			return (print_err(strerror(errno), "\n", NULL, -1));
 		}
 		i++;
 	}
@@ -71,22 +71,22 @@ int			set_up_child_pipes(t_simple_cmd *tmp_c, int size,
 	{
 		if (tmp_c->p.fd_in_to_use == STDIN_FILENO)
 			tmp_c->p.fd_in_to_use = (*fd_pipe)[i - 1][0];
-		if (dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1)
+	/*	if (dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1)
 		{
 			close_fd_pipe(fd_pipe, size);
-			return (-1);
-		}
+			return (print_err(strerror(errno), "\n", NULL, -1));
+		}*/
 	}
 	if (i + 1 != size)
 	{
 		if (tmp_c->p.fd_out_to_use == STDOUT_FILENO)
 			tmp_c->p.fd_out_to_use = (*fd_pipe)[i][1];
-		if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1)
+	/*	if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1)
 		{
 			close_fd_pipe(fd_pipe, size);
-			return (-1);
-		}
+			return (print_err(strerror(errno), "\n", NULL, -1));
+		}*/
 	}
-	close_fd_pipe(fd_pipe, size);
+	//close_fd_pipe(fd_pipe, size);
 	return (0);
 }

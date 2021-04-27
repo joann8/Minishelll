@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 16:05:16 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 19:02:13 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,38 @@ int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd)
 	return (0);
 }
 
-int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd)
+int			check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env)
+{
+	char 	*new;
+
+	//printf("r->file_name = %s\n", r->file_name);
+	new = modify_str(r->file_name, env);
+	//printf("r->file_name = %s\n", new);
+	if (ft_strcmp(new, "") == 0)
+	{
+		cmd->on = 0;
+		print_err("msh: ", r->file_name, " : redirection ambiguë\n", 0);
+		free(new);
+		return (-1);
+	}
+	else if ((r->file_name = ft_strdup(new)) == NULL)
+	{	
+		free(r->file_name);
+		free(new);
+		return (p_error(0, "malloc error\n", -1));
+	}
+	return (0);
+}
+
+int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 {
 	t_redir	*r;
 
 	while (tmp_l)
 	{
 		r = (t_redir *)tmp_l->content;
+		if (check_redir_expansion(cmd, r, env) == -1)
+			return (0);
 		if (r->e_type == IN)
 		{
 			if (cmd->fd_in > 0)
@@ -47,10 +72,9 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd)
 			cmd->fd_in = open(r->file_name, O_RDONLY);
 			if (cmd->fd_in < 0)
 			{
+				cmd->on = 0;
 				print_err("msh : ", r->file_name, ": ", 0);
-				print_err(strerror(errno), "\n", NULL, 0);//checker pour 
-				//le retour a la ligne
-				cmd->on = 0; //????? (joann) pipe ne s'executera pas
+				print_err(strerror(errno), "\n", NULL, 0);
 				g.exit_status = 1;
 				return (0);
 			}
@@ -62,7 +86,37 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd)
 	}
 	return (0);
 }
+/*
+int			expand_list_redir(t_list *begin, t_list **env)
+{
+	t_redir	*r;
+	t_list	*tmp_l;
+	char 	*new;
 
+	tmp_l = begin;
+	while (tmp_l)
+	{
+		r = (t_redir *)tmp_l->content;
+		//printf("r->file_name = %s\n", r->file_name);
+		new = modify_str(r->file_name, env);
+		//printf("r->file_name = %s\n", new);
+		if (ft_strcmp(new, "") == 0)
+		{
+			print_err("msh: ", r->file_name, " : redirection ambiguë\n", 0);
+			free(new);
+			printf("%s\n", r->file_name);
+		}
+		else if ((r->file_name = ft_strdup(new)) == NULL)
+		{	
+			free(r->file_name);
+			free(new);
+			return (p_error(0, "malloc error\n", -1));
+		}
+		tmp_l = tmp_l->next;
+	}
+	return (0);
+}
+*/
 int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 {
 	int		i;

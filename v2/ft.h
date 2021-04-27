@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 16:31:49 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 18:54:59 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ char 	*assign_final_str(t_expansion *exp, t_list *var);
 void	manage_quotes(t_expansion *exp, char c);
 void	manage_escape(t_expansion *exp);
 void	escape_within_doubles(t_expansion *exp);
+char	*modify_str(char *str, t_list **var);
 int		make_expansion(t_seq *tab_seq, t_list **var);
 
 //command_pipe_exec
@@ -215,7 +216,8 @@ void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p, int ret);
 //command_pipe_utils
 void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
 int		assign_list_word(t_seq *seq, t_simple_cmd *cmd);
-int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd);
+int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **var);
+int		expand_list_redir(t_list *begin, t_list **var);
 
 //command_simple
 int		create_command(t_seq *tab_seq, int seq_nb, t_list **env);
