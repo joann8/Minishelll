@@ -356,3 +356,101 @@ cat | cat | ls
 exit
 cat | cat | ls
 exit
+cat | cat | ls
+exit
+cat | cat | ls
+cat | cat | ls | ls | ls
+exit
+cat | cat | ls | ls | ls
+exit
+cat | cat | ls | ls | ls
+echo hola > salut | echo you; cat salut
+exit
+echo hola > salut | echo you; cat salut
+exit
+echo hola > salut | echo you; cat salut
+cat | cat | ls | ls | ls
+echo $?
+echo lol | cat fhhhdd
+echo $?
+echo lol | cat fhhhdd | cat fofof
+echo $?
+echo lol | cat fhhhdd | cat fofof | echo 1
+echo $?
+bash
+exit
+echo lol | cat fhhhdd | cat fofof | echo 1
+echo $?
+bash
+exit
+echo lol | cat fhhhdd | cat fofof | echo 1
+exit
+echo lol | cat fhhhdd | cat fofof | echo 1
+echo $?
+echo lol | cat fhhhdd | cat fofof | echo 1
+exit
+echo lol | cat fhhhdd | cat fofof | echo 1
+cat | cat | ls | ls | ls
+exit
+cat | cat | ls | ls | ls
+cat | cat | ls | ls | /nik/ls
+bash
+cat | cat | ls | ls | /nik/ls
+cat | cat | ls | ls | /bin/ls
+exit
+cat | cat | ls | ls | /bin/ls
+cat | cat | ls | ls | /nik/ls
+/nik/ls
+cat | cat | ls | ls | /nik/ls
+cat | cat | ls | ls | /dev/null
+exit
+cat | cat | ls | ls | /dev/null
+exit
+cat | cat | ls | ls | /dev/null
+cat | cat | ls | ls | /nik/ls
+exit
+cat | cat | ls | ls | /nik/ls
+exit
+cat | cat | ls | ls | /nik/ls
+/dev/null
+cat | cat | ls | ls | /lol
+cat | cat | ls | ls | cat filelee
+cat | cat | ls | ls | michel
+exit
+cat | cat | ls | ls | michel
+exit
+cat | cat | ls | ls | michel
+cat | cat | ls | michel | ls
+bash
+exi
+exit
+cat | cat | ls | ls | michel
+s
+cat | cat | ls | michel | ls
+exir
+exit
+cat | cat | ls | michel | ls
+exit
+cat | cat | ls | michel | ls
+exi
+exit
+cat | cat | ls | michel | ls
+echo lol | cat fhhhdd | cat fofof | echo 1
+exit
+echo lol | cat fhhhdd | cat fofof | echo 1
+cat
+cat djdjd
+cat djdjd | echo 3
+exit
+cat djdjd | echo 3
+echo lol | cat fhhhdd | cat fofof | echo 1
+cat | cat | ls | michel | ls
+exit
+cat | cat | ls | michel | ls
+exit
+cat djdjd | echo 3
+cat | cat | ls | michel | ls
+bash
+mice
+:q
+exit

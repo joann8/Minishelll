@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 11:11:00 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/27 15:02:36 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,21 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 		if (res == -1)
 			return (-1);
 		else if (res == 0)//cmd not found or permission denied
-			return (execute_cmd_path_not_found(tmp_c, error));
+			return (execute_cmd_path_not_found(tmp_c, &error));
 		else
 		{
-			if (look_for_command_and_path(job, tmp_c, env, tmp_c->p) == -1)
-			{
-				free(job);
+			res = look_for_command_and_path(job, tmp_c, env, tmp_c->p);
+			free(job);
+			if (res == -1)
 				if ((add_err_lst(error, strerror(errno), NULL, NULL)) == -1)
 					return (-1);
-			}
-			free(job);
 			return (0);
 		}
 	}
 	return (built_in_found);//0 built in, -1 erreur built in, 227 exit
 }
 
-int			execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
+int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 {
 	int res;
 
@@ -102,4 +100,3 @@ int			execute_non_piped(t_simple_cmd *tmp_c, t_list **env, t_list **error)
 		ft_putstr_fd("Error command execution\n", 2);//pas sure
 	return (res);
 }
-
