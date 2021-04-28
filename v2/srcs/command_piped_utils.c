@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 19:21:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 12:37:09 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,11 @@ int			set_up_child_pipes(t_simple_cmd *tmp_c, int size,
 	{
 		if (tmp_c->p.fd_in_to_use == STDIN_FILENO)
 			tmp_c->p.fd_in_to_use = (*fd_pipe)[i - 1][0];
-	/*	if (dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1)
-		{
-			close_fd_pipe(fd_pipe, size);
-			return (print_err(strerror(errno), "\n", NULL, -1));
-		}*/
 	}
 	if (i + 1 != size)
 	{
 		if (tmp_c->p.fd_out_to_use == STDOUT_FILENO)
 			tmp_c->p.fd_out_to_use = (*fd_pipe)[i][1];
-	/*	if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1)
-		{
-			close_fd_pipe(fd_pipe, size);
-			return (print_err(strerror(errno), "\n", NULL, -1));
-		}*/
 	}
-	//close_fd_pipe(fd_pipe, size);
 	return (0);
 }

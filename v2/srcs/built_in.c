@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 10:16:09 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 12:25:57 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ int		find_built_in_2(t_simple_cmd *cmd, t_list **env)
 	int res;
 
 	res = 0;
-	if (ft_strcmp(cmd->job, "echo") == 0)
+	if (ft_strcmp(cmd->av[0], "echo") == 0)
 		g.exit_status = ft_echo(cmd, &(cmd->p), 0, 0);
-	else if (ft_strcmp(cmd->job, "pwd") == 0)
+	else if (ft_strcmp(cmd->av[0], "pwd") == 0)
 		g.exit_status = ft_pwd(&(cmd->p));
-	else if (ft_strcmp(cmd->job, "exit") == 0)
+	else if (ft_strcmp(cmd->av[0], "exit") == 0)
 	{
 		g.exit_status = ft_exit(cmd, &(cmd->p));
 		//if (cmd->pipe_mod == 0)
 		return (227);
 	}
-	else if (ft_strcmp(cmd->job, "env") == 0)
+	else if (ft_strcmp(cmd->av[0], "env") == 0)
 		g.exit_status = ft_env(env, cmd->p.fd_out_to_use);
-	else if (ft_strcmp(cmd->job, "unset") == 0)
+	else if (ft_strcmp(cmd->av[0], "unset") == 0)
 		g.exit_status = ft_unset(env, cmd->av);
 	else
 		res = 1;
@@ -64,7 +64,7 @@ int		find_built_in_2(t_simple_cmd *cmd, t_list **env)
 
 int		find_built_in(t_simple_cmd *cmd, t_list **env)
 {
-	if (ft_strcmp(cmd->job, "cd") == 0)
+	if (ft_strcmp(cmd->av[0], "cd") == 0)
 	{
 		g.exit_status = ft_cd(cmd, env);
 		if (g.exit_status == -1)
@@ -74,7 +74,7 @@ int		find_built_in(t_simple_cmd *cmd, t_list **env)
 		}
 		return (0);
 	}
-	if (ft_strcmp(cmd->job, "export") == 0)
+	if (ft_strcmp(cmd->av[0], "export") == 0)
 	{
 		g.exit_status = ft_export(env, cmd, cmd->p.fd_out_to_use);
 		if (g.exit_status == -1)

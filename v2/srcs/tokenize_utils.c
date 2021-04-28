@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 10:29:49 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 14:29:11 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	escape_quote(char *str, int *pos)
 
 	i = *pos + 1;
 	// ajout du ' '  pour gerer echo > test\ 1
-	if (str[i] == 34 || str[i] == 39 || str[i] == ' ')
+	if (str[i] == 34 || str[i] == 39 || str[i] == ' '
+		|| str[i]== '>' || str[i] == '<' || str[i] == '|' 
+		|| str[i] == ';')
 		*pos += 1;
 }
 

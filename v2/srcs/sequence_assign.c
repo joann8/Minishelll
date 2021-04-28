@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 18:26:52 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 17:36:46 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@ int		seq_assign_redir(t_seq *tmp, t_list *lst_tok, t_token *tok)
 	redir->e_type = tok->e_type;
 	lst_tok = lst_tok->next;
 	redir->file_name = ft_strdup(((t_token*)(lst_tok->content))->tok_str);
+	if (redir->file_name == NULL)
+	{
+		free(redir);
+		return (p_error(0, "malloc error\n", -1));
+	}	
 	new = ft_lstnew((void *)(redir));
 	if (new == NULL)
 	{
+		free(redir->file_name);
 		free(redir);
 		return (p_error(0, "malloc error\n", -1));
 	}

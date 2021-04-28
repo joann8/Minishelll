@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 17:46:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 12:29:32 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env)
 	if (built_in_found == 1)//if different 0, execute build in in built in
 	{
 		job = NULL;
-		res = ft_search_job_path(&job, tmp_c->job, env);
+		res = ft_search_job_path(&job, tmp_c->av[0], env);
 		if (res == -1)
 			return (-1);
 		else if (res == 0)//cmd not found or permission denied

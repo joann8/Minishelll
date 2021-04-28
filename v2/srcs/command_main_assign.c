@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 10:57:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 17:18:17 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@ int			check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env)
 {
 	char 	*new;
 
-	//printf("r->file_name = %s\n", r->file_name);
 	new = modify_str(r->file_name, env);
-	//printf("r->file_name = %s\n", new);
-	if (ft_strcmp(new, "") == 0)
+	if ((is_word(new) == 0 && r->file_name[0] != '"') || ft_strcmp(new, "") == 0)
 	{
 		cmd->on = 0;
 		print_err("msh: ", r->file_name, ": ambiguous redirect\n", 0);
 		free(new);
+		g.exit_status = 1;
 		return (-1);
 	}
 	else if ((r->file_name = ft_strdup(new)) == NULL)
@@ -53,6 +52,7 @@ int			check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env)
 		free(new);
 		return (p_error(0, "malloc error\n", -1));
 	}
+	free(new);
 	return (0);
 }
 
@@ -60,6 +60,7 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 {
 	t_redir	*r;
 
+	g.exit_status = 0;
 	while (tmp_l)
 	{
 		r = (t_redir *)tmp_l->content;
@@ -86,38 +87,8 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 	}
 	return (0);
 }
-/*
-int			expand_list_redir(t_list *begin, t_list **env)
-{
-	t_redir	*r;
-	t_list	*tmp_l;
-	char 	*new;
 
-	tmp_l = begin;
-	while (tmp_l)
-	{
-		r = (t_redir *)tmp_l->content;
-		//printf("r->file_name = %s\n", r->file_name);
-		new = modify_str(r->file_name, env);
-		//printf("r->file_name = %s\n", new);
-		if (ft_strcmp(new, "") == 0)
-		{
-			print_err("msh: ", r->file_name, " : redirection ambiguë\n", 0);
-			free(new);
-			printf("%s\n", r->file_name);
-		}
-		else if ((r->file_name = ft_strdup(new)) == NULL)
-		{	
-			free(r->file_name);
-			free(new);
-			return (p_error(0, "malloc error\n", -1));
-		}
-		tmp_l = tmp_l->next;
-	}
-	return (0);
-}
-*/
-int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
+int			assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env)
 {
 	int		i;
 	t_list	*tmp;
@@ -126,15 +97,18 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd)
 	i = 0;
 	while (tmp)
 	{
-		if (i == 0)
+		if (tmp->content)
 		{
-			cmd->job = ft_strdup((char *)tmp->content);
-			if (cmd->job == NULL)
+			if (i == 0)
+			{
+				cmd->job = ft_strdup((char *)tmp->content);
+				if (cmd->job == NULL)
+					return (p_error(0, "malloc error\n", -1));
+			}
+			cmd->av[i] = modify_str((char*)tmp->content, env);
+			if (cmd->av[i] == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
 				return (p_error(0, "malloc error\n", -1));
 		}
-		cmd->av[i] = ft_strdup(tmp->content);//recheker ce qu'il faut free ou pas
-		if (cmd->av[i] == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
-			return (p_error(0, "malloc error\n", -1));
 		tmp = tmp->next;
 		i++;
 	}

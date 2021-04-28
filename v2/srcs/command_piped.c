@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 19:40:58 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 17:54:47 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, char **our_envp, int size
 	if ((built_in_found = find_built_in(tmp_c, env)) == 1)
 	//if different 0, execute build in in built in
 	{
-		res = ft_search_job_path(&job, tmp_c->job, env);
+		res = ft_search_job_path(&job, tmp_c->av[0], env);
 		if (res == -1)
 			return (-1);
 		else if (res == 0)
@@ -49,7 +49,7 @@ int		execute_main_process(int ***fd_pipe, int size)
 	int		wstatus;
 
 	close_fd_pipe(fd_pipe, size);
-	clear_fd_pipe(fd_pipe, size);
+	clear_fd_pipe(fd_pipe, size + 1);
 	i = 0;
 	while (i < size)
 	{
@@ -83,6 +83,11 @@ int		execute_cmd_piped(t_simple_cmd *begin, char **our_envp, t_list **env)
 			return (print_err(strerror(errno), "\n", NULL, -1));
 		if (pid_list[i] == 0)
 		{
+			if (tmp_c->job == NULL)
+			{
+				g.exit_status = 0;
+				exit(0);
+			}
 			if (set_up_child_pipes(tmp_c, begin->p.size, &fd_pipe, i) == -1)
 			{	
 				g.exit_status = 1;

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/26 10:47:29 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 17:41:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void ft_free_command_list(t_simple_cmd *cmd_list)
 			free(tmp->job);
 		if (tmp->av)
 			ft_free_cmd_av_tab(tmp->av);
-	//		free_double_tab(cmd->av);
 		previous = tmp;
 		tmp = tmp->next_pipe;
 		free(previous);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 10:35:14 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 12:23:50 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,8 +217,8 @@ void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p, int ret);
 
 //command_pipe_utils
 void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
-int		assign_list_word(t_seq *seq, t_simple_cmd *cmd);
-int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **var);
+int		assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env);
+int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env);
 int		expand_list_redir(t_list *begin, t_list **var);
 
 //command_simple
