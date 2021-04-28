@@ -85,3 +85,59 @@ export abre=5
 export
 env
 exit
+cat | cat | cat | ls
+$bla
+$NUL
+$
+$BOUMM
+exit
+$
+BLA
+$BLA
+\$
+$
+echo bonjour > test\ 1
+ls
+cat test
+bash
+echo >
+$var
+cat Makefile
+cat Makefile | grep >
+"cat Makefile | grep >"
+exit
+$var
+echo $var
+export "test=ici"=coucou
+env
+export
+echo $test
+exit
+sleep 5 | exirt
+sleep 2 | exit
+bash
+sleep 2 | exit
+echo $?
+cd ~
+cd -
+export LOL=lala ROR=rara
+enc
+env
+export
+unset LOL ROR
+env
+export
+export "HI=hi"
+env
+export
+unset HI
+export "HI =hi"
+bash
+cd
+ls
+cd Documents
+ls
+cd 42
+cd
+cd no_file
+exit

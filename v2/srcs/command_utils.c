@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 22:25:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/27 22:49:49 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int		execute_cmd_path_not_found_bis(char *job)
 		i++;
 	}
 	g.exit_status = 127;
+	printf("job = [%s]\n", job);
 	if (path == 1)// || (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')
 		return (print_err("msh: ", job,
 			" : aucun fichier ou dossier de ce type\n", 0));
 	else
-		return (print_err(job, ": commande introuvable\n", NULL, 0));
+		return (print_err(job, " : commande introuvable\n", NULL, 0));
 }
 
 int		execute_cmd_path_not_found(t_simple_cmd *tmp_c)
