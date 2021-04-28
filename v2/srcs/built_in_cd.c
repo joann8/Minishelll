@@ -6,27 +6,11 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/28 10:19:17 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 22:03:42 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
-
-// A supprimer ?
-int		fake_cd(char *new_path)
-{
-	DIR	*fd_dir;
-
-	fd_dir = opendir(new_path);
-	if (fd_dir == NULL)
-	{
-		print_err("msh: cd: ", new_path, ": ", 0);
-		print_err(strerror(errno), "\n", NULL, 1);
-		return (1);
-	}
-	closedir(fd_dir);
-	return (0);
-}
 
 int		ft_make_dir_lst(t_list **dir, char *str)
 {
@@ -95,6 +79,8 @@ int		chdir_to_home_var(t_list **env)
 	if (home_node == NULL)
 		return (print_err("msh: cd: $HOME is not set\n", "", "", 1));
 	v_tmp = (t_var *)home_node->content;
+	if (ft_strcmp(v_tmp->value, "") == 0)
+		return (print_err("msh: cd: $HOME is not set\n", "", "", 1));
 	if (chdir(v_tmp->value) == -1)
 	{
 		print_err("msh: cd: ", v_tmp->value, ": ", 0);

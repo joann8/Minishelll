@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/28 10:19:50 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 21:45:20 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,32 @@ int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out)
 {
 	int		res;
 	int		i;
+	int		count;
 
 	i = 1;
 	res = 0;
-	if (cmd->av[1] == NULL)
-		return (ft_export_print(env, fd_out));
-	while (cmd->av[i])
+	count = 0;
+	while (i < cmd->ac)
 	{
-		if (ft_check_export_name(cmd->av[i]) == 0)
+		if (cmd->av[i] != NULL)
 		{
-			res = 1;
-			print_err("msh: export: `", cmd->av[i]
-					,"': not a valid identifier\n", 1);
+			if (ft_check_export_name(cmd->av[i]) == 0)
+			{
+				res = 1;
+				print_err("msh: export: `", cmd->av[i]
+						,"': not a valid identifier\n", 1);
+			}
+			else
+			{
+				if (ft_export_second_part(cmd->av[i], env) == -1)
+					return (-1);
+			}
 		}
 		else
-		{
-			if (ft_export_second_part(cmd->av[i], env) == -1)
-				return (-1);
-		}
+			count++;
 		i++;
 	}
+	if (count == cmd->ac - 1)
+		return (ft_export_print(env, fd_out));
 	return (res);
 }

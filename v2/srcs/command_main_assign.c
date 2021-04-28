@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 17:18:17 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 22:08:05 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 int			assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env)
 {
 	int		i;
+	char	*new;
 	t_list	*tmp;
 
 	tmp = seq->word;
@@ -105,9 +106,18 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env)
 				if (cmd->job == NULL)
 					return (p_error(0, "malloc error\n", -1));
 			}
-			cmd->av[i] = modify_str((char*)tmp->content, env);
-			if (cmd->av[i] == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
+			new = modify_str((char*)tmp->content, env);
+			if (new == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
 				return (p_error(0, "malloc error\n", -1));
+			if (i > 0 && (ft_strcmp(cmd->av[0], "export") == 0) 
+				&& (ft_strcmp(tmp->content, "\"\"") != 0)
+				&& ft_strcmp(new, "") == 0)
+			{
+				cmd->av[i] = NULL;
+				free(new);
+			}
+			else
+				cmd->av[i] = new;
 		}
 		tmp = tmp->next;
 		i++;

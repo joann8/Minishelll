@@ -193,3 +193,63 @@ echo $?
 exit | sleep 5
 echo $?
 echo  bonjour > $test
+export
+export bleu=5
+env
+export
+export rouge=3 vert=8 
+export
+export rouge=3 vert=8 ""
+export truite=poisson cochon=mami ""
+export
+export joann=babi poisson=truite
+env
+export
+export $var
+export $8
+export $8 $7 $6
+export $8 $var
+export lol=5 $8
+env
+export champagne=bouteille
+env
+export poisson=truie
+enc
+env
+export lol=5 $8
+env
+export salimon=9
+env
+export
+export ""
+export "" ""
+export
+export    
+export    ""
+export    $tutu
+export    $tutu ""
+export   "" $tutu
+cd
+unset HOME
+cd
+exit
+unset HOME= ; cd
+export
+exit
+env | sort
+export HOME= ; cd
+echo $?
+export HOME= ; cd
+env
+export
+exit
+export HOME= ;
+export
+cd
+echo $?
+echo  hello
+echo $?
+echo hello
+echo $?
+echo hello
+echo $?
