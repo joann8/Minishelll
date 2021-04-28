@@ -253,3 +253,21 @@ echo hello
 echo $?
 echo hello
 echo $?
+expot HOME= ; cd
+export HOME= ; cd
+cd
+echo $?
+export HOME= ; cd
+echo $?
+cd ~
+cd ""
+cd     
+export test="  hello  salut  "
+export
+echo $test
+echo "" hello
+echo ""
+echo "" | cat -e
+echo "" hello | cat - e
+echo "" hello | cat -e
+echo "" "" hello | cat -e
