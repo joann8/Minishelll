@@ -271,3 +271,8 @@ echo "" | cat -e
 echo "" hello | cat - e
 echo "" hello | cat -e
 echo "" "" hello | cat -e
+export var=s\ -la
+echo $var
+l$var
+ls -la
+$e$c$h$o
