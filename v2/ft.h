@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 22:21:55 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 10:35:14 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_list	*ft_env_node_copy(t_var *v_src);
 
 
 //Built in
-int		ft_unset(t_list **env, char **argv, int pipe_mod);
+int		ft_unset(t_list **env, char **argv);
 			//cd
 int		ft_cd(t_simple_cmd *cmd, t_list **env);
 int		is_absolute_path(char *str);
@@ -144,7 +144,7 @@ int		ft_is_file_executable(char *filepath);
 //	JO.H
 //promp et erreurs
 int		p_error(int errnum, char *error, int ret_wanted);
-int		print_syntax_error(int errnum, char *error, int ret_wanted);
+int		print_syntax_error(int ret_wanted);
 
 //print_help
 void	print_list(t_list *list);

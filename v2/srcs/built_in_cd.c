@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 16:34:23 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 10:19:17 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path)
 	return (0);
 }
 
-int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env)
+int		chdir_to_home_var(t_list **env)
 {
 	t_list *home_node;
 	t_var	*v_tmp;
@@ -95,20 +95,18 @@ int		chdir_to_home_var(t_simple_cmd *cmd, t_list **env)
 	if (home_node == NULL)
 		return (print_err("msh: cd: $HOME is not set\n", "", "", 1));
 	v_tmp = (t_var *)home_node->content;
-	if (cmd->pipe_mod == 0)
+	if (chdir(v_tmp->value) == -1)
 	{
-		if (chdir(v_tmp->value) == -1)
-		{
-			print_err("msh: cd: ", v_tmp->value, ": ", 0);
-			return (print_err(strerror(errno), "\n", NULL, 1));
-		}
-		if (ft_update_pwd(v_tmp->value, env) == -1)
-			return (-1); // err malloc
-		return (0);
+		print_err("msh: cd: ", v_tmp->value, ": ", 0);
+		return (print_err(strerror(errno), "\n", NULL, 1));
 	}
-	else
-		return (fake_cd(v_tmp->value)); 
+	if (ft_update_pwd(v_tmp->value, env) == -1)
+		return (-1); // err malloc
+	return (0);
 }
+	/*else
+		return (fake_cd(v_tmp->value)); 
+		*/
 
 int		ft_update_pwd(char *new_path, t_list **env)
 {
@@ -148,23 +146,22 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env)
 		return(print_err("msh: cd: ", "too many arguments\n", NULL, 1));
 	op = *(cmd->av + 1);
 	if (op == NULL || ft_strcmp(op, "") == 0 || ft_strcmp(op, "~") == 0)
-		return (chdir_to_home_var(cmd,env));
+		return (chdir_to_home_var(env));
 	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
 	if (new_path == NULL)
 		return (-1); // Err malloc;
-	if (cmd->pipe_mod == 0)
+	if (chdir(new_path) == -1)
 	{
-		if (chdir(new_path) == -1)
-		{
-			print_err("msh: cd: ", new_path, "", 0);
-			print_err(": ", strerror(errno), "\n", 1);
-			free(new_path);
-			return (1);
-		}
-		if (ft_update_pwd(new_path, env) == -1)
-			return (ft_free(new_path, -1));
-		return (ft_free(new_path, 0));
+		print_err("msh: cd: ", new_path, "", 0);
+		print_err(": ", strerror(errno), "\n", 1);
+		free(new_path);
+		return (1);
 	}
+	if (ft_update_pwd(new_path, env) == -1)
+		return (ft_free(new_path, -1));
+	return (ft_free(new_path, 0));
+}
+/*
 	else
 	{
 		if (fake_cd(new_path) == 0)
@@ -179,3 +176,4 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env)
 		}
 	}
 }
+*/

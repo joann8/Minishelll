@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 19:02:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 10:57:05 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env)
 	if (ft_strcmp(new, "") == 0)
 	{
 		cmd->on = 0;
-		print_err("msh: ", r->file_name, " : redirection ambiguë\n", 0);
+		print_err("msh: ", r->file_name, ": ambiguous redirect\n", 0);
 		free(new);
 		return (-1);
 	}
@@ -146,10 +146,6 @@ void		assign_pipes(t_seq *seq, t_simple_cmd *cmd)
 {
 	cmd->fd_in = STDIN_FILENO;
 	cmd->fd_out = STDOUT_FILENO;
-	if (seq->pipe_total > 0)
-		cmd->pipe_mod = 1;
-	else
-		cmd->pipe_mod = 0;
 	if (seq->pipe_pos == seq->pipe_total)
 		cmd->pipe_pos = 1;
 	else if (seq->pipe_pos == 0)

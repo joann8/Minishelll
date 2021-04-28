@@ -141,3 +141,55 @@ cd 42
 cd
 cd no_file
 exit
+cd .. | eche hello
+cd .. | echo hello
+cd | echo hello
+cd
+cd -
+exit | echo hello
+exit | exit | echo hello
+echo hello | exit
+bash
+exit | echo hello
+echo hello | exit
+echo > test\ 1 salut
+ls
+cat 'test 1'
+echo > test\  1 saL
+LS
+ls
+bahs
+bash
+exit
+echo >
+echo |
+echo ||
+cd blbal
+cat /dev/random | head -n 1 | cat -e
+S
+$
+exit
+$
+exit
+$
+lol
+$
+pop
+$
+BLA
+bahs
+bash
+$BLA
+$
+$BLA
+sleep 1 | exit
+echo 4?
+sleep 1 | exit
+echo $?
+sleeep 0.5 | exit
+sleep 0.5
+sleep 0.5 | exit
+echo $?
+exit | sleep 5
+echo $?
+echo  bonjour > $test

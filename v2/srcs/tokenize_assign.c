@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 09:57:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 10:34:02 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ int		assign_type_2_help(t_list **head, t_list **tmp,
 	{
 		if (*tmp == *head || (t3 != NULL && (t3->e_type == PIPE ||
 			t3->e_type == SEPARATOR)))
-			return (print_syntax_error(0, ";", 1));//a verifier
+			return (print_syntax_error(1));//a verifier
 	}
 	else if (t2->e_type == OUT || t2->e_type == IN || t2->e_type == APPEND)
 	{
 		if ((*tmp)->next == NULL || t3 == NULL || t3->e_type != WORD)
-			return (print_syntax_error(0, t2->tok_str, 1));//parfois newline?
+			return (print_syntax_error(1));//parfois newline?
 		(*tmp) = (*tmp)->next;
 		((t_token *)((*tmp)->content))->e_type = FILENAME;
 	}
 	else if (t2->e_type == PIPE)
 		if (*tmp == *head || (*tmp)->next == NULL || t3 == NULL ||
 			t3->e_type == PIPE || t3->e_type == SEPARATOR)
-			return (print_syntax_error(0, "|", 1));//parfois newline?
+			return (print_syntax_error(1));//parfois newline?
 	return (0);
 }
 

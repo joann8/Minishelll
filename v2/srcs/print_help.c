@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 18:30:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/28 10:21:24 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	print_cmd_piped(t_simple_cmd *cmd_list)
 		printf("ac = %d\n", tmp_c->ac);
 		printf("fd_in = %d\n", tmp_c->fd_in);
 		printf("fd_out = %d\n", tmp_c->fd_out);
-		printf("pipe mod: %d\n", tmp_c->pipe_mod);
 		printf("pipe pos: %d\n", tmp_c->pipe_pos);
 		printf("pipe p.fd_out_to_use : %d\n", tmp_c->p.fd_out_to_use);
 		printf("pipe p.fd_in_to_use : %d\n", tmp_c->p.fd_in_to_use);
@@ -124,7 +123,6 @@ void	print_cmd(t_list *cmd_list)
 		printf("ac = %d\n", tmp_c->ac);
 		printf("fd_in = %d\n", tmp_c->fd_in);
 		printf("fd_out = %d\n", tmp_c->fd_out);
-		printf("pipe mod: %d\n", tmp_c->pipe_mod);
 		printf("pipe pos: %d\n", tmp_c->pipe_pos);
 		//printf("retour : %d\n", tmp_c->retour);
 		tmp_l = tmp_l->next;

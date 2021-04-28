@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 13:38:50 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 22:21:28 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/28 10:15:45 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_unset_node(t_list **env, t_list *tmp)
 	free(tmp);
 }
 
-int		ft_unset(t_list **env, char **argv, int pipe_mod)
+int		ft_unset(t_list **env, char **argv)
 {
 	t_list *tmp;
 	int		res;
@@ -47,12 +47,9 @@ int		ft_unset(t_list **env, char **argv, int pipe_mod)
 		}
 		else
 		{
-			if (pipe_mod == 0)
-			{
-				tmp = ft_lstfind_env(env, *argv, ft_strcmp);
-				if (tmp)
-					ft_unset_node(env, tmp);
-			}
+			tmp = ft_lstfind_env(env, *argv, ft_strcmp);
+			if (tmp)
+				ft_unset_node(env, tmp);
 		}
 		argv++;
 	}
