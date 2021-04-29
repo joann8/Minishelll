@@ -276,3 +276,68 @@ echo $var
 l$var
 ls -la
 $e$c$h$o
+mkdir a; mkdir a/b; cd a/b; rm -r ../../a; cd ..
+pwd
+cd ..
+ls
+cd
+ls
+mkdir a; mkdir a/b; cd a/b; rm -r ../../a; cd ..
+ls
+pwd
+echo e
+pwd
+cd ..
+ls
+mkdir a
+cd a
+rm -r 
+rm -r ../a
+pwd
+cd
+mkdir a
+cd a
+rm -r ../a
+pwd
+ls
+unset HOME
+cd
+cd ~
+cd /
+ls
+cd /bin
+cd /
+export CDPATH=/
+cd home/..
+export var=a; export $var=test; echo $var $a
+unset var
+export $var=test
+bash
+export var=8
+export
+export var=9
+export
+export var
+export var=test
+export
+env
+export "" test=a
+echo $?
+export
+env
+mkdir -p a/b; cd a/b
+pwd
+rm -r ../../a
+cd ..
+pwd
+cd ../..
+cd ../../..
+cd ../../../..
+cd
+mkdir -p a/b; cd a/b
+unset HOME
+cd
+cd /
+ls
+env
+cd home
