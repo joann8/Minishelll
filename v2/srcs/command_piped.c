@@ -6,13 +6,30 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 17:54:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 18:50:20 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, char **our_envp, int size, int ***fd_pipe)
+int		execute_child_process_bis(t_simple_cmd *tmp_c, char **our_envp,
+			int ***fd_pipe, char *job)
+{
+	if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1
+		|| dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1)
+	{
+		close_fd_pipe(fd_pipe, 0, 1);
+		return (-1);
+	}
+	close_fd_pipe(fd_pipe, 0, 1);
+	if (execve(job, tmp_c->av, our_envp) == -1)
+		print_err(strerror(errno), NULL, NULL, 0);
+	free(job);
+	return (-1);
+}
+
+int		execute_child_process(t_simple_cmd *tmp_c, t_list **env,
+			char **our_envp, int ***fd_pipe)
 {
 	int		built_in_found;
 	int		res;
@@ -23,34 +40,45 @@ int		find_cmd_piped(t_simple_cmd *tmp_c, t_list **env, char **our_envp, int size
 	{
 		res = ft_search_job_path(&job, tmp_c->av[0], env);
 		if (res == -1)
-			return (-1);
-		else if (res == 0)
-			return (execute_cmd_path_not_found(tmp_c));
-			//close(&fd_pipe, size);
-		else
 		{
-			if (dup2(tmp_c->p.fd_out_to_use, STDOUT_FILENO) == -1
-				|| dup2(tmp_c->p.fd_in_to_use, STDIN_FILENO) == -1)
-				return (-1);
-			close_fd_pipe(fd_pipe, size);
-			if (execve(job, tmp_c->av, our_envp) == -1)
-				print_err(strerror(errno), NULL, NULL, 0);
-			free(job);
-			exit(255);
+			close_fd_pipe(fd_pipe, 0, 1);
+			return (-1);
 		}
+		else if (res == 0)
+		{
+			res = execute_cmd_path_not_found(tmp_c, 0);
+			close_fd_pipe(fd_pipe, 0, 1);
+			return (res);
+		}
+		return (execute_child_process_bis(tmp_c, our_envp, fd_pipe, job));
 	}
-	close_fd_pipe(fd_pipe, size);
-	return (built_in_found);//0 built in, -1 erreur built in, 227 exit*/
+	close_fd_pipe(fd_pipe, 0, 1);
+	printf("g.exit_status = %d\n", g.exit_status);
+	return (g.exit_status);//0 built in, -1 erreur built in, 227 exit*/
 }
 
-int		execute_main_process(int ***fd_pipe, int size)
+int		execute_main_process(t_simple_cmd *tmp_c, int *pid_list,
+			int ***fd_pipe, int size)
 {
 	int		i;
 	int		wstatus;
 
-	close_fd_pipe(fd_pipe, size);
-	clear_fd_pipe(fd_pipe, size + 1);
+	close_fd_pipe(fd_pipe, size, 1);
+	clear_fd_pipe(fd_pipe, size + 1, 1);
 	i = 0;
+	if (tmp_c)
+	{
+		while (*pid_list > 0)
+		{
+			if (kill(*pid_list, SIGKILL))
+			{
+				free(pid_list);
+				return (-1);
+			}
+			pid_list++;
+		}
+	}
+	free(pid_list);
 	while (i < size)
 	{
 		if (wait(&wstatus) == -1)
@@ -68,44 +96,30 @@ int		execute_main_process(int ***fd_pipe, int size)
 int		execute_cmd_piped(t_simple_cmd *begin, char **our_envp, t_list **env)
 {
 	t_simple_cmd	*tmp_c;
-	int				pid_list[begin->p.size];
-	int				i;
+	int				*pid_list;
 	int				**fd_pipe;
+	int				i;
 
 	i = 0;
 	tmp_c = begin;
 	fd_pipe = NULL;
-	if (prepare_fd_pipe(&fd_pipe, begin->p.size) == -1)
+	pid_list = NULL;
+	if (prepare_execution(&fd_pipe, &pid_list, begin->p.size) == -1)
 		return (-1);
 	while (i < begin->p.size && tmp_c)
 	{
 		if ((pid_list[i] = fork()) == -1)
-			return (print_err(strerror(errno), "\n", NULL, -1));
+			exit((print_err(strerror(errno), "\n", NULL, -1)));
 		if (pid_list[i] == 0)
 		{
-			if (tmp_c->job == NULL)
-			{
-				g.exit_status = 0;
-				exit(0);
-			}
 			if (set_up_child_pipes(tmp_c, begin->p.size, &fd_pipe, i) == -1)
-			{	
-				g.exit_status = 1;
-				exit(1);
-			}
-			if (tmp_c->on == 1)
-				exit(find_cmd_piped(tmp_c, env, our_envp, begin->p.size, &fd_pipe));
-			else
-			{
-				close_fd_pipe(&fd_pipe, begin->p.size);
-				g.exit_status = 1;
-				exit(1);
-			}
+				exit(0);
+			exit(execute_child_process(tmp_c, env, our_envp, &fd_pipe));
 		}
 		tmp_c = tmp_c->next_pipe;
 		i++;
 	}
-	return ((execute_main_process(&fd_pipe, begin->p.size)));
+	return ((execute_main_process(tmp_c, pid_list, &fd_pipe, begin->p.size)));
 }
 
 int		execute_piped(t_simple_cmd *begin, t_list **env)

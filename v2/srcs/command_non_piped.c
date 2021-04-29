@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 12:29:32 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 18:21:37 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env)
 		if (res == -1)
 			return (-1);
 		else if (res == 0)//cmd not found or permission denied
-			return (execute_cmd_path_not_found(tmp_c));
+			return (execute_cmd_path_not_found(tmp_c, 0));
 		else
 		{
 			res = look_for_command_and_path(job, tmp_c, env, tmp_c->p);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:26:35 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 12:43:43 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 19:00:18 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		is_arg_n(char *str)
 		else
 			return (0);
 	}
-	if (i == 0)	
+	if (i == 0)
 		return (0);
 	return (1);
 }
@@ -35,7 +35,7 @@ int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word)
 {
 	int		i;
 
-	i = 1;// Y'a t'il des erreurs a gérer?
+	i = 1;
 	while (cmd->av[i])
 	{
 		if (word == 0)
@@ -54,7 +54,7 @@ int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word)
 			ft_putstr_fd(cmd->av[i], p->fd_out_to_use);
 		}
 		i++;
-	}	
+	}
 	if (mod_n == 0)
 		ft_putstr_fd("\n", p->fd_out_to_use);
 	return (0);

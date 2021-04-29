@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 16:18:44 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 18:19:43 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,15 @@ int		execute_cmd_path_not_found_bis(t_simple_cmd *tmp_c, char *job)
 		return (print_err("msh: ", job,
 			" : no such file or directory\n", 0));
 	else if (ft_strcmp(job, "") == 0 && ft_strcmp(tmp_c->job, "\"\"") != 0)//si je suis une variable non trouvée
-	{
-		g.exit_status = 0;
-		return (0);
-	}
+		return ((g.exit_status = 0));
 	else
 		return (print_err(job, ": command not found\n", NULL, 0));
 }
 
-int		execute_cmd_path_not_found(t_simple_cmd *tmp_c)
+int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret)
 {
 	char	*job;
-	int		ret;
 
-	ret = 0;
 	job = ft_strdup(tmp_c->av[0]);
 	if (job == NULL)
 		return (p_error(0, "malloc error\n", -1));
@@ -53,9 +48,7 @@ int		execute_cmd_path_not_found(t_simple_cmd *tmp_c)
 	else if (ft_strcmp(job, ".") == 0)
 	{
 		g.exit_status = 2;
-		print_err("msh: ", ".: ", "nom du fichier necéssaire en argument\n", 0);
-		print_err(". :", " utilisation: .", " nom_fichier [arguments]\n", 0);
-		return(0);
+		return (print_err("msh: ", ".: ", "not enough argument\n", 0));
 	}
 	else if (ft_strcmp(job, "..") == 0)
 	{
