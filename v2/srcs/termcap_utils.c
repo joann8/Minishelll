@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/21 22:11:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:28:56 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_is_endofscreen(t_term *term, char *prompt, t_input *user)
 		return (-1);
 	len_left = term->col - (int)ft_strlen(prompt);
 	if ((cur_row == term->line && cur_col == term->col)
-			|| (cur_row == term->line 
+			|| (cur_row == term->line
 				&& len_left < (int)ft_strlen(user->screen)))
 		ft_move_cursor_home(term, prompt);
 	return (0);
@@ -43,7 +43,6 @@ int		ft_getcursorxy(int *row, int *col)
 	int		i;
 	int		ret;
 
-
 	write(STDOUT_FILENO, "\033[6n", 4);
 	ret = read(STDIN_FILENO, &buf, 1000);
 	if (ret <= 0)
@@ -62,11 +61,11 @@ int		ft_getcursorxy(int *row, int *col)
 				*row = ft_atoi(buf + i);
 				bol = 1;
 				while (ft_isdigit(buf[i]))
-						i++;
+					i++;
 			}
 			else
 			{
-				*col = ft_atoi(buf +i);
+				*col = ft_atoi(buf + i);
 				return (0);
 			}
 		}

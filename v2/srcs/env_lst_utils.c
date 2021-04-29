@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 18:03:42 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 22:38:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:13:23 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_list	*ft_env_node_copy(t_var *v_src)
 {
 	t_list	*new;
 	t_var	*v_dst;
-	
+
 	if ((new = ft_lstnew(NULL)) == NULL)
-			return (NULL);
+		return (NULL);
 	if ((new->content = malloc(sizeof(t_var))) == NULL)
 	{
 		free(new);
@@ -64,7 +64,6 @@ int		ft_lst_env_copy(t_list **dest, t_list **src)
 		tmp = tmp->next;
 	}
 	return (0);
-	//SUPPRIMER le dernier noeud ? _=./minishell pour export ???
 }
 
 void	ft_lst_env_sort(t_list **begin, int (*cmp)())
@@ -92,12 +91,12 @@ void	ft_lst_env_sort(t_list **begin, int (*cmp)())
 
 void	ft_lstclear_envlst(t_list **head)
 {
-	t_list *tmp;
-	t_list *next;
+	t_list	*tmp;
+	t_list	*next;
 	t_var	*var;
 
 	if (!head || !*head)
-		return;
+		return ;
 	tmp = *head;
 	while (tmp)
 	{
@@ -118,8 +117,8 @@ void	ft_lstclear_envlst(t_list **head)
 
 t_list	*ft_lstfind_env(t_list **begin, char *content_ref, int (*cmp)())
 {
-	t_var *tmp;
-	t_list *cur;
+	t_var	*tmp;
+	t_list	*cur;
 
 	if (!begin || !*begin)
 		return (NULL);
