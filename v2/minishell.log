@@ -364,3 +364,72 @@ cd ..
 echo $?
 pwd
 echo $?
+aaaaaaaaaaaaaaaaa
+pwd
+ls
+cd srcs/
+ls
+c
+cd
+ls
+bash
+ls
+pwd
+export PWD=BLEU
+env | grep PWD
+pwd
+unset PWD
+cd
+ls
+mkdir -p a/b
+cd a/b
+pwd
+rm -r ../../a
+mkdir -p a/b
+cd a/b
+rm -r ../a
+rm -r ../b
+pwd
+ls
+cd ..
+cd ../..
+cd
+cd /
+ls
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+pwd
+cd
+ls
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+pwd
+cd
+pwd
+mkdir -p a/b
+cd a/b
+pwd
+rm -r ../../a
+cd /
+ls
+export PWD=ROUGE
+cd
+cd ~
+cd /
+export PWD=BLEU
+export PWD=/BLEU
+export PWD=BLEAU
+export PWD=/BLEAU
+cd
+cd /
+cd bin
+cd ..
+ls
+cd
+cd ..
+cd
+cd ../..
+ls
+cd

@@ -23,6 +23,7 @@ SRCS =										\
 		srcs/expansion_manage_utils.c		\
 		srcs/expansion_utils.c				\
 		srcs/search_exec_path.c				\
+		srcs/signals.c						\
 		srcs/free_utils.c					\
 		srcs/main.c							\
 		srcs/other_utils.c					\

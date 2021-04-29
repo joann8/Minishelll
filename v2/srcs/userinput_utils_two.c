@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:09:21 by calao             #+#    #+#             */
-/*   Updated: 2021/04/23 12:21:33 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 12:00:38 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		ft_update_log(char **screen, t_list *log, int fd_log)
 			return (-1);
 		ft_lstadd_back(&log, new);
 	}
-	//Mauvaise idee si echo - n ??
 	write(1, "\n", 1);
 	return (0);
 }
