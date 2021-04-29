@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 10:52:24 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:01:33 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_lstdel_last(t_list **head)
 
 	size = ft_lstsize(*head);
 	if (size == 0 || *head == NULL)
-		return ; // Rien a supprimer la liste est vide
+		return ;
 	else if (size == 1)
 	{
 		last = ft_lstat(*head, 0);
@@ -64,7 +64,6 @@ char	*ft_get_absolute_path(t_list *dir)
 	return (final_path);
 }
 
-//cur_path = cwd //operand = r_path
 char	*get_newpath(char *operand)
 {
 	t_list	*dir_lst;
@@ -76,13 +75,13 @@ char	*get_newpath(char *operand)
 	if (cur_path == NULL)
 	{
 		print_err("msh: cd: getcwd failed\n", NULL, NULL, 0);
-		return (NULL); //err malloc
+		return (NULL);
 	}
 	if (ft_make_dir_lst(&dir_lst, cur_path) == -1)
 	{
 		ft_lstclear(&dir_lst, free);
 		free(cur_path);
-		return (NULL); //err malloc
+		return (NULL);
 	}
 	free(cur_path);
 	ft_edit_dir_lst(&dir_lst, operand);

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 10:47:34 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:00:28 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_make_dir_lst(t_list **dir, char *str)
 	int		start;
 	int		len;
 	t_list	*new;
-	
+
 	start = 0;
 	i = 0;
 	while (str[i])
@@ -72,7 +72,7 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path)
 
 int		chdir_to_home_var(t_list **env)
 {
-	t_list *home_node;
+	t_list	*home_node;
 	t_var	*v_tmp;
 
 	home_node = ft_lstfind_env(env, "HOME", ft_strcmp);
@@ -87,12 +87,9 @@ int		chdir_to_home_var(t_list **env)
 		return (print_err(strerror(errno), "\n", NULL, 1));
 	}
 	if (ft_update_pwd(v_tmp->value, env) == -1)
-		return (-1); // err malloc
+		return (-1);
 	return (0);
 }
-	/*else
-		return (fake_cd(v_tmp->value)); 
-		*/
 
 int		ft_update_pwd(char *new_path, t_list **env)
 {
@@ -129,13 +126,13 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env)
 	char	*op;
 
 	if (cmd->ac > 2)
-		return(print_err("msh: cd: ", "too many arguments\n", NULL, 1));
+		return (print_err("msh: cd: ", "too many arguments\n", NULL, 1));
 	op = *(cmd->av + 1);
 	if (op == NULL || ft_strcmp(op, "") == 0 || ft_strcmp(op, "~") == 0)
 		return (chdir_to_home_var(env));
 	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
 	if (new_path == NULL)
-		return (-1); // Err malloc;
+		return (-1);
 	if (chdir(new_path) == -1)
 	{
 		print_err("msh: cd: ", new_path, "", 0);
