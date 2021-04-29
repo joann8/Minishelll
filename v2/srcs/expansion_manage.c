@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 10:10:54 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 14:14:31 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,24 @@ int		manage_special_backslash(t_expansion *exp)
 	{
 		exp->j += 1;
 		exp->i += 2;
-		if (exp->quote == 34)
+		if (exp->quote == 34 || exp->str[exp->i] == 34 || exp->str[exp->i] == 39
+			|| exp->str[exp->i] == ';' || exp->str[exp->i] == '|'
+			|| exp->str[exp->i] == '$' || exp->str[exp->i] == '\\')
 			exp->j += 1;
 	}
 	if (exp->mod == 2)
 	{
 		exp->tmp[exp->j] = exp->str[exp->i];
 		exp->j += 1;
-		exp->i += 1;
-		if (exp->quote == 34)
+		exp->i += 2;
+		if (exp->quote == 34 || exp->str[exp->i] == 34 || exp->str[exp->i] == 39
+			|| exp->str[exp->i] == ';' || exp->str[exp->i] == '|'
+			|| exp->str[exp->i] == '$' || exp->str[exp->i] == '\\')
 		{
 			exp->tmp[exp->j] = exp->str[exp->i];
 			exp->j += 1;
+			exp->i += 1;
 		}
-		exp->i += 1;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 12:02:19 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 18:50:50 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,9 +225,10 @@ void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
 int		assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env);
 int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env);
 int		expand_list_redir(t_list *begin, t_list **var);
+int		prepare_execution(int ***fd_pipe, int **pid_list, int size);
 
 //command main assign utils
-char *trim_spaces_for_echo(char *new_str);
+char *trim_spaces_for_echo(char *new_str, int i, int j, int mod);
 int	check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env);
 
 //command_simple
@@ -244,12 +245,12 @@ int		execute_piped(t_simple_cmd *tmp_c, t_list **env);
 //built in
 int		find_built_in(t_simple_cmd *cmd, t_list **env);
 
-int	execute_cmd_path_not_found(t_simple_cmd *tmp_c);
+int	execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret);
 
 //command piped utils
-void 	close_fd_pipe(int ***fd_pipe, int size);
+void 	close_fd_pipe(int ***fd_pipe, int size, int mod);
 int 	prepare_fd_pipe(int ***fd_pipe, int size);
-void 	clear_fd_pipe(int ***fd_pipe, int index);
+void 	clear_fd_pipe(int ***fd_pipe, int index, int mod);
 int		set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe, int i);
 
 #include <term.h> 

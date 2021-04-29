@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 10:40:41 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 18:54:55 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	escape_within_doubles(t_expansion *exp)
 		|| exp->str[i] == '\\')
 	{
 		exp->i += 1;
-		if (exp->mod == 2)//a verifier si vrai ou pas
+		if (exp->mod == 2)
 			exp->tmp[exp->j] = exp->str[exp->i];
 		exp->j += 1;
 		exp->i += 1;
 	}
 	else
 	{
-		if (exp->mod == 2)//a verifier si vrai ou pas
+		if (exp->mod == 2)
 			exp->tmp[exp->j] = exp->str[exp->i];
 		exp->i += 1;
 		exp->j += 1;
@@ -43,7 +43,7 @@ void	manage_quotes_help(t_expansion *exp)
 		exp->quote = 39;
 	else if (exp->quote == 34)
 	{
-		if (exp->mod == 2)//a verifier si vrai ou pas
+		if (exp->mod == 2)
 			exp->tmp[exp->j] = exp->str[exp->i];
 		exp->j += 1;
 	}
@@ -59,7 +59,7 @@ void	manage_quotes(t_expansion *exp, char c)
 			exp->quote = 34;
 		else if (exp->quote == 39)
 		{
-			if (exp->mod == 2)//a verifier si vrai ou pas
+			if (exp->mod == 2)
 				exp->tmp[exp->j] = exp->str[exp->i];
 			exp->j += 1;
 		}
@@ -88,11 +88,11 @@ void	manage_escape(t_expansion *exp)
 		exp->i += 1;
 		exp->j += 1;
 	}
-	if (exp->str[exp->i] == '$')
+	/*if (exp->str[exp->i] == '$')
 	{
 		if (exp->mod == 2)
 			exp->tmp[exp->j] = exp->str[exp->i];
 		exp->i += 1;
 		exp->j += 1;
-	}
+	}*/
 }

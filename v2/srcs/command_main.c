@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 17:25:31 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 16:34:00 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int			prepare_cmd(t_simple_cmd *tmp_c, t_seq *tmp_s, t_list **env)
 	tmp_c->on = 1;
 	if (tmp_c->av == NULL)
 		return (p_error(0, "malloc error\n", -1));
-	if (assign_list_word(tmp_s, tmp_c, env) == -1)//erreur de malloc slmt
-		return (-1); //gérée dans list assign word
+	if (assign_list_word(tmp_s, tmp_c, env) == -1)
+		return (-1);
 	assign_pipes(tmp_s, tmp_c);
 	tmp_l = tmp_s->redir;
 	if (assign_list_redir(tmp_l, tmp_c, env) == -1)
@@ -48,6 +48,7 @@ int			prepare_and_execute_non_piped_cmd(t_list **env, t_seq *tmp_s)
 		ft_free_command_list(tmp_c);
 		return (-1);
 	}
+	tmp_c->pipe_pos = -2;
 	if (tmp_c->job != NULL)
 	{
 		if (tmp_c->on == 1)
@@ -103,7 +104,7 @@ int			create_command(t_seq *tab_seq, int seq_nb, t_list **env)
 			res = prepare_and_execute_non_piped_cmd(env, tmp_s);
 		else
 			res = prepare_and_execute_piped_cmd(env, tmp_s);
-		if (res != 0)//-1 pbm fonction pipe , 1 pbl exec
+		if (res == -1 || res == 227)//-1 pbm fonction pipe , 1 pbl exec
 			return (res);
 		i++;
 	}

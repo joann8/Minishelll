@@ -6,11 +6,18 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 13:34:18 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 14:13:48 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
+void	init_modify_str(t_expansion *exp, char *str)
+{
+	exp->str = str;
+	exp->tmp = NULL;
+	exp->var_str = NULL;
+}
 
 char	*modify_str(char *str, t_list **var)
 {
@@ -18,9 +25,7 @@ char	*modify_str(char *str, t_list **var)
 	int			size;
 	t_expansion	exp;
 
-	exp.str = str;
-	exp.tmp = NULL;
-	exp.var_str = NULL;
+	init_modify_str(&exp, str);
 	size = count_final_str(&exp, *var);
 	if (size == -1)
 		return (NULL);
