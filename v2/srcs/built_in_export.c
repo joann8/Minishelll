@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/28 21:45:20 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:06:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		ft_export_replace_value(t_list *exist, char *str)
 		i++;
 	if (str[i] == '\0')
 		return (1);
-	i++; // passe le premier '=';
+	i++;
 	new = ft_strdup(str + i);
 	if (new == NULL)
 		return (-1);
@@ -61,7 +61,7 @@ int		ft_export_print(t_list **env, int fd_out)
 
 	copy = NULL;
 	if (ft_lst_env_copy(&copy, env) == -1)
-			return (-1); // Err malloc
+		return (-1);
 	ft_lst_env_sort(&copy, ft_strcmp);
 	ft_print_exportlst_fd(copy, fd_out);
 	ft_lstclear_envlst(&copy);
@@ -75,14 +75,14 @@ int		ft_export_second_part(char *str, t_list **env)
 	int		ret;
 
 	if ((key = ft_getenv_name(str)) == NULL)
-		return (-1);//err malloc
+		return (-1);
 	if ((exist = ft_lstfind_export(env, key, ft_strcmp)))
 		ret = ft_export_replace_value(exist, str);
 	else
 		ret = ft_lst_env_addback(env, str);
 	free(key);
 	if (ret == -1)
-		return (-1); //err malloc
+		return (-1);
 	return (0);
 }
 
@@ -102,14 +102,11 @@ int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out)
 			if (ft_check_export_name(cmd->av[i]) == 0)
 			{
 				res = 1;
-				print_err("msh: export: `", cmd->av[i]
-						,"': not a valid identifier\n", 1);
+				print_err("msh: export: `", cmd->av[i],
+						"': not a valid identifier\n", 1);
 			}
-			else
-			{
-				if (ft_export_second_part(cmd->av[i], env) == -1)
-					return (-1);
-			}
+			else if (ft_export_second_part(cmd->av[i], env) == -1)
+				return (-1);
 		}
 		else
 			count++;

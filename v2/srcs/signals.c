@@ -3,68 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/16 18:39:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/21 11:36:15 by jacher           ###   ########.fr       */
+/*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
+/*   Updated: 2021/04/29 12:01:27 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	reading_sigint(int sig)
+void	read_ctrl_c(int signum)
 {
-	ft_putstr_fd("\n", 1);
+	(void)signum;
+	close(g.fd);
 	g.exit_status = 130;
-	//print prompt	
-	
-	/*else if (g.shell_level == 0)
-	{
-		g.exit_status = 1;
-		ft_putstr_fd("chelou", 1);
-	}*/
-	return;
+	write(1, "^C\n", 3);
 }
 
-void	reading_sigquit(int sig)
+void	read_ctrl_quit(int signum)
 {
-	ft_putstr_fd(1, "\b\b \b\b");
+	(void)signum;
+	//g.exit_status = 131;
 }
 
-void	exec_sigint(int sig)
+void	exec_ctrl_c(int signum)
 {
-	kill(0 , sig);//kill child;
-	//kill(g.pid[0], sig);//kill child 
-	//kill(g.pid[1], sig);//kill parent
+	(void)signum;
+	write(1, "\n", 1);
 	g.exit_status = 130;
-	ft_putstr_fd("\n", 1);
-
-	/*else if (g.shell_level == 0)
-	{
-		g.exit_status = 1;
-		ft_putstr_fd("chelou", 1);
-	}*/
 }
 
-void	exec_sigquit(int sig)
+void	exec_ctrl_quit(int signum)
 {
-	kill(0 , sig);//kill child parent;
-	//kill(g.pid[0], sig);//kill child process;
-	//kill(g.pid[1], sig);//kill child process;
-	g_gnl.exit_status = 131;
-	ft_putstr_fd(1, "Quit (core dumped)\n");
-}
-	
-void	reading_listen_signal(void)
-{
-	signal(SIGINT, reading_sigint);//quand on tape clc c (SIGINT), lance manage c 
-	signal(SIGQUIT, reading_sigquit);//quand on tape clt \, SIG QUIT on lance manage slash >> pgm terminates anc cor dump core
-//	Quit (core dumped)
-}
-
-void	exec_listen_signal(void)
-{
-	signal(SIGINT, exec_sigint);//quand on tape clc c (SIGINT), lance manage c 
-	signal(SIGQUIT, exec_sigquit);//quand on tape clt \, SIG QUIT on lance manage slash >> pgm terminates anc cor dump core
-//	Quit (core dumped)
+	(void)signum;
+	ft_putstr_fd("Quit (core dumped)\n", 1);
+	g.exit_status = 131;
 }

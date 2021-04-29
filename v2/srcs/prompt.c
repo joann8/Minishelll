@@ -6,11 +6,12 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 16:56:34 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 12:38:51 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
+
 char	*truncate_pwd(char *pwd)
 {
 	int i;
@@ -18,15 +19,20 @@ char	*truncate_pwd(char *pwd)
 	i = ft_strlen(pwd) - 1;
 	while (i > 0 && pwd[i] != '/')
 		i--;
-	return (ft_strdup(pwd + i + 1));
+	if (ft_strcmp(pwd, "/") == 0)
+		return (ft_strdup("~"));
+	if (pwd[i] == '/')
+		return (ft_strdup(pwd + i + 1));
+	else
+		return (ft_strdup(pwd + i));
 }
-	
+
 char	*ft_make_prompt(t_list **env_lst)
 {
 	t_list	*pwd_node;
-	char *tmp;
-	char *pwd;
-	char *prompt;
+	char	*tmp;
+	char	*pwd;
+	char	*prompt;
 
 	pwd_node = (ft_lstfind_env(env_lst, "PWD", ft_strcmp));
 	if (pwd_node == NULL)
@@ -51,7 +57,6 @@ char	*ft_make_prompt(t_list **env_lst)
 		return (NULL);
 	return (prompt);
 }
-
 
 void	ft_print_prompt(t_term *term, char *prompt)
 {

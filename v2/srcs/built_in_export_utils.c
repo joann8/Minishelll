@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 13:55:13 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:10:06 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 t_var	*ft_allocate_env_var_struct_2(char *argv, int i, int j, t_var *v_tmp)
 {
-		v_tmp->value = ft_strndup(argv + i, j);
-		if (v_tmp->value == NULL)
-		{
-			free(v_tmp);
-			free(v_tmp->name);
-			return (NULL);
-		}
-		v_tmp->on = 1;
-		return (v_tmp);
+	v_tmp->value = ft_strndup(argv + i, j);
+	if (v_tmp->value == NULL)
+	{
+		free(v_tmp);
+		free(v_tmp->name);
+		return (NULL);
+	}
+	v_tmp->on = 1;
+	return (v_tmp);
 }
 
 t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode)
@@ -71,9 +71,9 @@ t_list	*ft_allocate_env_node(char *argv, int i, int j, int mode)
 		free(new);
 		return (NULL);
 	}
-		return (new);
+	return (new);
 }
-	
+
 int		ft_lst_env_addback(t_list **env, char *argv)
 {
 	int		i;
@@ -102,12 +102,11 @@ int		ft_lst_env_addback(t_list **env, char *argv)
 
 t_list	*ft_lstfind_export(t_list **begin, char *content_ref, int (*cmp)())
 {
-	t_var *tmp;
-	t_list *cur;
+	t_var	*tmp;
+	t_list	*cur;
 
 	if (!begin || !*begin)
 		return (NULL);
-
 	cur = *begin;
 	while (cur)
 	{

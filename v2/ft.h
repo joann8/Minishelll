@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 11:25:46 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 12:02:19 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,11 @@ void	ft_swap_content(t_list *a, t_list *b);
 int		ft_lst_on_env_size(t_list **env);
 int		ft_is_file_executable(char *filepath);
 
+	//Signals
+void	read_ctrl_c(int signum);
+void	read_ctrl_quit(int signum);
+void	exec_ctrl_c(int signum);
+void	exec_ctrl_quit(int signum);
 //
 
 

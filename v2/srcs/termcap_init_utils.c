@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:58:48 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 14:05:29 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 11:27:30 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int		ft_init_termcap(t_term *term)
 	int		ret;
 	char	buf[2048];
 
-
 	term->name = getenv("TERM");
 	if (term->name == NULL)
 		return (-1);
@@ -57,6 +56,6 @@ int		ft_init_termcap(t_term *term)
 		return (-1);
 	else if (ret == -1)
 		return (-1);
-	ft_init_term_struct(term); //doit on free le resultat de tgetstr ??
+	ft_init_term_struct(term);
 	return (0);
 }
