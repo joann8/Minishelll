@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 13:05:57 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 13:33:57 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int			check_quote_for_echo(char *str)
 	int quote;
 	int i;
 
-	printf("str = %s\n", str);
 	i = 0;
 	quote = 0;
 	while (str[i])
@@ -99,12 +98,10 @@ int			check_quote_for_echo(char *str)
 		}
 		else if (str[i] == '$' && quote == 0)
 		{
-			printf("value return = 1\n");
 			return (1);
 		}
 		i++;
 	}
-	printf("value return = 0\n");
 	return (0);
 }
 
@@ -129,7 +126,6 @@ int			assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env)
 			new = modify_str((char*)tmp->content, env);
 			if (new == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
 				return (p_error(0, "malloc error\n", -1));
-			printf("new = %s\n", new);
 			if (i > 0 && (ft_strcmp(cmd->av[0], "export") == 0) 
 				&& (ft_strcmp(tmp->content, "\"\"") != 0)
 				&& ft_strcmp(new, "") == 0)
