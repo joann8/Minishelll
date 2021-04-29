@@ -9,7 +9,8 @@ SRCS =										\
 		srcs/built_in_pwd.c					\
 		srcs/built_in_unset.c				\
 		srcs/command_main.c					\
-		srcs/command_main_assign.c			\
+		srcs/command_main_redir.c			\
+		srcs/command_main_words.c			\
 		srcs/command_non_piped.c			\
 		srcs/command_piped.c				\
 		srcs/command_piped_utils.c			\
