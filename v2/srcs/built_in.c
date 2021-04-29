@@ -39,7 +39,7 @@ int		find_built_in_2(t_simple_cmd *cmd, t_list **env)
 
 	res = 0;
 	if (ft_strcmp(cmd->av[0], "echo") == 0)
-		g.exit_status = ft_echo(cmd, &(cmd->p), 0, 0);
+		g.exit_status = ft_echo(cmd, &(cmd->p),0, 0);
 	else if (ft_strcmp(cmd->av[0], "pwd") == 0)
 		g.exit_status = ft_pwd(&(cmd->p));
 	else if (ft_strcmp(cmd->av[0], "exit") == 0)

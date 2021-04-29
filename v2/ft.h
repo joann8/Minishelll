@@ -226,6 +226,10 @@ int		assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env);
 int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env);
 int		expand_list_redir(t_list *begin, t_list **var);
 
+//command main assign utils
+char *trim_spaces_for_echo(char *new_str);
+int	check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env);
+
 //command_simple
 int		create_command(t_seq *tab_seq, int seq_nb, t_list **env);
 
