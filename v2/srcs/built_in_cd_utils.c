@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 15:45:10 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 10:52:24 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ char	*get_newpath(char *operand)
 	dir_lst = NULL;
 	cur_path = getcwd(NULL, 0);
 	if (cur_path == NULL)
+	{
+		print_err("msh: cd: getcwd failed\n", NULL, NULL, 0);
 		return (NULL); //err malloc
+	}
 	if (ft_make_dir_lst(&dir_lst, cur_path) == -1)
 	{
 		ft_lstclear(&dir_lst, free);

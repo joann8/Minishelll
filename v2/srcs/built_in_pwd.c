@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 15:54:26 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/27 15:58:50 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 10:53:51 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_pwd(t_pipe *p)
 	to_write = getcwd(NULL, 0);
 	if (to_write == NULL)
 	{
-		print_err("msh : pwd : echec getcwd\n", NULL, NULL, 1);
+		print_err("msh : pwd: getcwd failed\n", NULL, NULL, 1);
 		return (-1);
 		// Ancienne version de Joann -> return (1);// pas sure que l'on doit quit
 	}

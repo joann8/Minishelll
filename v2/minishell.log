@@ -341,3 +341,26 @@ cd /
 ls
 env
 cd home
+ls
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+cd ..
+cd a/b
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+cd ..
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+cd ..
+pwd
+excho $?
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+cd ..
+echo $?
+pwd
+echo $?

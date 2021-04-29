@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/28 22:03:42 by calao            ###   ########.fr       */
+/*   Updated: 2021/04/29 10:47:34 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,19 +147,3 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env)
 		return (ft_free(new_path, -1));
 	return (ft_free(new_path, 0));
 }
-/*
-	else
-	{
-		if (fake_cd(new_path) == 0)
-		{
-			free(new_path);
-			return (0);
-		}
-		else
-		{
-			free(new_path);
-			return (1);
-		}
-	}
-}
-*/
