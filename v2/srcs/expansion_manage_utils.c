@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 14:20:25 by jacher           ###   ########.fr       */
+/*   Updated: 2021/04/29 10:40:41 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,13 @@ void	manage_escape(t_expansion *exp)
 	if (exp->quote == 34)
 		escape_within_doubles(exp);
 	else if (exp->quote == 0)
+	{
 		exp->i += 1;
+		if (exp->mod == 2)
+			exp->tmp[exp->j] = exp->str[exp->i];
+		exp->j += 1;
+		exp->i += 1;
+	}
 	else if (exp->quote == 39)
 	{
 		if (exp->mod == 2)
