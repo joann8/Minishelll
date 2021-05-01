@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:51:00 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 12:00:05 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/01 22:12:11 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		ft_screen_wrapper(t_input *user, t_list *log)
 	else if (user->log_size > 0
 			&& user->buf[0] == 27 && user->buf[1] == '[' && user->buf[2] == 'A')
 		ret = ft_up_arrow(&(user->screen), &(user->input), log, &(user->i));
-	return (0);
+	return (ret);
 }
 
 int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
@@ -51,7 +51,7 @@ int		ft_edit_line(char **screen, char *buf, unsigned int s_len)
 		if (*screen == NULL)
 			return (-1);
 	}
-	return (1);
+	return (0);
 }
 
 int		ft_down_arrow(char **screen, char **user_input,
@@ -74,7 +74,7 @@ int		ft_down_arrow(char **screen, char **user_input,
 	}
 	if (*screen == NULL)
 		return (-1);
-	return (1);
+	return (0);
 }
 
 int		ft_up_arrow(char **screen, char **user_input,
@@ -92,5 +92,5 @@ int		ft_up_arrow(char **screen, char **user_input,
 	*screen = ft_strdup(((char *)((ft_lstat(log, *i))->content)));
 	if (*screen == NULL)
 		return (-1);
-	return (1);
+	return (0);
 }
