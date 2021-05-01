@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 21:40:11 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 11:22:19 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/01 19:22:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		ft_search_env_path_two(char *path_to_test, char *exec, char **job)
 	{
 		*job = ft_strjoin(dir_path, exec);
 		free(dir_path);
-		if (dir_path == NULL)
+		if (*job == NULL)
 			return (-1);
 		return (1);
 	}
