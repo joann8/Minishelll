@@ -433,3 +433,46 @@ cd
 cd ../..
 ls
 cd
+mkdir -p a/b
+cd a/b
+mkdir -p a/b
+cd ..
+mkdir -p a/b
+cd a/b
+rm -r ../../a
+pwd
+cd ..
+pwd
+cd /
+export PWD=BLEU
+export PWD=/BLEU
+bash
+ls
+echo e
+cd
+mkdir test
+rm -rf test
+env
+export
+export LOL=truite
+pwd
+export LOL=truite
+env
+pwd
+rm -rf test
+exit
+env
+export
+export LOL=truite
+mkdir milk
+rm milk
+rm -rf milk
+moody
+exit
+echo  hello
+echo  hello | ls | true; boom ; sed e
+sed e
+cat | cat 
+exit
+sed e
+cat | cat
