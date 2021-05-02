@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 14:14:31 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 21:47:37 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,14 @@ int		manage_variable(t_expansion *exp, t_list *var)
 	int k;
 
 	k = exp->i + 1;
+	if (exp->str[k] == '\0')
+	{
+		if (exp->mod == 2)
+			exp->tmp[exp->j] = exp->var_str[exp->i];
+		exp->j += 1;
+		exp->i = k;
+		return (0);
+	}
 	if (exp->str[k] == '?')
 		return (manage_special_exit(exp));
 	if (exp->str[k] == '\\')

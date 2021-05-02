@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/01 18:42:32 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 22:28:30 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ int		execute_cmd_path_not_found_bis(t_simple_cmd *tmp_c, char *job)
 	g.exit_status = 127;
 	if (path == 1)// || (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')
 		return (print_err_pipe("msh: ", job,
-			" : no such file or directory\n", 0));
+			" : no such file or directory\n", g.exit_status);
+			//" : no such file or directory\n", 0));
 	else if (ft_strcmp(job, "") == 0 && ft_strcmp(tmp_c->job, "\"\"") != 0)//si je suis une variable non trouvée
 		return ((g.exit_status = 0));
 	else
-		return (print_err_pipe(job, ": command not found\n", NULL, 0));
+		return (print_err_pipe(job, ": command not found\n", NULL, g.exit_status));
+		//return (print_err_pipe(job, ": command not found\n", NULL, 0));
 }
 
 int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret)

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 14:13:48 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 21:52:57 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ char	*modify_str(char *str, t_list **var)
 		return (NULL);
 	}
 	if (ft_strcmp(str, "$") == 0)
+	{
+		free(exp.tmp);
 		tmp = ft_strdup("$");
+	}
 	else
 		tmp = assign_final_str(&exp, *var);
 	return (tmp);

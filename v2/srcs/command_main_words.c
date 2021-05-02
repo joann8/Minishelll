@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 15:53:15 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 21:20:31 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ int			check_quote_for_echo(char *str)
 
 int			assign_cmd_av(t_simple_cmd *cmd, t_list *tmp, char *new, int i)
 {
-	if (i > 0 && (ft_strcmp(cmd->av[0], "export") == 0)
+	if (i > 0 
+		&& (ft_strcmp(cmd->av[0], "export") == 0 
+		|| ft_strcmp(cmd->av[0], "unset") == 0)
 		&& (ft_strcmp(tmp->content, "\"\"") != 0)
 		&& ft_strcmp(new, "") == 0)
 	{

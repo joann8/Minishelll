@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/01 18:38:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 22:16:34 by calao            ###   ########.fr       */
 /* ************************************************************************** */
 
 #ifndef FT_H
@@ -93,7 +93,7 @@ t_list	*ft_env_node_copy(t_var *v_src);
 
 
 //Built in
-int		ft_unset(t_list **env, char **argv);
+int		ft_unset(t_simple_cmd *cmd, t_list **env, char **argv);
 			//cd
 int		ft_cd(t_simple_cmd *cmd, t_list **env);
 int		is_absolute_path(char *str);

@@ -1,2 +1,1 @@
-cd .. (dans un pipe)
-
+echo bonjour > a > c (leaks pour chaque redir);

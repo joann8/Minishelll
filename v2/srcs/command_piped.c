@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 18:50:20 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 22:24:24 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ int		execute_main_process(t_simple_cmd *tmp_c, int *pid_list,
 		}
 		i++;
 	}
+	printf("(B)g.exit_status = %d\n", g.exit_status);
 	if (g.exit_status != 130 && g.exit_status != 131)
 		g.exit_status = WEXITSTATUS(wstatus);//return the status code
+	printf("(A)g.exit_status = %d\n", g.exit_status);
 	return (0);
 }
 

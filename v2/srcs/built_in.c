@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:28:48 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 19:00:54 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 21:32:55 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		find_built_in_2(t_simple_cmd *cmd, t_list **env)
 	else if (ft_strcmp(cmd->av[0], "env") == 0)
 		g.exit_status = ft_env(env, cmd->p.fd_out_to_use);
 	else if (ft_strcmp(cmd->av[0], "unset") == 0)
-		g.exit_status = ft_unset(env, cmd->av);
+		g.exit_status = ft_unset(cmd, env, cmd->av);
 	else
 		res = 1;
 	if (res == 0 && g.exit_status == -1)
