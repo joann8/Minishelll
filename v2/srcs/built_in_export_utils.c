@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 11:10:06 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/01 23:17:33 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode)
 {
 	t_var *v_tmp;
 
-	v_tmp = malloc(sizeof(t_var *));
+	v_tmp = malloc(sizeof(t_var));
 	if (v_tmp == NULL)
 		return (NULL);
 	v_tmp->value = NULL;
@@ -65,7 +65,7 @@ t_list	*ft_allocate_env_node(char *argv, int i, int j, int mode)
 	new = ft_lstnew(NULL);
 	if (new == NULL)
 		return (NULL);
-	new->content = (void *)ft_allocate_env_var_struct(argv, i, j, mode);
+	new->content = ft_allocate_env_var_struct(argv, i, j, mode);
 	if (new->content == NULL)
 	{
 		free(new);

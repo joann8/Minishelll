@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/01 22:10:11 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/01 23:48:04 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void ft_free_tab_seq(t_seq *tab_seq, int seq_nb)
 			}
 			if (tmp_s->word)
 				ft_lstclear(&tmp_s->word, free);
-//			to_delete = tmp_s;
+		//	to_delete = tmp_s;
 			tmp_s = tmp_s->next_pipe;
-			//free(to_delete);//pas sure >> pbm de leak quand pas la, pbm de invalid free quand la 
+		//	free(to_delete);//pas sure >> pbm de leak quand pas la, pbm de invalid free quand la 
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/05/01 21:48:56 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/01 23:20:16 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,5 @@ char	*ft_cd_path(char *operand, t_list **env)
 		return (NULL);
 	if (ret == 1)
 		return (get_newpath(operand));
-	printf("via CDPATH\n");
 	return (str);
 }
