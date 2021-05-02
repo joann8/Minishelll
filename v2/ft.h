@@ -6,8 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/01 21:46:59 by calao            ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2021/05/01 18:38:14 by jacher           ###   ########.fr       */
 /* ************************************************************************** */
 
 #ifndef FT_H
@@ -152,6 +151,7 @@ void	exec_ctrl_quit(int signum);
 //promp et erreurs
 int		p_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int ret_wanted);
+int		print_err_pipe(char *str1, char *str2, char *str3, int ret_wanted);
 
 //print_help
 void	print_list(t_list *list);
