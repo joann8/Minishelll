@@ -27,6 +27,7 @@ SRCS =										\
 		srcs/search_exec_path.c				\
 		srcs/signals.c						\
 		srcs/free_utils.c					\
+		srcs/free_utils_bis.c				\
 		srcs/main.c							\
 		srcs/other_utils.c					\
 		srcs/print_help.c					\
