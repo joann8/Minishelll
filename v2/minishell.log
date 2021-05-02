@@ -476,3 +476,67 @@ cat | cat
 exit
 sed e
 cat | cat
+cd srcs
+ls
+pwd
+cd srcs
+env | sort
+cd srcs
+make
+cd srcs
+make
+cd srcs
+env | grep CD
+env 
+cd srcs
+env | grep CD
+cd srcs
+env | grep CD
+cd srcs
+cd ..
+cd moule
+cd srcs
+cd ..
+cd v2
+cd srcs
+ls
+cd ..
+minishell
+env
+env | sort
+exit
+ls
+env
+ls
+env
+env | grep CDPA
+env
+grep
+env | bim
+cd srcs
+cd ..
+cd srcs
+cd ..
+ls
+cd ..
+ls
+cd v1
+cd ..
+ls
+export CDPATH=$PWD
+cd get_next_line
+cd ..
+export CDPATH= ;
+cd libft
+cd ..
+unset CDPATH
+cd libft
+cd ..
+export CDPATH
+cd minishell
+ls
+pwd
+cd bleu
+cd ..
+cd
+lsls

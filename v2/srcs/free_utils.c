@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:00:18 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 17:41:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/01 22:10:11 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void ft_free_redir(t_list *redir_list)
 void ft_free_tab_seq(t_seq *tab_seq, int seq_nb)
 {
 	t_seq 	*tmp_s;
-	t_seq	*to_delete; 
+//	t_seq	*to_delete; 
 	int		i;
 
 	i = 0;
@@ -67,7 +67,7 @@ void ft_free_tab_seq(t_seq *tab_seq, int seq_nb)
 			}
 			if (tmp_s->word)
 				ft_lstclear(&tmp_s->word, free);
-			to_delete = tmp_s;
+//			to_delete = tmp_s;
 			tmp_s = tmp_s->next_pipe;
 			//free(to_delete);//pas sure >> pbm de leak quand pas la, pbm de invalid free quand la 
 		}

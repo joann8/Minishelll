@@ -7,7 +7,6 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
 /*   Updated: 2021/05/01 18:38:14 by jacher           ###   ########.fr       */
-/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_H
@@ -105,6 +104,8 @@ int		ft_cd_error(char *s1, char *s2, int w_return);
 int		ft_make_dir_lst(t_list **dir, char *str);
 int		ft_edit_dir_lst(t_list **dir, char *r_path);
 int		fake_cd(char *new_path);
+int		ft_search_dir(char *exec, char *dir_path);
+char	*ft_cd_path(char *operand, t_list **env);
 
 
 			//export

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 11:00:28 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/01 21:50:50 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,15 +130,19 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env)
 	op = *(cmd->av + 1);
 	if (op == NULL || ft_strcmp(op, "") == 0 || ft_strcmp(op, "~") == 0)
 		return (chdir_to_home_var(env));
-	new_path = (is_absolute_path(op)) ? ft_strdup(op) : get_newpath(op);
+	if (is_absolute_path(op))
+		new_path = ft_strdup(op);
+	else if (op[0] == '.')
+		new_path = get_newpath(op);
+	else 
+		new_path = ft_cd_path(op, env);
 	if (new_path == NULL)
 		return (-1);
 	if (chdir(new_path) == -1)
 	{
-		print_err("msh: cd: ", new_path, "", 0);
+		print_err("msh: cd: ", op, "", 0);
 		print_err(": ", strerror(errno), "\n", 1);
-		free(new_path);
-		return (1);
+		return (ft_free(new_path, 1));
 	}
 	if (ft_update_pwd(new_path, env) == -1)
 		return (ft_free(new_path, -1));

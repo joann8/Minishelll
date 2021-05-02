@@ -2,6 +2,7 @@ SRCS =										\
 		srcs/built_in.c						\
 		srcs/built_in_cd.c					\
 		srcs/built_in_cd_utils.c			\
+		srcs/built_in_cd_utils_two.c		\
 		srcs/built_in_echo.c				\
 		srcs/built_in_exit.c				\
 		srcs/built_in_export.c				\
@@ -48,33 +49,37 @@ OBJ = $(SRCS:.c=.o)
 
 NAME = minishell
 
-CC = clang
+CC = gcc 
 
 CFLAGS = -Wall -Werror -Wextra
 
-INCLUDE = -I ./libft/ -I ft.h
+INCLUDE = -I ./libft/ -I . 
 
 LIBS_PATH = -L ./libft 
 
 LIBS = -lft -lncurses
 
-#%.o: %.c
-#	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(<:.c=.o)
+LIB_FT = ./libft/libft.a
 
-.c.o: ft.h  
+FT_H = ft.h
+
+.c.o: $(FT_H) 
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $(<:.c=.o)
 
-$(NAME): $(OBJ) ft.h
+$(NAME): $(LIB_FT) $(FT_H) $(OBJ)
 	$(CC) $(CFLAGS) $(LIBS_PATH) $(OBJ) -o $(NAME) $(LIBS)
 
 all: $(NAME)
 
+$(LIB_FT):
+	make libft.a -C ./libft/ 
+
 clean:
+	make clean -C ./libft/
 	rm -rf $(OBJ)
 
 fclean: clean
+	make fclean -C ./libft/
 	rm -rf $(NAME)
 
 re: fclean all
-
-	
