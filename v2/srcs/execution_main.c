@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 15:38:33 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/02 12:43:24 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ int		execution_main(char *line, t_list **var_list)
 	}
 	///gestion erreur ok jusque ici
 	//
-	/*
-	printf("\n****RESUlT SEQUENCE******\n");
-	print_seq(tab_seq, seq_nb);
-	printf("\n**********\n");
-	*/
+	
+//	printf("\n****RESUlT SEQUENCE******\n");
+//	print_seq(tab_seq, seq_nb);
+//	printf("\n**********\n");
+	
 	//
 	res = create_command(tab_seq, seq_nb, var_list);
 	//res = 0 tout est ok
