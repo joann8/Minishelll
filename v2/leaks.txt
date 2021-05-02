@@ -1,0 +1,2 @@
+cd .. (dans un pipe)
+

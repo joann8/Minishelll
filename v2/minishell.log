@@ -540,3 +540,120 @@ cd bleu
 cd ..
 cd
 lsls
+exit
+echo hello
+exit
+echo -n hello
+exit
+export Lulu
+exit
+export
+export lulu=
+exit
+export lulu;
+export lolo=5
+export lulu= ;
+exit
+export lulu;
+export Lulu=15
+unset Lulu
+pwd
+cd ..
+cd v2
+cd ./srcs
+cd ..
+cd srcs
+cd /home/calao
+ls
+cd Documents
+cd 42
+cd 42cursus
+ls
+export CDPATH=$PWD
+cd minishell
+env
+env | cd .. | pwd
+exit
+env
+exit
+env ; env
+ls | ls
+env | env
+ls | top
+top
+export | ls
+exit
+export | ls
+exit
+env | env
+ls | boom
+grep tutu; ls
+grep tutu | ls
+env | cd .. | pwd
+cd ..
+cd v2
+env | pwd
+env | cd ..
+exit
+env | pwd
+pwd | cd ..
+cd srcs | pwd
+exit
+pwd | cd ..
+cd srcs | pwd
+cd ..
+cd srcs | cd .. | cd ..
+cat struct.h
+cd srcs | cd .. | cd ..
+ls | ls | ls
+ls
+echo  hello | cat leaks.txt | env | exit 55
+exit
+echo  hello | cat leaks.txt | env | exit 55
+exit
+cd srcs | cd .. | cd ..
+echo  hello | cat leaks.txt | env | exit 55
+ls
+cd .
+echo ; flie | blabla
+echo | blabla
+echo | ls
+exit
+echo hello | ls
+blabla
+blabla | blou
+ls ; ls
+ls | ls
+ls ; s=ls
+ls ; ls
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaa
+exit
+ls ; ls
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaa
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | et laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?
+cd srcs | cd .. | cd ..aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | et laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa?aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+exit
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+ls
+exit
+hello | you
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+hello | you
+aaaaaaaaaaaaaaaaaaaaa
+exit
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+exit
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+exit
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+lolololoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+cd .. | echo lol
+cd .. | echo hello
