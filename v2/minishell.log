@@ -1330,3 +1330,4 @@ echo $test | cat -e
 exit
 export test="  a  b  "
 echo $test | cat -e
+echo > a > b > c

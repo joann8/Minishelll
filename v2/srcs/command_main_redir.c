@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 14:20:23 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 20:08:46 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ int			check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env)
 		g.exit_status = 1;
 		return (-1);
 	}
-	else if ((r->file_name = ft_strdup(new)) == NULL)
+	else
 	{
 		free(r->file_name);
+		if ((r->file_name = ft_strdup(new)) == NULL)
+		{
+			free(new);
+			return (p_error(0, "malloc error\n", -1));
+		}
 		free(new);
-		return (p_error(0, "malloc error\n", -1));
 	}
-	free(new);
 	return (0);
 }
 
