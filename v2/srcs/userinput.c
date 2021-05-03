@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 10:30:02 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 11:57:56 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:13:10 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 int		ft_first_init_userinput(int fd_log, t_term *term, t_list **log
 								, struct termios *origin)
 {
+	g.fd = dup(STDIN_FILENO);
+	if (g.fd == -1)
+		return (-1);
 	if (fd_log < 0)
 		return (-1);
 	if (ft_make_loglst(log, fd_log) < 0)
@@ -108,12 +111,10 @@ int		ft_get_userinput(char **line, char *prompt, char *log_path, int *ret)
 	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
 	if (ft_first_init_userinput(fd_log, &term, &log, &origin) == -1)
 		return (-1);
-	g.fd = dup(STDIN_FILENO);
 	*line = ft_read_input(g.fd, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
-	if (*ret == -227 || *line == NULL
-			|| ft_update_log(line, log, fd_log) == -1)
+	if (*ret == -227 || *line == NULL || ft_update_log(line, log, fd_log) == -1)
 	{
 		if (close(fd_log) < 0)
 			*ret = -1;

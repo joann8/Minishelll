@@ -1,2 +1,2 @@
-echo bonjour > a > c (leaks pour chaque redir);
-echo $bla bonjour (invalide write of size 1)
+retester export beaucoup de fois car mis un ternaire
+userinput .  deplacement de g.fd = dup(STDINFILENO) + protection

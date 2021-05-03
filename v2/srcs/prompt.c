@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/05/03 11:32:32 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:04:15 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*truncate_pwd(char *pwd, t_list **env_lst)
 {
-	int i;
-	t_list *home;
+	int		i;
+	t_list	*home;
 	t_var	*tmp;
 
 	i = ft_strlen(pwd) - 1;
@@ -24,7 +24,7 @@ char	*truncate_pwd(char *pwd, t_list **env_lst)
 	home = ft_lstfind_env(env_lst, "HOME", ft_strcmp);
 	if (home != NULL)
 	{
-		tmp =(t_var *)home->content;
+		tmp = (t_var *)home->content;
 		if (tmp->on == 1 && ft_strcmp(pwd, tmp->value) == 0)
 			return (ft_strdup("~"));
 	}
@@ -62,8 +62,6 @@ char	*ft_make_prompt(t_list **env_lst)
 	tmp = prompt;
 	prompt = ft_strjoin(prompt, "$ ");
 	free(tmp);
-	if (prompt == NULL)
-		return (NULL);
 	return (prompt);
 }
 
