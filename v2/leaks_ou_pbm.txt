@@ -1,2 +1,2 @@
 echo bonjour > a > c (leaks pour chaque redir);
-Lancement de minishell dans minishell : Permission denied 
+echo $bla bonjour (invalide write of size 1)

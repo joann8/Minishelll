@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/01 22:10:54 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 17:54:25 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ int		analyze_inputs(char *inp, int *pos)
 			if (look_second_quote(39, inp, &i) == -1)
 				return (p_error(0, "syntax error : quote is not closed\n", 1));
 		if (inp[i] == '\\')
+		{
+			if (inp[i + 1] == '\0')
+				return (p_error(0, "syntax error : multiligns\n", 1));
 			escape_quote(inp, &i);
+		}
 		i++;
 	}
 	*pos = i;

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 21:20:31 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 18:02:03 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,32 @@ int			assign_cmd_av(t_simple_cmd *cmd, t_list *tmp, char *new, int i)
 		cmd->av[i] = NULL;
 		free(new);
 	}
-	else if (i > 0 && ft_strcmp(cmd->av[0], "echo") == 0
-		&& check_quote_for_echo((char*)tmp->content) == 1)
+	else if (i > 0 && ft_strcmp(cmd->av[0], "echo") == 0)
 	{
-		cmd->av[i] = trim_spaces_for_echo(new, 0, 0, 0);
-		free(new);
-		if (cmd->av[i] == NULL)
-			return (p_error(0, "malloc error\n", -1));
+		if (ft_strcmp(new, "") != 0)	
+		{
+			if (check_quote_for_echo((char*)tmp->content) == 1)
+			{
+				cmd->av[i] = trim_spaces_for_echo(new, 0, 0, 0);
+				free(new);
+				if (cmd->av[i] == NULL)
+					return (p_error(0, "malloc error\n", -1));
+			}
+			else
+				cmd->av[i] = new;
+		}
+		else if (ft_strcmp((char*)tmp->content, "\"\"") == 0
+					|| check_quote_for_echo((char*)tmp->content) == 0)
+			cmd->av[i] = new;
+		else
+		{
+			cmd->av[i] = NULL;
+			free(new);
+		}
 	}
 	else
 		cmd->av[i] = new;
+	printf("(AD)cmd->av[%d] = %s\n", i, cmd->av[i]);
 	return (0);
 }
 

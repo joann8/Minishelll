@@ -1005,3 +1005,328 @@ echo $?
 exit 0 | exit 45
 echo $?
 exit 0 | exit 45
+cd ../../../../../../
+pwd
+echo $?
+cd minishell
+cd /home/usr42
+cd /home/user42
+cd /home/calao
+echo $?
+cd $HOME/Desktop
+echo $?
+pwd
+cd minishell
+unset HOME; cd
+cd b a abs 
+echo $?
+cd ./blablbl
+echo $?
+mkdir -p a/b; cd a/b; rm -r ../../a; cd ..
+pwd
+echo $?
+cd
+cd  minishell
+export $HOME=/home/calao
+export HOME=/home/calao
+export CDPATH=/
+cd home/..
+pwd
+cd ..
+ls
+cd 
+cd ..
+cd
+export CDPATH=/
+cd home/dir
+cd home/calao
+pwd
+ld
+ls
+pwd
+env | grep HOME
+cd minishell
+export HOME=$PWD
+export CDPATH=./.
+cd .
+echo a -n
+cd boom; echo $?
+cd $
+cd $?
+echo $?
+/dev/null
+echo $?
+cat balbala
+echo $?
+Makefile
+echo $?
+./Makefile
+echo $?
+ls bonjour
+ls bonjour; echo $?
+export test=a; echo $a
+export test=a; echo $test
+export $var=test
+echo $?
+export poisson=truite
+export
+env
+export poisson=merou
+env
+export
+export poisson=merou poisson=morue
+env
+export
+export var  var=test
+env
+export zoro zoro=masque
+env
+export
+export ""
+export "" test=a
+env
+export
+export "" meuh=vache
+echo $?
+env
+export
+echo ~
+export var=test"
+echo $var
+export tutu=frou"
+echo $tutu
+env
+.
+echo $?
+env -i
+""
+echo $?
+echo "\s" "\\s"
+echo $?
+echo "12\""
+echo "bip | bip ; coyotte >< \""
+echo \>
+echo \<
+echo $USERr
+echo $USER
+echo $USER$var\$USER$USER\$USERtest$USER
+echo  bonjour \; ls
+$
+echo $?
+$LESS$VAR
+echo $?
+..
+echo $?
+echo "
+echo '"abc"'
+echo "'abc'"
+echo "" bonjour
+echo\a
+echo\ a
+export "" unset ""
+cat | cat | cat |ls
+echo $?
+cat Makefile | grep pr | head -n 5 | cd blabla
+echo $?
+cat Makefile | grep pr | head -n 5 | bou
+echo $?
+cat Makefile | grep pr | head -n 5 | bou
+echo $?
+cat Makefile | grep pr | head -n 5 | bou
+echo $?
+cat Makefile | grep pr | head -n 5 | bou
+echo $?
+cat Makefile | grep pr | head -n 5 | bou
+echo $?
+ls
+ls | exit
+echo $?
+ls | exit 34
+echo $?
+sleep 2 | exit
+echo $?
+ls
+< a cat < b < c
+ls
+> test | echo  blabla ; rm test
+ls
+touch b
+echo booom > b
+> a cat < b >> c
+cat b
+cat a
+cat c
+> a ls > b >> c > d
+cat d
+cat c
+> file
+ls
+cat file
+cat -e > test1 < test2
+ls
+rm test1
+rm test2
+cat < test
+echo 2 > test1 >> test2
+cat test1
+cat test2
+echo  bonjour > test1
+cat test1
+echo 2 > test1 >> test2
+cat test1
+cat test2
+echo bonjour > test1
+echo 2 >> test1 > test2
+cat test1
+cat test2
+echo bonjour > test\ 1
+ls
+rm 'test 1'
+echo bonjour > file test1
+cat file
+rm file
+bibi bobo > salut
+ls
+rm salut
+echo $?
+cat 
+echo $?
+cat 
+echo $?
+cat
+echo $?
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+export var=" truc"; echo $var
+export var="truc "; echo  $var
+export var="truc "; echo  $var | cat -e
+echo "$test""Makefile"
+export test=truite
+echo "$test""Makefile"
+echo "$test"Makfile
+echo "$test"Makefile
+echo "$test" Makefile
+echo "$boo" "Makefile"
+$bla
+echo $?
+echo $bla bonjour
+bash
+export test="  bla  abcd  "
+echo $test
+echo "$boo" "Makefile"
+echo $boo "Makefile"
+bash
+echo $boo
+echo $boo | cat -e
+echo $boo "Makefile"
+echo "$boo" "Makefile"
+echo $boo "Makefile"
+exit
+echo $boo "Makefile"
+echo "$boo" "Makefile"
+echo "" -n make
+echo $boo -n make
+echo "" -n make
+echo $boo -n make
+env
+env | grep boo
+export
+echo $boo -n make
+echo $boo -n make | cat -e\
+echo $boo -n make | cat -e
+exit
+echo $boo -n make | cat -e
+echo $lol
+exi
+exit
+echo $boo -n make | cat -e
+exiy
+exit 
+echo $boo -n make | cat -e
+exit
+echo $boo -n make | cat -e
+exit
+echo $boo -n make | cat -e
+exit
+echo $boo -n make | cat -e
+exit
+echo $boo -n make | cat -e
+exit
+echo $boo -n make | cat -e
+echo "" -n la
+exit
+echo "" -n la
+echo $boo -n make | cat -e
+echo $boo -n make\
+echo $boo -n make
+echo "" -n la
+exit
+echo $boo -n make
+echo $boo -n make\
+exit
+echo $boo -n make\
+echo $boo -n make
+echo $boo -n make\ 
+echo $boo -n make
+echo $boo -n make\
+echo "" -n hello
+echo "$boo" -n hello
+exit
+echo "$boo" -n hello
+exit
+echo $boo -n make
+echo $boo -n make\
+echo "" -n hello
+echo "$boo" -n hello
+echo "$boo" hello
+echo $boo hello
+echo "$boo" hello
+echo $boo hello
+exit
+echo $boo hello
+exit
+echo $boooooooo hello
+exit
+echo $boooooooo hello
+exit
+env
+echo "$test""Makefile"
+echo "$test" "Makefile"
+echo $test "Makefile
+echo $test "Makefile"
+echo $bla
+echo $bla | cat -e
+$
+cat -e
+echo $bla | cat -e
+echo $bla
+echo $bla | cat -e
+$
+echo $bla
+$bla
+$bla | cat -e
+echo $bla | cat -e
+echo $bla
+echo $bla | cat -e
+echo $bla bonjour
+export 
+export $var
+export $tu
+export test=123\"; echo $test
+echo \
+echo \\
+echo \\\
+echo \\
+echo \
+echo \\\
+echo \\\\
+> test\ 1
+ls
+rm 'test 1'
+export test="  a  b  "
+echo $test
+echo $test | cat -e
+exit
+echo $test | cat -e
+exit
+export test="  a  b  "
+echo $test | cat -e
