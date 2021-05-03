@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 17:27:19 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 11:57:36 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 19:23:55 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		seq_assign_redir(t_seq *tmp, t_list *lst_tok, t_token *tok)
 		free(redir);
 		return (p_error(0, "malloc error\n", -1));
 	}
-	ft_lstadd_back(&tmp->redir, new);
+	ft_lstadd_back(&(tmp->redir), new);
 	return (0);
 }
 

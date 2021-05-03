@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 18:02:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 18:50:57 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int			assign_cmd_av(t_simple_cmd *cmd, t_list *tmp, char *new, int i)
 	}
 	else
 		cmd->av[i] = new;
-	printf("(AD)cmd->av[%d] = %s\n", i, cmd->av[i]);
+//	printf("(AD)cmd->av[%d] = %s\n", i, cmd->av[i]);
 	return (0);
 }
 
