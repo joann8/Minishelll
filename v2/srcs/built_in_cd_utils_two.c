@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/05/01 23:20:16 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 22:36:13 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ft_cd_path_two(char *path_to_test, char *exec, char **job)
 	{
 		*job = dir_path;
 		closedir(d_stream);
-			return (0);
+		return (0);
 	}
 	free(dir_path);
 	return (1);
@@ -60,7 +60,7 @@ int		ft_cd_path_two(char *path_to_test, char *exec, char **job)
 
 char	*ft_cd_path(char *operand, t_list **env)
 {
-	t_list *cd_path;
+	t_list	*cd_path;
 	char	**path_tab;
 	char	*str;
 	int		ret;
@@ -68,7 +68,7 @@ char	*ft_cd_path(char *operand, t_list **env)
 
 	cd_path = ft_lstfind_env(env, "CDPATH", ft_strcmp);
 	if (cd_path == NULL || !ft_strcmp(((t_var *)cd_path->content)->value, "")
-		   || ((t_var *)cd_path->content)->on == 0)
+		|| ((t_var *)cd_path->content)->on == 0)
 		return (get_newpath(operand));
 	path_tab = ft_split(((t_var *)cd_path->content)->value, ':');
 	if (path_tab == NULL)
@@ -77,7 +77,7 @@ char	*ft_cd_path(char *operand, t_list **env)
 	while (path_tab[++i])
 	{
 		if ((ret = ft_cd_path_two(path_tab[i], operand, &str)) != 1)
-				break ;
+			break ;
 	}
 	free_double_tab(path_tab);
 	if (ret == -1)

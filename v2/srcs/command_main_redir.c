@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 20:08:46 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 22:48:07 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int			assign_list_redir_2(t_redir *r, t_simple_cmd *cmd)
 	{
 		if (cmd->fd_out > 1)
 			close(cmd->fd_out);
-		cmd->fd_out = open(r->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);//664 a checker
+		cmd->fd_out = open(r->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		if (cmd->fd_out < 0)
 			return (print_err(strerror(errno), NULL, NULL, 0));
 	}

@@ -1332,3 +1332,16 @@ export test="  a  b  "
 echo $test | cat -e
 echo > a > b > c
 echo $bla bonjour
+hello | you
+echo $?
+cat | ls | echo hello | eldld
+echo $?
+bash
+exit
+bash
+exit
+echo -nn -n -nm
+echo hello you"yoi"
+echo hello you you
+bash
+exit

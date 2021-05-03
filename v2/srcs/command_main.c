@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 16:34:00 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 22:46:15 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ int			prepare_and_execute_non_piped_cmd(t_list **env, t_seq *tmp_s)
 	if (tmp_c->job != NULL)
 	{
 		if (tmp_c->on == 1)
-			res = execute_non_piped(tmp_c, env);//0 OK, 227 exit, -1 malloc
+			res = execute_non_piped(tmp_c, env);
 		else
 			g.exit_status = 1;
 	}
 	ft_free_command_list(tmp_c);
-//	free(tmp_c);
 	return (res);
 }
 
@@ -85,7 +84,7 @@ int			prepare_and_execute_piped_cmd(t_list **env, t_seq *tmp_s)
 		}
 		tmp_s = tmp_s->next_pipe;
 	}
-	res = execute_piped(begin, env);//0 OK, 227 exit, -1 malloc
+	res = execute_piped(begin, env);
 	ft_free_command_list(begin);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/05/03 12:07:51 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 22:34:47 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		ft_cd(t_simple_cmd *cmd, t_list **env)
 		new_path = ft_strdup(op);
 	else if (op[0] == '.')
 		new_path = get_newpath(op);
-	else 
+	else
 		new_path = ft_cd_path(op, env);
 	if (new_path == NULL)
 		return (-1);

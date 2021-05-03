@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:26:23 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 16:34:13 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 22:37:47 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_exit_help(t_simple_cmd *cmd, int i)
 		{
 			print_err("msh: exit: ", cmd->av[1],
 					" : argument numérique nécessaire\n", 0);
-			return (2);//error code
+			return (2);
 		}
 	}
 	if (cmd->ac > 2)
@@ -43,7 +43,7 @@ int		ft_exit(t_simple_cmd *cmd, t_pipe *p)
 {
 	int				res;
 	unsigned char	c;
-	
+
 	if (cmd->pipe_pos == -2)
 		ft_putstr_fd("exit\n", p->fd_out_to_use);
 	if (cmd->ac > 1)
