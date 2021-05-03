@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/05/01 23:17:33 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 22:59:33 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode)
 		return (NULL);
 	v_tmp->value = NULL;
 	v_tmp->on = 0;
-	if (mode == 1)
-		v_tmp->name = ft_strdup(argv);
-	else
-		v_tmp->name = ft_strndup(argv, i - 1);
+	v_tmp->name = mode == 1 ? ft_strdup(argv) : ft_strndup(argv, i - 1);
 	if (v_tmp->name == NULL)
 	{
 		free(v_tmp);
@@ -45,8 +42,7 @@ t_var	*ft_allocate_env_var_struct(char *argv, int i, int j, int mode)
 	}
 	if (mode == 1)
 	{
-		v_tmp->value = ft_strdup("");
-		if (v_tmp->value == NULL)
+		if ((v_tmp->value = ft_strdup("")) == NULL)
 		{
 			free(v_tmp->name);
 			free(v_tmp);

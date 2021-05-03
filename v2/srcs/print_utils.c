@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:56:23 by calao             #+#    #+#             */
-/*   Updated: 2021/04/27 22:30:42 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:15:00 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_print_str_table(char **av)
 		av++;
 	}
 }
+
 void	ft_print_str_lst(t_list *head)
 {
 	t_list *tmp;
@@ -63,7 +64,7 @@ void	ft_print_exportlst_fd(t_list *env_head, int fd)
 	while (tmp)
 	{
 		var = (t_var*)(tmp->content);
-		write(fd, "declare -x ", 11); 
+		write(fd, "declare -x ", 11);
 		write(fd, var->name, ft_strlen(var->name));
 		write(fd, "=\"", 2);
 		write(fd, var->value, ft_strlen(var->value));
@@ -71,4 +72,3 @@ void	ft_print_exportlst_fd(t_list *env_head, int fd)
 		tmp = tmp->next;
 	}
 }
-

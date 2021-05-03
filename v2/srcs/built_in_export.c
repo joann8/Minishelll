@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:58:35 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 11:06:03 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 22:59:47 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,15 @@ int		ft_export(t_list **env, t_simple_cmd *cmd, int fd_out)
 	count = 0;
 	while (i < cmd->ac)
 	{
-		if (cmd->av[i] != NULL)
+		if (cmd->av[i] != NULL && ft_check_export_name(cmd->av[i]) == 0)
 		{
-			if (ft_check_export_name(cmd->av[i]) == 0)
-			{
-				res = 1;
-				print_err("msh: export: `", cmd->av[i],
-						"': not a valid identifier\n", 1);
-			}
-			else if (ft_export_second_part(cmd->av[i], env) == -1)
-				return (-1);
+			res = 1;
+			print_err("msh: export: `", cmd->av[i],
+					"': not a valid identifier\n", 1);
 		}
+		else if (cmd->av[i] != NULL
+				&& ft_export_second_part(cmd->av[i], env) == -1)
+			return (-1);
 		else
 			count++;
 		i++;

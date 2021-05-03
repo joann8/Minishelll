@@ -30,6 +30,7 @@ SRCS =										\
 		srcs/free_utils_bis.c				\
 		srcs/main.c							\
 		srcs/other_utils.c					\
+		srcs/other_utils_two.c				\
 		srcs/print_help.c					\
 		srcs/print_utils.c					\
 		srcs/prompt.c						\

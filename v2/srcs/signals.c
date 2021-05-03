@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 12:01:27 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:23:31 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	read_ctrl_c(int signum)
 void	read_ctrl_quit(int signum)
 {
 	(void)signum;
-	//g.exit_status = 131;
 }
 
 void	exec_ctrl_c(int signum)
