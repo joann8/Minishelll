@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 22:24:24 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 11:03:20 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		execute_child_process_bis(t_simple_cmd *tmp_c, char **our_envp,
 		return (-1);
 	}
 	close_fd_pipe(fd_pipe, 0, 1);
-	if (execve(job, tmp_c->av, our_envp) == -1)
+	if ((g.exit_status = execve(job, tmp_c->av, our_envp)) == -1)
 		print_err(strerror(errno), NULL, NULL, 0);
 	free(job);
 	return (-1);
@@ -36,7 +36,6 @@ int		execute_child_process(t_simple_cmd *tmp_c, t_list **env,
 	char	*job;
 
 	if ((built_in_found = find_built_in(tmp_c, env)) == 1)
-	//if different 0, execute build in in built in
 	{
 		res = ft_search_job_path(&job, tmp_c->av[0], env);
 		if (res == -1)
@@ -53,8 +52,21 @@ int		execute_child_process(t_simple_cmd *tmp_c, t_list **env,
 		return (execute_child_process_bis(tmp_c, our_envp, fd_pipe, job));
 	}
 	close_fd_pipe(fd_pipe, 0, 1);
-	printf("g.exit_status = %d\n", g.exit_status);
 	return (g.exit_status);//0 built in, -1 erreur built in, 227 exit*/
+}
+
+int		kill_processes(int *pid_list)
+{
+	while (*pid_list > 0)
+	{
+		if (kill(*pid_list, SIGKILL))
+		{
+			free(pid_list);
+			return (-1);
+		}
+		pid_list++;
+	}
+	return (0);
 }
 
 int		execute_main_process(t_simple_cmd *tmp_c, int *pid_list,
@@ -67,31 +79,19 @@ int		execute_main_process(t_simple_cmd *tmp_c, int *pid_list,
 	clear_fd_pipe(fd_pipe, size + 1, 1);
 	i = 0;
 	if (tmp_c)
-	{
-		while (*pid_list > 0)
-		{
-			if (kill(*pid_list, SIGKILL))
-			{
-				free(pid_list);
-				return (-1);
-			}
-			pid_list++;
-		}
-	}
+		if (kill_processes(pid_list) == -1)
+			return (-1);
 	free(pid_list);
 	while (i < size)
 	{
 		if (wait(&wstatus) == -1)
 		{
-			g.exit_status = 126;//return the status code
+			g.exit_status = 126;
 			return (-1);
 		}
 		i++;
 	}
-	printf("(B)g.exit_status = %d\n", g.exit_status);
-	if (g.exit_status != 130 && g.exit_status != 131)
-		g.exit_status = WEXITSTATUS(wstatus);//return the status code
-	printf("(A)g.exit_status = %d\n", g.exit_status);
+	g.exit_status = WEXITSTATUS(wstatus);
 	return (0);
 }
 

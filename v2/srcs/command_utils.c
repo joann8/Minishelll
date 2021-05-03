@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 22:28:30 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 10:59:24 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,41 +26,39 @@ int		execute_cmd_path_not_found_bis(t_simple_cmd *tmp_c, char *job)
 		i++;
 	}
 	g.exit_status = 127;
-	if (path == 1)// || (tmp_c->job[0] != '/' && tmp_c->job[0] != '.')
+	if (path == 1)
 		return (print_err_pipe("msh: ", job,
-			" : no such file or directory\n", g.exit_status);
-			//" : no such file or directory\n", 0));
-	else if (ft_strcmp(job, "") == 0 && ft_strcmp(tmp_c->job, "\"\"") != 0)//si je suis une variable non trouvée
+			" : no such file or directory\n", g.exit_status));
+	else if (ft_strcmp(job, "") == 0 && ft_strcmp(tmp_c->job, "\"\"") != 0)
 		return ((g.exit_status = 0));
 	else
-		return (print_err_pipe(job, ": command not found\n", NULL, g.exit_status));
-		//return (print_err_pipe(job, ": command not found\n", NULL, 0));
+		return (print_err_pipe(job, ": command not found\n",
+				NULL, g.exit_status));
 }
 
 int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret)
 {
 	char	*job;
 
-	job = ft_strdup(tmp_c->av[0]);
-	if (job == NULL)
+	if ((job = ft_strdup(tmp_c->av[0])) == NULL)
 		return (p_error(0, "malloc error\n", -1));
-	if (errno == 2 || ((tmp_c->av[0][0] != '/' && tmp_c->av[0][0] != '.')//a revoir
-			&& errno == 0))//COMMAND introuvable
+	if (errno == 2 || ((tmp_c->av[0][0] != '/' && tmp_c->av[0][0] != '.')
+			&& errno == 0))
 		ret = execute_cmd_path_not_found_bis(tmp_c, job);
 	else if (ft_strcmp(job, ".") == 0)
 	{
 		g.exit_status = 2;
-		return (print_err_pipe("msh: ", ".: ", "not enough argument\n", 0));//verifier impact dans fonction exec
+		return (print_err_pipe("msh: ", ".: ", "not enough argument\n", 2));
 	}
 	else if (ft_strcmp(job, "..") == 0)
 	{
 		g.exit_status = 127;
-		return (print_err_pipe(job, ": command not found\n", NULL, 0));//verifier impact retour -1
+		ret = print_err_pipe(job, ": command not found\n", NULL, 127);
 	}
 	else
 	{
 		g.exit_status = 126;
-		ret = print_err_pipe("msh: ", job, ": permission denied\n", 0);
+		ret = print_err_pipe("msh: ", job, ": permission denied\n", 126);
 	}
 	free(job);
 	return (ret);
