@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 14:32:59 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 21:06:14 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:23:03 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int		is_metachar(char c)
 		return (1);
 	if (is_whitespace(c) == 1)
 		return (2);
-	if (c == ',' || c == '&')//addtional op, not sure
-		return (3);
 	return (0);
 }
 
@@ -44,7 +42,6 @@ int		is_word(char *str)
 	while (str[i])
 	{
 		if (ft_isprint(str[i]) == 1 && is_metachar(str[i]) == 0)
-			//	&& str[i] != ' ')
 			i++;
 		else
 			return (0);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/22 18:58:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:24:07 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ char		*find_variable_str(char *str, int start, int end, t_list *var)
 		var_tmp = (t_var *)(tmp->content);
 		if (ft_strcmp(tofind, var_tmp->name) == 0)
 		{
-			//toreturn = ft_strdup(var_tmp->value);//JE COMPRENDS PAS LA LEAK
 			toreturn = var_tmp->value;
 			free(tofind);
 			return (toreturn);

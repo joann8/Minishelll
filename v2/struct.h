@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:25:25 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/28 10:13:30 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:43:34 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 # define STRUCT_H
 
-typedef	struct	s_process
+typedef	struct				s_process
 {
-	int			fd;
-	int			exit_status;
-}				t_process;
+	int						fd;
+	int						exit_status;
+}							t_process;
 
-typedef	enum	e_type
+typedef	enum				e_type
 {
 	WORD,
 	FILENAME,
@@ -29,22 +29,22 @@ typedef	enum	e_type
 	IN,
 	OUT,
 	APPEND
-}				t_e_type;
+}							t_e_type;
 
-typedef struct	s_token
+typedef struct				s_token
 {
-	t_e_type	e_type;
-	char		*tok_str;
-}				t_token;
+	t_e_type				e_type;
+	char					*tok_str;
+}							t_token;
 
-typedef struct		s_seq
+typedef struct				s_seq
 {
-	t_list		 	*word;
-	t_list			*redir;
-	int				pipe_total;
-	int				pipe_pos;
-	struct s_seq	*next_pipe;
-}					t_seq;
+	t_list					*word;
+	t_list					*redir;
+	int						pipe_total;
+	int						pipe_pos;
+	struct s_seq			*next_pipe;
+}							t_seq;
 
 typedef struct				s_redir
 {
@@ -66,7 +66,7 @@ typedef struct				s_simple_cmd
 	int						ac;
 	int						fd_in;
 	int						fd_out;
-	int						pipe_pos; // -1 first 0middle 1 last 
+	int						pipe_pos;
 	t_pipe					p;
 	int						on;
 	struct s_simple_cmd		*next_pipe;
@@ -79,9 +79,8 @@ typedef struct				s_var
 	int						on;
 }							t_var;
 
-typedef	struct				term
+typedef	struct				s_term
 {
-
 	int						col;
 	int						line;
 	int						*t_ret;
@@ -93,8 +92,7 @@ typedef	struct				term
 	char					*cd;
 }							t_term;
 
-
-typedef	struct				 s_input
+typedef	struct				s_input
 {
 	unsigned int			i;
 	unsigned int			log_size;
@@ -103,15 +101,15 @@ typedef	struct				 s_input
 	char					*screen;
 	char					*input;
 }							t_input;
-	
+
 typedef struct				s_expansion
 {
 	char					*str;
 	char					*var_str;
-	char 					*tmp;
+	char					*tmp;
 	int						i;
 	int						j;
-	int 					quote;
+	int						quote;
 	int						mod;
 }							t_expansion;
 

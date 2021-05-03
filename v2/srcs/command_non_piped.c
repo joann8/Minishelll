@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 19:33:22 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:10:14 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 	{
 		if (wait(&wstatus) == -1)
 		{
-			g.exit_status = 126;//return the status code
+			g.exit_status = 126;
 			return (-1);
 		}
 		if (g.exit_status != 130 && g.exit_status != 131)
-			g.exit_status = WEXITSTATUS(wstatus);//return the status code
+			g.exit_status = WEXITSTATUS(wstatus);
 	}
-	return (0);//return the status code
+	return (0);
 }
 
 int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
@@ -50,7 +50,7 @@ int		look_for_command_and_path(char *job, t_simple_cmd *tmp_c,
 	our_envp = NULL;
 	if ((our_envp = ft_make_ourenvp(env)) == NULL)
 		return (p_error(0, "malloc error\n", -1));
-	if (ft_split_process(job, tmp_c, our_envp, p) == -1)//-1 pbm dup ou exec retourne -1
+	if (ft_split_process(job, tmp_c, our_envp, p) == -1)
 	{
 		free_double_tab(our_envp);
 		return (-1);
@@ -66,13 +66,13 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env)
 	int		res;
 
 	built_in_found = find_built_in(tmp_c, env);
-	if (built_in_found == 1)//if different 0, execute build in in built in
+	if (built_in_found == 1)
 	{
 		job = NULL;
 		res = ft_search_job_path(&job, tmp_c->av[0], env);
 		if (res == -1)
 			return (-1);
-		else if (res == 0)//cmd not found or permission denied
+		else if (res == 0)
 			return (execute_cmd_path_not_found(tmp_c, 0));
 		else
 		{
@@ -81,7 +81,7 @@ int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env)
 			return (0);
 		}
 	}
-	return (built_in_found);//0 built in, -1 erreur built in, 227 exit
+	return (built_in_found);
 }
 
 int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env)
@@ -89,10 +89,10 @@ int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env)
 	int res;
 
 	res = 0;
-	tmp_c->p.fd_in_to_use = tmp_c->fd_in;//deja avec les redir
-	tmp_c->p.fd_out_to_use = tmp_c->fd_out;//deja avec les redir
-	res = execute_cmd_non_piped(tmp_c, env);//COMMAND EXECUTION//0 OK, 227 exit, -1 malloc
+	tmp_c->p.fd_in_to_use = tmp_c->fd_in;
+	tmp_c->p.fd_out_to_use = tmp_c->fd_out;
+	res = execute_cmd_non_piped(tmp_c, env);
 	if (res == -1)
-		ft_putstr_fd("Error command execution\n", 2);//pas sure
+		ft_putstr_fd("Error command execution\n", 2);//a valider
 	return (res);
 }

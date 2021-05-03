@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 18:50:44 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:10:43 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int			set_up_child_pipes(t_simple_cmd *tmp_c, int size,
 	return (0);
 }
 
-int		prepare_execution(int ***fd_pipe, int **pid_list, int size)
+int			prepare_execution(int ***fd_pipe, int **pid_list, int size)
 {
 	*pid_list = malloc(sizeof(int) * size);
 	if (pid_list == NULL)

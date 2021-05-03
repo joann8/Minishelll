@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/15 15:26:35 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 22:44:48 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 22:57:09 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word)
 		{
 			if (word == 0 && is_arg_n(cmd->av[i]) == 1)
 				mod_n = 1;
-			else if (word == 0 && is_arg_n(cmd->av[i]) == 1)
+			else if (word == 0 && is_arg_n(cmd->av[i]) == 0)
 			{
 				word = 1;
 				ft_putstr_fd(cmd->av[i], p->fd_out_to_use);
