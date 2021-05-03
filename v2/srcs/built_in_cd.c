@@ -6,7 +6,7 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 16:09:20 by calao             #+#    #+#             */
-/*   Updated: 2021/05/01 23:37:09 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 12:07:51 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int		ft_edit_dir_lst(t_list **dir, char *r_path)
 	i = -1;
 	while (tmp[++i])
 	{
-		if (ft_strcmp(*tmp, "..") == 0)
+		if (ft_strcmp(tmp[i], "..") == 0)
 			ft_lstdel_last(dir);
-		else if (ft_strcmp(*tmp, ".") != 0)
+		else if (ft_strcmp(tmp[i], ".") != 0)
 		{
-			new = ft_lstnew(ft_strjoin("/", *tmp));
+			new = ft_lstnew(ft_strjoin("/", tmp[i]));
 			if (new == NULL || new->content == NULL)
 			{
 				free_double_tab(tmp);

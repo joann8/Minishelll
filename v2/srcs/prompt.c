@@ -6,21 +6,30 @@
 /*   By: calao <adconsta@student.42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:37:01 by calao             #+#    #+#             */
-/*   Updated: 2021/04/29 12:38:51 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 11:32:32 by calao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-char	*truncate_pwd(char *pwd)
+char	*truncate_pwd(char *pwd, t_list **env_lst)
 {
 	int i;
+	t_list *home;
+	t_var	*tmp;
 
 	i = ft_strlen(pwd) - 1;
 	while (i > 0 && pwd[i] != '/')
 		i--;
+	home = ft_lstfind_env(env_lst, "HOME", ft_strcmp);
+	if (home != NULL)
+	{
+		tmp =(t_var *)home->content;
+		if (tmp->on == 1 && ft_strcmp(pwd, tmp->value) == 0)
+			return (ft_strdup("~"));
+	}
 	if (ft_strcmp(pwd, "/") == 0)
-		return (ft_strdup("~"));
+		return (ft_strdup("/"));
 	if (pwd[i] == '/')
 		return (ft_strdup(pwd + i + 1));
 	else
@@ -42,7 +51,7 @@ char	*ft_make_prompt(t_list **env_lst)
 	if (pwd == NULL)
 		return (NULL);
 	tmp = pwd;
-	pwd = truncate_pwd(pwd);
+	pwd = truncate_pwd(pwd, env_lst);
 	free(tmp);
 	if (pwd == NULL)
 		return (NULL);

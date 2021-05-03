@@ -812,3 +812,196 @@ echo > test\ 1
 ls
 rm 'test 1'
 ls
+jo.h
+echo $?
+cd ../../../../../../../../../; pwd
+echo $?
+pwd
+env | grep $PWD
+cd
+pwd
+cd ..
+pwd
+cd
+pwd
+cd ~
+pwd
+cd
+pwd
+cd ..
+cd
+pwd
+export HOME=/home
+cd ..
+unset HOME
+export HOME=;
+ls
+pwd
+exit
+echo $?
+cat
+echo $?
+echo "bip | bip; coyotte ><""
+echo $?
+echo "bip | bip; coyotte ><"
+exit
+export var="cat Makefile | grep >"
+c$var 
+$var
+echo $?
+export
+$LESS$VAR
+export
+$LESS$VAR
+/bin/echo bonjour
+echo $?
+sleep 5 | exit
+echo $?
+"exit retour a la ligne"
+echo $?
+minishell
+cat ejie
+cat ejiee
+echo $?
+./minishell
+ls
+./minishell
+bash
+exit
+ls
+./minishell
+$PWD
+$PWD/minishell
+pwd
+$PWD | $PWD
+/bin/ls
+ls -a
+ls -l
+./minishell
+pwd
+$PWD
+/bin/ls
+bash
+$PWD
+./moi
+./minishell
+cd ./
+cd .././.././
+ls
+cd 42
+ls
+cd 42cursus
+cd minishell
+cd v2
+cd ./
+cd ./../
+cd ./../..
+cd ../
+cd v2
+cd .././
+./minishell
+cd ../.
+ls
+cd minishell
+pwd
+./minishell
+../
+../.
+./
+/./
+/./.
+/..
+./../../.
+cd srcs
+ls
+cd ..
+cd ./srcs
+bash
+cd ./srcs
+cd ..
+cd .././
+cd ./v2
+./minishell
+exit
+./minishell
+exit -10
+echo $?
+./minishell
+exit 10
+echo $?
+;
+echo $?
+echo $HOME
+echo "$HOME"
+echo '$HOME'
+export;env
+> log echo coucou
+echo $?
+cat log
+rm log
+echo lol | echo you
+echo
+echo $?
+echo simple
+echo -n simple
+echo $?
+echo "
+echo ""
+echo "\"
+echo "\n \n \n"
+echo "\n \n \\n"
+echo ;;
+echo ha":"hiho
+cd
+pwd
+cd .
+pwd
+cd minishell
+cd .
+cd ~
+cd /
+cd a b c
+pwd
+pwd a
+pwd a b c
+echo $?
+/bin/ls
+echo $?
+cd minishell/v2/ft.h
+ls
+l^Ds
+ls
+echo |
+| echo
+cat < >
+cat  < <
+cat < <
+echo $?
+cd
+> a ls > b < Makefile
+ls
+rm a b
+cd minishell/v2
+ls
+rm a 
+> a ls > b < Makefile
+cat b
+rm a b 
+echo > a hello world
+cat a
+> a echo hello world
+echo $?
+cat a
+rm a
+cat < Makefile | grep gcc > output
+echo $?
+cat output
+echo 1 | cat dede | echo 2
+echo $?
+exit 0 | exit 1
+echo $?
+exit 0 | exit 1
+echo $?
+exit 0 | exit 45
+echo $?
+exit 0 | exit 45

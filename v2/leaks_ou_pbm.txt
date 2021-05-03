@@ -1,0 +1,2 @@
+echo bonjour > a > c (leaks pour chaque redir);
+Lancement de minishell dans minishell : Permission denied 
