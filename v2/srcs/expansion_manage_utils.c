@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/04/29 18:54:55 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:23:34 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,4 @@ void	manage_escape(t_expansion *exp)
 		exp->i += 1;
 		exp->j += 1;
 	}
-	/*if (exp->str[exp->i] == '$')
-	{
-		if (exp->mod == 2)
-			exp->tmp[exp->j] = exp->str[exp->i];
-		exp->i += 1;
-		exp->j += 1;
-	}*/
 }

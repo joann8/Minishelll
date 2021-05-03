@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_main_redir.c                               :+:      :+:    :+:   */
+/*   command_main_assign.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 22:48:07 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:08:17 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,33 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 			return (p_error(0, "malloc error\n", -1));
 		tmp_l = tmp_l->next;
 	}
+	return (0);
+}
+
+int			assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env)
+{
+	int		i;
+	char	*new;
+	t_list	*tmp;
+
+	tmp = seq->word;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->content)
+		{
+			if (i == 0)
+				if ((cmd->job = ft_strdup((char *)tmp->content)) == NULL)
+					return (p_error(0, "malloc error\n", -1));
+			if ((new = modify_str((char*)tmp->content, env)) == NULL)
+				return (p_error(0, "malloc error\n", -1));
+			if (assign_cmd_av(cmd, tmp, new, i) == -1)
+				return (-1);
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	cmd->av[i] = NULL;
 	return (0);
 }
 

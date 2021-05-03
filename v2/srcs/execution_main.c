@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 12:43:24 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:39:42 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int		manage_tokenize(t_list **token_list, char *line)
 		g.exit_status = 2;
 		return (1);
 	}
-//	printf("\n****RESUlT TOKEN******\n");
-//	print_token(*token_list);
 	return (0);
 }
 
@@ -58,45 +56,22 @@ int		execution_main(char *line, t_list **var_list)
 {
 	t_list			*token_list;
 	t_seq			*tab_seq;
-	//t_list			*cmd_list;
 	int				seq_nb;
 	int				res;
 
 	tab_seq = NULL;
-//	cmd_list = NULL;
 	token_list = NULL;
-	//
-	/*
-	write(1, "\ninput = [", 10);
-	write(1, line, ft_strlen(line));
-	write(1, "]\n", 2);
-	*/
-	//
 	res = manage_tokenize(&token_list, line);
 	if (res != 0)
 		return (res);
 	seq_nb = get_seq_number(token_list);
 	tab_seq = create_sequence(tab_seq, token_list, seq_nb);
-	if (tab_seq == NULL)//seules erreurs possibles == malloc
+	if (tab_seq == NULL)
 	{
 		ft_clear_before_quit(&token_list, &tab_seq, NULL, seq_nb);
 		return (-1);
 	}
-	///gestion erreur ok jusque ici
-	//
-	
-//	printf("\n****RESUlT SEQUENCE******\n");
-//	print_seq(tab_seq, seq_nb);
-//	printf("\n**********\n");
-	
-	//
 	res = create_command(tab_seq, seq_nb, var_list);
-	//res = 0 tout est ok
-	//res = 1 : erreur exec command mais on prend le next input
-	//res = -1 : erreur malloc ou autre hors exe (pipe), on arrete le pgm
-	// 19 exit
-	ft_clear_before_quit(&token_list, &tab_seq, NULL, seq_nb); //pbm tab seq
-
-	//printf("\n**********\n");
+	ft_clear_before_quit(&token_list, &tab_seq, NULL, seq_nb);
 	return (res);
 }

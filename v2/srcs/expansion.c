@@ -6,17 +6,21 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 13:31:53 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/02 21:52:57 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:31:44 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft.h"
 
-void	init_modify_str(t_expansion *exp, char *str)
+int		init_modify_str(t_expansion *exp, char *str, int *size, t_list **var)
 {
 	exp->str = str;
 	exp->tmp = NULL;
 	exp->var_str = NULL;
+	*size = count_final_str(exp, *var);
+	if (*size == -1)
+		return (-1);
+	return (0);
 }
 
 char	*modify_str(char *str, t_list **var)
@@ -25,9 +29,7 @@ char	*modify_str(char *str, t_list **var)
 	int			size;
 	t_expansion	exp;
 
-	init_modify_str(&exp, str);
-	size = count_final_str(&exp, *var);
-	if (size == -1)
+	if (init_modify_str(&exp, str, &size, var) == -1)
 		return (NULL);
 	if (size == 0)
 	{
@@ -35,8 +37,7 @@ char	*modify_str(char *str, t_list **var)
 			p_error(0, "malloc error\n", -1);
 		return (tmp);
 	}
-	exp.tmp = malloc(sizeof(char) * (size + 1));
-	if (exp.tmp == NULL)
+	if ((exp.tmp = malloc(sizeof(char) * (size + 1))) == NULL)
 	{
 		p_error(0, "malloc error\n", -1);
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 16:05:44 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 17:54:25 by calao            ###   ########.fr       */
+/*   Updated: 2021/05/03 23:38:15 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		analyze_inputs(char *inp, int *pos)
 	i = *pos;
 	while (inp[i] && !is_whitespace(inp[i]))
 	{
-		if ((inp[i] == '|') == 1 || inp[i] == ';' || inp[i] == '<' 
+		if ((inp[i] == '|') == 1 || inp[i] == ';' || inp[i] == '<'
 				|| inp[i] == '>')
 			break ;
 		if (inp[i] == 34)

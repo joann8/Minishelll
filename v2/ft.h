@@ -7,37 +7,35 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
 /*   Updated: 2021/05/03 23:22:08 by calao            ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_H
 
 # define FT_H
 
-#include <curses.h>
-#include <dirent.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <sys/resource.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <termios.h>
-#include <unistd.h>
-#include <wait.h>
+# include <curses.h>
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/ioctl.h>
+# include <sys/resource.h>
+# include <sys/stat.h>
+# include <sys/time.h>
+# include <sys/types.h>
+# include <termios.h>
+# include <unistd.h>
+# include <wait.h>
 
-#include "libft/libft.h"
-
-
-#include "struct.h"
+# include "libft/libft.h"
+# include "struct.h"
 
 t_process	g;
 
-int		execution_main(char *user_input, t_list **env_lst);
 
 // ADCONSTA.H
 
@@ -124,7 +122,6 @@ void	ft_print_str_lst(t_list *head);
 void	ft_puttab(char **av);
 void	ft_print_envlst_fd(t_list *env_head, int fd);
 void	ft_print_exportlst_fd(t_list *env_head, int fd);
-int		print_err(char *str1, char *str2, char *str3, int ret_wanted);
 
 //Other
 int		ft_path_is_relative(char *str);
@@ -148,112 +145,77 @@ void	exec_ctrl_quit(int signum);
 
 
 //	JO.H
-//promp et erreurs
+int		execution_main(char *user_input, t_list **env_lst);
 int		p_error(int errnum, char *error, int ret_wanted);
 int		print_syntax_error(int ret_wanted);
+int		print_err(char *str1, char *str2, char *str3, int ret_wanted);
 int		print_err_pipe(char *str1, char *str2, char *str3, int ret_wanted);
-
-//print_help
-void	print_list(t_list *list);
-void	print_token(t_list *token);
-void	print_cmd(t_list *cmd);
-void	print_cmd_piped(t_simple_cmd *cmd);
-void	print_seq(t_seq *tab_seq, int seq_nb);
-
-//ft free
 void	ft_free_token(t_list *token_list);
 void	ft_free_redir(t_list *redir_list);
 void	ft_free_tab_seq(t_seq *tab_seq, int seq_nb);
 void	ft_free_command(t_list *cmd_list);
 void	ft_free_command_list(t_simple_cmd *cmd_list);
 int		ft_free(void *str, int wanted_return);
-
-
-//tokenize_utils
 int		is_whitespace(char c);
 int		comp(char c1, char c2);
 void	escape_quote(char *str, int *pos);
 int		look_second_quote(char c, char *str, int *pos);
-
-//tokenize_assign
 void	assign_type_1(t_list *token_list);
 int		assign_type_2(t_list *head);
-int 	assign_type_2_help(t_list **head, t_list **tmp, t_token *t2, t_token *t3);
-
-//tokenize 
-//t_list	*ft_get_token_list(t_list *token_list, char *input);
+int		assign_type_2_help(t_list **head, t_list **tmp, t_token *t2,
+			t_token *t3);
 int		ft_get_token_list(t_list **token_list, char *input);
-
-// sequence utils
 int		get_seq_number(t_list *token_list);
 void	set_up_pipe_number(t_seq *tab_seq, int cmd_nb, int pipe_pos);
 void	init_setup(t_seq *tab_seq, t_seq **tmp, int *pipe_pos, int cmd_nb);
-
-//sequence
 int		seq_assign_sequence(t_seq **tmp, t_list **lst_tok, int *pipe_pos);
 t_seq	*create_sequence(t_seq *tab_seq, t_list *token_list, int seq_nb);
-
-//expansion utils
 int		is_word(char *str);
 int		is_var_name(char c, int mod);
 int		is_name(char *str);
 void	ft_copy_loc_expansion(char *tofind, char *str, int start, int end);
-
-//expansion manage
 void	manage_quotes(t_expansion *exp, char c);
 void	manage_escape(t_expansion *exp);
 int		manage_variable(t_expansion *expi, t_list *var);
 void	escape_within_doubles(t_expansion *exp);
-
-//expansion find
 int		count_final_str(t_expansion *exp, t_list *var);
 int		find_variable_length(char *str, int start, int end, t_list *var);
-char 	*find_variable_str(char *str, int start, int end, t_list *var);
-char 	*assign_final_str(t_expansion *exp, t_list *var);
-
-//expansion
-void	manage_quotes(t_expansion *exp, char c);
-void	manage_escape(t_expansion *exp);
-void	escape_within_doubles(t_expansion *exp);
+char	*find_variable_str(char *str, int start, int end, t_list *var);
+char	*assign_final_str(t_expansion *exp, t_list *var);
 char	*modify_str(char *str, t_list **var);
-int		make_expansion(t_seq *tab_seq, t_list **var);
-
-//command_pipe_exec
-int		prepare_pipe_execution(t_simple_cmd *tmp_c, t_pipe *p, int ret);
-void	update_fd_pipes(t_simple_cmd *tmp_c, t_pipe *p, int ret);
-
-//command_pipe_utils
 void	assign_pipes(t_seq *seq, t_simple_cmd *cmd);
 int		assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env);
 int		assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env);
-int		expand_list_redir(t_list *begin, t_list **var);
 int		prepare_execution(int ***fd_pipe, int **pid_list, int size);
-
-//command main assign utils
-char *trim_spaces_for_echo(char *new_str, int i, int j, int mod);
-int	check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env);
-
-//command_simple
+char	*trim_spaces_for_echo(char *new_str, int i, int j, int mod);
+int		assign_cmd_av(t_simple_cmd *cmd, t_list *tmp, char *new_str, int i);
+int		assign_cmd_av_echo(t_simple_cmd *cmd, t_list *tmp, char *new_str,
+			int i);
+int		check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env);
+int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret);
+int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env);
+int		execute_piped(t_simple_cmd *tmp_c, t_list **env);
+int		execute_child_process(t_simple_cmd *cmd, t_list **env, char **our_envp,
+			int ***fd_pipe);
 int		create_command(t_seq *tab_seq, int seq_nb, t_list **env);
-
-//built in
 int		ft_echo(t_simple_cmd *cmd, t_pipe *p, int mod_n, int word);
 int		ft_pwd(t_pipe *pipe);
 int		ft_exit(t_simple_cmd *cmd, t_pipe *pipe);
-int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env);
-int		execute_cmd_non_piped(t_simple_cmd *tmp_c, t_list **env);
-int		execute_piped(t_simple_cmd *tmp_c, t_list **env);
-
-//built in
 int		find_built_in(t_simple_cmd *cmd, t_list **env);
+void	close_fd_pipe(int ***fd_pipe, int size, int mod);
+int		prepare_fd_pipe(int ***fd_pipe, int size);
+void	clear_fd_pipe(int ***fd_pipe, int index, int mod);
+int		set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe,
+			int i);
 
-int	execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret);
 
-//command piped utils
-void 	close_fd_pipe(int ***fd_pipe, int size, int mod);
-int 	prepare_fd_pipe(int ***fd_pipe, int size);
-void 	clear_fd_pipe(int ***fd_pipe, int index, int mod);
-int		set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe, int i);
+//print_help TO DELETE //
+void	print_list(t_list *list);
+void	print_token(t_list *token);
+void	print_cmd(t_list *cmd);
+void	print_cmd_piped(t_simple_cmd *cmd);
+void	print_seq(t_seq *tab_seq, int seq_nb);
+
 
 #include <term.h> 
 #endif

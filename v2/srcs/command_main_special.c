@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_main_words.c                               :+:      :+:    :+:   */
+/*   command_main_special.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 18:50:57 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:07:51 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,35 @@ int			check_quote_for_echo(char *str)
 	return (0);
 }
 
+int			assign_cmd_av_echo(t_simple_cmd *cmd, t_list *tmp, char *new, int i)
+{
+	if (ft_strcmp(new, "") != 0)
+	{
+		if (check_quote_for_echo((char*)tmp->content) == 1)
+		{
+			cmd->av[i] = trim_spaces_for_echo(new, 0, 0, 0);
+			free(new);
+			if (cmd->av[i] == NULL)
+				return (p_error(0, "malloc error\n", -1));
+		}
+		else
+			cmd->av[i] = new;
+	}
+	else if (ft_strcmp((char*)tmp->content, "\"\"") == 0
+				|| check_quote_for_echo((char*)tmp->content) == 0)
+		cmd->av[i] = new;
+	else
+	{
+		cmd->av[i] = NULL;
+		free(new);
+	}
+	return (0);
+}
+
 int			assign_cmd_av(t_simple_cmd *cmd, t_list *tmp, char *new, int i)
 {
-	if (i > 0 
-		&& (ft_strcmp(cmd->av[0], "export") == 0 
+	if (i > 0
+		&& (ft_strcmp(cmd->av[0], "export") == 0
 		|| ft_strcmp(cmd->av[0], "unset") == 0)
 		&& (ft_strcmp(tmp->content, "\"\"") != 0)
 		&& ft_strcmp(new, "") == 0)
@@ -109,56 +134,10 @@ int			assign_cmd_av(t_simple_cmd *cmd, t_list *tmp, char *new, int i)
 	}
 	else if (i > 0 && ft_strcmp(cmd->av[0], "echo") == 0)
 	{
-		if (ft_strcmp(new, "") != 0)	
-		{
-			if (check_quote_for_echo((char*)tmp->content) == 1)
-			{
-				cmd->av[i] = trim_spaces_for_echo(new, 0, 0, 0);
-				free(new);
-				if (cmd->av[i] == NULL)
-					return (p_error(0, "malloc error\n", -1));
-			}
-			else
-				cmd->av[i] = new;
-		}
-		else if (ft_strcmp((char*)tmp->content, "\"\"") == 0
-					|| check_quote_for_echo((char*)tmp->content) == 0)
-			cmd->av[i] = new;
-		else
-		{
-			cmd->av[i] = NULL;
-			free(new);
-		}
+		if (assign_cmd_av_echo(cmd, tmp, new, i) == -1)
+			return (-1);
 	}
 	else
 		cmd->av[i] = new;
-//	printf("(AD)cmd->av[%d] = %s\n", i, cmd->av[i]);
-	return (0);
-}
-
-int			assign_list_word(t_seq *seq, t_simple_cmd *cmd, t_list **env)
-{
-	int		i;
-	char	*new;
-	t_list	*tmp;
-
-	tmp = seq->word;
-	i = 0;
-	while (tmp)
-	{
-		if (tmp->content)
-		{
-			if (i == 0)
-				if ((cmd->job = ft_strdup((char *)tmp->content)) == NULL)
-					return (p_error(0, "malloc error\n", -1));
-			if ((new = modify_str((char*)tmp->content, env)) == NULL)//erreur malloc // pas  besoin de free(cmd->job) je crois car free en sortant
-				return (p_error(0, "malloc error\n", -1));
-			if (assign_cmd_av(cmd, tmp, new, i) == -1)
-				return (-1);
-		}
-		tmp = tmp->next;
-		i++;
-	}
-	cmd->av[i] = NULL;
 	return (0);
 }

@@ -1345,3 +1345,64 @@ echo hello you"yoi"
 echo hello you you
 bash
 exit
+echo hello
+exit
+echo hello
+exit
+echo hello
+echo hello you
+echo hello you -n
+echo -nnnnnn hello you
+echo hello -nnn ooi
+echo $test
+echo $test hello
+bash
+echo $test hello
+echo "" hello
+echo "$hhd" hello
+export var="     a    b    c    "
+echo $var
+echo "$var"
+echo "$var"$var
+exit
+echo "$var"$var
+export var="     a    b    c    "
+echo "$var"$var
+echo "" hello
+echo "$hhd" hello
+echo $jjjd hello
+exit
+echo $jjjd hello
+export var="     a    b    c    "
+echo "$var"$var
+echo "$var" $var
+ls
+exit
+echo "$var" $var
+export var="     a    b    c    "
+echo "$var" $var
+exit
+echo hello | cat | ls
+exit
+echo hello | cat | ls
+echo $?
+salut
+echo $?
+ls
+echo $?
+exit
+export var=hello
+echo $var
+echo $
+echo ""
+echo $sdkdkss7
+echo $sdkdkss7 you
+echo $s
+echo "$s" you
+echo '$s' you
+exit
+echo hello >b > c; cat <c ; echo jolie >> c | cat c
+exit
+hello you
+echo hello $you
+exit
