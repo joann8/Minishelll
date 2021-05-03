@@ -1331,3 +1331,4 @@ exit
 export test="  a  b  "
 echo $test | cat -e
 echo > a > b > c
+echo $bla bonjour
