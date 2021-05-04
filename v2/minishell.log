@@ -1406,3 +1406,5 @@ exit
 hello you
 echo hello $you
 exit
+echo hello
+exit
