@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/14 12:41:05 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 23:10:14 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/04 10:48:56 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int		ft_split_process(char *job, t_simple_cmd *tmp_c, char **our_envp,
 	{
 		if (wait(&wstatus) == -1)
 		{
-			g.exit_status = 126;
+			g_msh.exit_status = 126;
 			return (-1);
 		}
-		if (g.exit_status != 130 && g.exit_status != 131)
-			g.exit_status = WEXITSTATUS(wstatus);
+		if (g_msh.exit_status != 130 && g_msh.exit_status != 131)
+			g_msh.exit_status = WEXITSTATUS(wstatus);
 	}
 	return (0);
 }
@@ -93,6 +93,6 @@ int		execute_non_piped(t_simple_cmd *tmp_c, t_list **env)
 	tmp_c->p.fd_out_to_use = tmp_c->fd_out;
 	res = execute_cmd_non_piped(tmp_c, env);
 	if (res == -1)
-		ft_putstr_fd("Error command execution\n", 2);//a valider
+		ft_putstr_fd("Error command execution\n", 2);
 	return (res);
 }

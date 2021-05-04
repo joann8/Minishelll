@@ -22,7 +22,7 @@ int		execute_child_process_bis(t_simple_cmd *tmp_c, char **our_envp,
 		return (-1);
 	}
 	close_fd_pipe(fd_pipe, 0, 1);
-	if ((g.exit_status = execve(job, tmp_c->av, our_envp)) == -1)
+	if ((g_msh.exit_status = execve(job, tmp_c->av, our_envp)) == -1)
 		print_err(strerror(errno), NULL, NULL, 0);
 	free(job);
 	return (-1);
@@ -52,5 +52,5 @@ int		execute_child_process(t_simple_cmd *tmp_c, t_list **env,
 		return (execute_child_process_bis(tmp_c, our_envp, fd_pipe, job));
 	}
 	close_fd_pipe(fd_pipe, 0, 1);
-	return (g.exit_status);
+	return (g_msh.exit_status);
 }

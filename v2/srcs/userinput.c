@@ -15,8 +15,8 @@
 int		ft_first_init_userinput(int fd_log, t_term *term, t_list **log
 								, struct termios *origin)
 {
-	g.fd = dup(STDIN_FILENO);
-	if (g.fd == -1)
+	g_msh.fd = dup(STDIN_FILENO);
+	if (g_msh.fd == -1)
 		return (-1);
 	if (fd_log < 0)
 		return (-1);
@@ -53,7 +53,7 @@ int		ft_handle_key_catching(t_input *user,
 {
 	if (user->buf[0] == 4 && ft_strlen(user->screen) == 0)
 	{
-		g.exit_status = 0;
+		g_msh.exit_status = 0;
 		ft_putstr_fd("exit\n", 1);
 		return (-227);
 	}
@@ -111,7 +111,7 @@ int		ft_get_userinput(char **line, char *prompt, char *log_path, int *ret)
 	fd_log = open(log_path, O_RDWR | O_CREAT | O_APPEND, 0666);
 	if (ft_first_init_userinput(fd_log, &term, &log, &origin) == -1)
 		return (-1);
-	*line = ft_read_input(g.fd, &term, log, prompt);
+	*line = ft_read_input(g_msh.fd, &term, log, prompt);
 	tputs(term.me, 1, ft_termcap_on);
 	ft_disable_raw_mode(&origin);
 	if (*ret == -227 || *line == NULL || ft_update_log(line, log, fd_log) == -1)

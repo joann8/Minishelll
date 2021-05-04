@@ -43,12 +43,12 @@ int		execute_main_process(t_simple_cmd *tmp_c, int *pid_list,
 	{
 		if (wait(&wstatus) == -1)
 		{
-			g.exit_status = 126;
+			g_msh.exit_status = 126;
 			return (-1);
 		}
 		i++;
 	}
-	g.exit_status = WEXITSTATUS(wstatus);
+	g_msh.exit_status = WEXITSTATUS(wstatus);
 	return (0);
 }
 

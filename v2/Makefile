@@ -32,7 +32,6 @@ SRCS =										\
 		srcs/main.c							\
 		srcs/other_utils.c					\
 		srcs/other_utils_two.c				\
-		srcs/print_help.c					\
 		srcs/print_utils.c					\
 		srcs/prompt.c						\
 		srcs/error_management.c				\
@@ -84,5 +83,6 @@ clean:
 fclean: clean
 	make fclean -C ./libft/
 	rm -rf $(NAME)
+	rm -rf ./minishell.log
 
 re: fclean all

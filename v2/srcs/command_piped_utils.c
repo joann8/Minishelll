@@ -95,7 +95,7 @@ int			set_up_child_pipes(t_simple_cmd *tmp_c, int size,
 	if (tmp_c->job == NULL || tmp_c->on == 0)
 	{
 		close_fd_pipe(fd_pipe, 0, 1);
-		g.exit_status = 0;
+		g_msh.exit_status = 0;
 		return (-1);
 	}
 	if (i != 0)

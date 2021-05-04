@@ -39,23 +39,23 @@ int		find_built_in_2(t_simple_cmd *cmd, t_list **env)
 
 	res = 0;
 	if (ft_strcmp(cmd->av[0], "echo") == 0)
-		g.exit_status = ft_echo(cmd, &(cmd->p), 0, 0);
+		g_msh.exit_status = ft_echo(cmd, &(cmd->p), 0, 0);
 	else if (ft_strcmp(cmd->av[0], "pwd") == 0)
-		g.exit_status = ft_pwd(&(cmd->p));
+		g_msh.exit_status = ft_pwd(&(cmd->p));
 	else if (ft_strcmp(cmd->av[0], "exit") == 0)
 	{
-		g.exit_status = ft_exit(cmd, &(cmd->p));
+		g_msh.exit_status = ft_exit(cmd, &(cmd->p));
 		return (227);
 	}
 	else if (ft_strcmp(cmd->av[0], "env") == 0)
-		g.exit_status = ft_env(env, cmd->p.fd_out_to_use);
+		g_msh.exit_status = ft_env(env, cmd->p.fd_out_to_use);
 	else if (ft_strcmp(cmd->av[0], "unset") == 0)
-		g.exit_status = ft_unset(cmd, env, cmd->av);
+		g_msh.exit_status = ft_unset(cmd, env, cmd->av);
 	else
 		res = 1;
-	if (res == 0 && g.exit_status == -1)
+	if (res == 0 && g_msh.exit_status == -1)
 	{
-		g.exit_status = 1;
+		g_msh.exit_status = 1;
 		return (-1);
 	}
 	return (res);
@@ -65,20 +65,20 @@ int		find_built_in(t_simple_cmd *cmd, t_list **env)
 {
 	if (ft_strcmp(cmd->av[0], "cd") == 0)
 	{
-		g.exit_status = ft_cd(cmd, env);
-		if (g.exit_status == -1)
+		g_msh.exit_status = ft_cd(cmd, env);
+		if (g_msh.exit_status == -1)
 		{
-			g.exit_status = 1;
+			g_msh.exit_status = 1;
 			return (-1);
 		}
 		return (0);
 	}
 	if (ft_strcmp(cmd->av[0], "export") == 0)
 	{
-		g.exit_status = ft_export(env, cmd, cmd->p.fd_out_to_use);
-		if (g.exit_status == -1)
+		g_msh.exit_status = ft_export(env, cmd, cmd->p.fd_out_to_use);
+		if (g_msh.exit_status == -1)
 		{
-			g.exit_status = 1;
+			g_msh.exit_status = 1;
 			return (-1);
 		}
 		return (0);

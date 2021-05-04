@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 09:42:47 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 22:46:15 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/04 10:44:28 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			prepare_and_execute_non_piped_cmd(t_list **env, t_seq *tmp_s)
 		if (tmp_c->on == 1)
 			res = execute_non_piped(tmp_c, env);
 		else
-			g.exit_status = 1;
+			g_msh.exit_status = 1;
 	}
 	ft_free_command_list(tmp_c);
 	return (res);
@@ -103,7 +103,7 @@ int			create_command(t_seq *tab_seq, int seq_nb, t_list **env)
 			res = prepare_and_execute_non_piped_cmd(env, tmp_s);
 		else
 			res = prepare_and_execute_piped_cmd(env, tmp_s);
-		if (res == -1 || res == 227)//-1 pbm fonction pipe , 1 pbl exec
+		if (res == -1 || res == 227)
 			return (res);
 		i++;
 	}

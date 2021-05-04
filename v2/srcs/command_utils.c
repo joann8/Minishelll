@@ -25,15 +25,15 @@ int		execute_cmd_path_not_found_bis(t_simple_cmd *tmp_c, char *job)
 			path = 1;
 		i++;
 	}
-	g.exit_status = 127;
+	g_msh.exit_status = 127;
 	if (path == 1)
 		return (print_err_pipe("msh: ", job,
-			" : no such file or directory\n", g.exit_status));
+			" : no such file or directory\n", g_msh.exit_status));
 	else if (ft_strcmp(job, "") == 0 && ft_strcmp(tmp_c->job, "\"\"") != 0)
-		return ((g.exit_status = 0));
+		return ((g_msh.exit_status = 0));
 	else
 		return (print_err_pipe(job, ": command not found\n",
-				NULL, g.exit_status));
+				NULL, g_msh.exit_status));
 }
 
 int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret)
@@ -47,17 +47,17 @@ int		execute_cmd_path_not_found(t_simple_cmd *tmp_c, int ret)
 		ret = execute_cmd_path_not_found_bis(tmp_c, job);
 	else if (ft_strcmp(job, ".") == 0)
 	{
-		g.exit_status = 2;
+		g_msh.exit_status = 2;
 		return (print_err_pipe("msh: ", ".: ", "not enough argument\n", 2));
 	}
 	else if (ft_strcmp(job, "..") == 0)
 	{
-		g.exit_status = 127;
+		g_msh.exit_status = 127;
 		ret = print_err_pipe(job, ": command not found\n", NULL, 127);
 	}
 	else
 	{
-		g.exit_status = 126;
+		g_msh.exit_status = 126;
 		ret = print_err_pipe("msh: ", job, ": permission denied\n", 126);
 	}
 	free(job);

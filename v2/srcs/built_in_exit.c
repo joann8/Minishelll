@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 16:26:23 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/03 22:37:47 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/04 10:48:27 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int		ft_exit_help(t_simple_cmd *cmd, int i)
 		else
 		{
 			print_err("msh: exit: ", cmd->av[1],
-					" : argument numérique nécessaire\n", 0);
+					" : numeric argument required\n", 0);
 			return (2);
 		}
 	}
 	if (cmd->ac > 2)
 	{
-		print_err("msh : exit: trop d'arguments.\n",
+		print_err("msh : exit: too many arguments\n",
 			NULL, NULL, 0);
 		return (1);
 	}

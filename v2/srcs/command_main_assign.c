@@ -23,7 +23,7 @@ int			check_redir_expansion(t_simple_cmd *cmd, t_redir *r, t_list **env)
 		cmd->on = 0;
 		print_err("msh: ", r->file_name, ": ambiguous redirect\n", 0);
 		free(new);
-		g.exit_status = 1;
+		g_msh.exit_status = 1;
 		return (-1);
 	}
 	else
@@ -64,7 +64,7 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 {
 	t_redir	*r;
 
-	g.exit_status = 0;
+	g_msh.exit_status = 0;
 	while (tmp_l)
 	{
 		r = (t_redir *)tmp_l->content;
@@ -77,7 +77,7 @@ int			assign_list_redir(t_list *tmp_l, t_simple_cmd *cmd, t_list **env)
 			if ((cmd->fd_in = open(r->file_name, O_RDONLY)) < 0)
 			{
 				cmd->on = 0;
-				g.exit_status = 1;
+				g_msh.exit_status = 1;
 				print_err("msh : ", r->file_name, ": ", 0);
 				return (print_err(strerror(errno), "\n", NULL, 0));
 			}

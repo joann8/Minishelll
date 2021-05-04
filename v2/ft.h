@@ -6,7 +6,7 @@
 /*   By: jacher <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 16:26:04 by jacher            #+#    #+#             */
-/*   Updated: 2021/05/04 09:53:10 by jacher           ###   ########.fr       */
+/*   Updated: 2021/05/04 10:01:36 by jacher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,6 @@ int		prepare_fd_pipe(int ***fd_pipe, int size);
 void	clear_fd_pipe(int ***fd_pipe, int index, int mod);
 int		set_up_child_pipes(t_simple_cmd *tmp_c, int size, int ***fd_pipe,
 			int i);
+void	listen_signals(char c);
 
 #endif
