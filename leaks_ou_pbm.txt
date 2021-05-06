@@ -1,2 +1,0 @@
-retester export beaucoup de fois car mis un ternaire
-userinput .  deplacement de g.fd = dup(STDINFILENO) + protection
